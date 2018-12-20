@@ -1,0 +1,62 @@
+<div>
+  <div nz-row nzType="flex" nzJustify="space-between" class="natural-persons-header">
+    <div nz-col>
+      <div nz-row nzType="flex" nzJustify="start" nzAlign="middle" nzGutter='12'>
+        <div nz-col class="natural-persons-header-title">
+          <strong>Natural Person </strong><span>List</span>
+        </div>
+        <div nz-col class="operation-btns">
+          <button nz-button nzType="primary" (click)="showFilter = !showFilter"><i nz-icon type="filter"></i></button>
+          <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+          <button nz-button nzType="primary" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
+          <button nz-button nzType="primary"><i nz-icon type="ellipsis"></i></button>
+        </div>
+        <div nz-col>
+          <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input type="text" style="min-width: 270px" nz-input placeholder="Registration Number" [(ngModel)]="registrationNumber">
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <i nz-icon type="search"></i>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div nz-col>
+      <nz-pagination [nzPageIndex]="page" [nzTotal]="total" (nzPageIndexChange)="pageChanged($event)"></nz-pagination>
+    </div>
+  </div>
+  <div nz-row nzType="flex">
+    <div nz-col [nzSpan]="showFilter ? 6 : 0" class="natural-persons-filter" [ngClass]="{'collapsed': showFilter}">
+      <app-filter (filterChanged)="filterChanged($event)"></app-filter>
+    </div>
+    <div nz-col [nzSpan]="showFilter ? 18 : 24" style="padding: 0 24px">
+      <nz-table #filterTable [nzData]="naturalPersons" [nzPageSize]="limit">
+        <thead>
+          <tr>
+            <th
+              nzShowCheckbox
+              [(nzChecked)]="checkStatus.all"
+              [nzIndeterminate]="checkStatus.indeterminate"
+              (nzCheckedChange)="checkAll($event)">
+            </th>
+            <th>#</th>
+            <th nzShowSort [(nzSort)]="sortMap.last_name" (nzSortChange)="sort('last_name', $event)">Last Name</th>
+            <th nzShowSort [(nzSort)]="sortMap.first_name" (nzSortChange)="sort('first_name', $event)">First Name</th>
+            <th>Registration Number</th>
+            <th nzShowSort [(nzSort)]="sortMap.address" (nzSortChange)="sort('address',$event)">Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of filterTable.data">
+            <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+            <td (click)="toDetailsPage(data)">{{data.id}}</td>
+            <td (click)="toDetailsPage(data)">{{data.lastName}}</td>
+            <td (click)="toDetailsPage(data)">{{data.firstName}}</td>
+            <td (click)="toDetailsPage(data)">{{data.registrationNumber}}</td>
+            <td (click)="toDetailsPage(data)">{{data.address}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

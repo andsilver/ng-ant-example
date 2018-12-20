@@ -1,0 +1,18 @@
+<nz-layout class="main">
+  <nz-sider [nzWidth]="200">
+    <div class="logo" i18n>Malibu</div>
+    <ul nz-menu [nzMode]="'inline'" class="sider-bar">
+      <li nz-submenu>
+        <span title>People & Entities</span>
+        <ul>
+          <li nz-menu-item [routerLink]="['natural-person']">Natural Person</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-content style="background:#fff; min-height: 280px;">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

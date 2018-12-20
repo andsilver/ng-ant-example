@@ -1,0 +1,101 @@
+<div *ngIf="person" class="details-header">
+
+  <div nz-row nzType="flex" nzJustify="start" nzAlign="middle" nzGutter='12'>
+    <div nz-col class="details-header-title">
+      <strong>Natural Person </strong><span>#{{person.id}}</span>
+    </div>
+    <div nz-col class="operation-btns">
+      <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+      <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+      <button nz-button nzType="primary"><i nz-icon type="ellipsis"></i></button>
+    </div>
+    <div nz-col>
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input type="text" style="min-width: 270px" nz-input placeholder="Registration Number" [(ngModel)]="registrationNumber">
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon type="search"></i>
+      </ng-template>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" style="padding: 24px 0">
+    <div nz-col nzSpan="24" nzMd="11" style="margin-right: 24px">
+      <nz-card nzTitle="Properties" [nzExtra]="editProperties">
+        <form nz-form class="edit-properties-form">
+          <div>
+            <h3>Name</h3>
+            <strong>{{person.firstName + ' ' + person.lastName}}</strong>
+          </div>
+          <div>
+            <h3>Registration Number</h3>
+            <strong>{{person.registrationNumber || '-'}}</strong>
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <h3>Gender</h3>
+              <strong>{{person.gender}}</strong>
+            </div>
+            <div nz-col nzSpan="12">
+              <h3>Civil Status</h3>
+              <strong>{{person.civilStatus || '-'}}</strong>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <h3>Date of Birth</h3>
+              <strong>{{person.dateOfBirth || '-'}}</strong>
+            </div>
+            <div nz-col nzSpan="12">
+              <h3>Date of Death</h3>
+              <strong>{{person.dateOfDeath || '-'}}</strong>
+            </div>
+          </div>
+        </form>
+      </nz-card>
+      <ng-template #editProperties>
+        <button nz-button nzType="primary"><i nz-icon type="edit"></i></button>
+      </ng-template>
+    </div>
+
+    <div nz-col nzSpan="24" nzMd="12">
+      <div style="margin-bottom: 24px">
+        <nz-card nzTitle="Residential Address" [nzExtra]="person.residentialAddress ? editResidential : addResidential">
+          <div *ngIf="person.residentialAddress">
+            <p *ngFor="let line of person.residentialAddress.lines">
+              <strong>{{line}}</strong>
+            </p>
+            <p><strong>{{person.residentialAddress.country | country}}</strong></p>
+          </div>
+          <div *ngIf="!person.residentialAddress">
+            Not provided
+          </div>
+        </nz-card>
+        <ng-template #editResidential>
+          <button nz-button nzType="primary" style="margin-right: 12px"><i nz-icon type="edit"></i></button>
+          <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+        </ng-template>
+        <ng-template #addResidential>
+          <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+        </ng-template>
+      </div>
+      <div>
+        <nz-card nzTitle="Correspondence Address" [nzExtra]="person.correspondenceAddress ? editCorrespondence : addCorrespondence">
+          <div *ngIf="person.correspondenceAddress">
+          </div>
+          <div *ngIf="!person.correspondenceAddress">
+            Not provided
+          </div>
+        </nz-card>
+        <ng-template #editCorrespondence>
+          <button nz-button nzType="primary" style="margin-right: 12px"><i nz-icon type="edit"></i></button>
+          <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+        </ng-template>
+        <ng-template #addCorrespondence>
+          <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+</div>

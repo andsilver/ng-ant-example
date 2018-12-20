@@ -1,0 +1,23 @@
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+// @primary-color          : #666666;
+.ant-menu {
+  color: white;
+  border-right: unset;
+
+  &-item {
+    background: #111111;
+    margin: 0 !important;
+    border-right: unset !important;
+    width: 100% !important;
+
+    &-selected {
+      background: #000000 !important;
+      border-right: unset !important;
+
+      &::after {
+        display: none !important;
+      }
+    }
+  }
+}

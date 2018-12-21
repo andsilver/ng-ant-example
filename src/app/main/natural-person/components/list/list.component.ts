@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd';
 import { AppService } from 'app/app.service';
 import { Filter } from 'app/app.models';
 
@@ -13,54 +14,65 @@ export class ListComponent implements OnInit {
   naturalPersons = [];
   filter: Filter;
 
-  page = 1;
+  page  = 1;
   limit = 10;
   total = 10;
   showFilter = false;
   registrationNumber: number;
 
   sortMap = {
-    last_name: null,
+    last_name : null,
     first_name: null,
-    address: null
+    address   : null
   };
 
   checkStatus = {
-    all: false,
+    all          : false,
     indeterminate: false
   }
 
+  addingPerson = false;
+
   constructor(
     private appService: AppService,
-    private router: Router
+    private router    : Router,
+    private message   : NzMessageService
   ) { }
 
   ngOnInit() {
 
     this.filter = {
-      offset: this.offset,
-      limit: this.limit,
+      offset    : this.offset,
+      limit     : this.limit,
       first_name: '',
-      last_name: '',
-      sort_by: '',
+      last_name : '',
+      sort_by   : '',
       sort_order: '',
-      address: ''
+      address   : ''
     };
 
     this.getPersons();
   }
 
   getPersons() {
-
     this.appService.filterNaturalPersons(this.filter)
       .subscribe((res: any)=> {
         this.naturalPersons = res.map(p => {
-          p['checked'] = false;
+          p['checked']            = false;
           p['registrationNumber'] = '';
           return p;
         });
         this.refreshStatus();
         this.total = this.naturalPersons.length;
+      });
+  }
+
+  createPerson(person) {
+    this.addingPerson = false;
+    this.appService.createNaturalPerson(person)
+      .subscribe(res => {
+        this.message.success('A new person is added.')
+        this.getPersons();
       });
   }
 
@@ -70,7 +82,7 @@ export class ListComponent implements OnInit {
   }
 
   refreshStatus(): void {
-    const allChecked = this.naturalPersons.every(value => value['checked'] === true);
+    const allChecked =   this.naturalPersons.every(value =>  value['checked'] === true);
     const allUnChecked = this.naturalPersons.every(value => !value['checked']);
     this.checkStatus.all = allChecked;
     this.checkStatus.indeterminate = (!allChecked) && (!allUnChecked);
@@ -84,10 +96,10 @@ export class ListComponent implements OnInit {
   sort(sort_by, status) {
 
     if (status) {
-      this.filter.sort_by = sort_by;
+      this.filter.sort_by    = sort_by;
       this.filter.sort_order = status === 'ascend' ? 'asc' : 'desc';
     } else {
-      this.filter.sort_by = null;
+      this.filter.sort_by    = null;
       this.filter.sort_order = null;
     }
 

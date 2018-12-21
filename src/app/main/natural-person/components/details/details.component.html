@@ -5,8 +5,8 @@
       <strong>Natural Person </strong><span>#{{person.id}}</span>
     </div>
     <div nz-col class="operation-btns">
-      <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
-      <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+      <button nz-button nzType="primary" (click)="addingPerson = true"><i nz-icon type="plus"></i></button>
+      <button nz-button nzType="primary" nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removePerson()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
       <button nz-button nzType="primary"><i nz-icon type="ellipsis"></i></button>
     </div>
     <div nz-col>
@@ -34,11 +34,11 @@
           <div nz-row>
             <div nz-col nzSpan="12">
               <h3>Gender</h3>
-              <strong>{{person.gender}}</strong>
+              <strong>{{person.gender | gender}}</strong>
             </div>
             <div nz-col nzSpan="12">
               <h3>Civil Status</h3>
-              <strong>{{person.civilStatus || '-'}}</strong>
+              <strong>{{person.civilStatus || '-' | civilStatus}}</strong>
             </div>
           </div>
           <div nz-row>
@@ -54,13 +54,13 @@
         </form>
       </nz-card>
       <ng-template #editProperties>
-        <button nz-button nzType="primary"><i nz-icon type="edit"></i></button>
+        <button nz-button nzType="primary" (click)="showEditModal('properties')"><i nz-icon type="edit"></i></button>
       </ng-template>
     </div>
 
     <div nz-col nzSpan="24" nzMd="12">
       <div style="margin-bottom: 24px">
-        <nz-card nzTitle="Residential Address" [nzExtra]="person.residentialAddress ? editResidential : addResidential">
+        <nz-card nzTitle="Residential Address" [nzExtra]="editResidential">
           <div *ngIf="person.residentialAddress">
             <p *ngFor="let line of person.residentialAddress.lines">
               <strong>{{line}}</strong>
@@ -72,30 +72,65 @@
           </div>
         </nz-card>
         <ng-template #editResidential>
-          <button nz-button nzType="primary" style="margin-right: 12px"><i nz-icon type="edit"></i></button>
-          <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
-        </ng-template>
-        <ng-template #addResidential>
-          <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+          <ng-container *ngIf="person.residentialAddress">
+            <button nz-button nzType="primary" style="margin-right: 12px" (click)="showEditModal('residentialAddress')"><i nz-icon type="edit"></i></button>
+            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteResidentialAddress()" nzPlacement="top" nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+          </ng-container>
+          <ng-container *ngIf="!person.residentialAddress">
+            <button nz-button nzType="primary" (click)="showEditModal('residentialAddress')"><i nz-icon type="plus"></i></button>
+          </ng-container>
         </ng-template>
       </div>
       <div>
-        <nz-card nzTitle="Correspondence Address" [nzExtra]="person.correspondenceAddress ? editCorrespondence : addCorrespondence">
+        <nz-card nzTitle="Correspondence Address" [nzExtra]="editCorrespondence">
           <div *ngIf="person.correspondenceAddress">
+            <p *ngFor="let line of person.correspondenceAddress.lines">
+              <strong>{{line}}</strong>
+            </p>
+            <p><strong>{{person.correspondenceAddress.country | country}}</strong></p>
           </div>
           <div *ngIf="!person.correspondenceAddress">
             Not provided
           </div>
         </nz-card>
         <ng-template #editCorrespondence>
-          <button nz-button nzType="primary" style="margin-right: 12px"><i nz-icon type="edit"></i></button>
-          <button nz-button nzType="primary"><i nz-icon type="delete"></i></button>
-        </ng-template>
-        <ng-template #addCorrespondence>
-          <button nz-button nzType="primary"><i nz-icon type="plus"></i></button>
+          <ng-container *ngIf="person.correspondenceAddress">
+            <button nz-button nzType="primary" style="margin-right: 12px" (click)="showEditModal('correspondence')"><i nz-icon type="edit"></i></button>
+            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteCorrespondenceAddress()" nzPlacement="top" nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+          </ng-container>
+          <ng-container *ngIf="!person.correspondenceAddress">
+            <button nz-button nzType="primary" (click)="showEditModal('correspondence')"><i nz-icon type="plus"></i></button>
+          </ng-container>
         </ng-template>
       </div>
     </div>
+
+    <app-create-person-modal
+      [visible]="addingPerson"
+      (onCancel)="addingPerson = false"
+      (onConfirm)="createPerson($event)">
+    </app-create-person-modal>
+
+    <app-properties-modal
+      [properties]="person"
+      [visible]="editingStatus.properties"
+      (onCancel)="editingStatus.properties = false"
+      (onConfirm)="updateProperties($event)">
+    </app-properties-modal>
+
+    <app-address-modal
+      [address]="person.residentialAddress"
+      [visible]="editingStatus.residentialAddress"
+      (onCancel)="editingStatus.residentialAddress = false"
+      (onConfirm)="updateResidentialAddress($event)">
+    </app-address-modal>
+
+    <app-address-modal
+      [address]="person.correspondenceAddress"
+      [visible]="editingStatus.correspondence"
+      (onCancel)="editingStatus.correspondence = false"
+      (onConfirm)="updateCorrespondenceAddress($event)">
+    </app-address-modal>
 
   </div>
 </div>

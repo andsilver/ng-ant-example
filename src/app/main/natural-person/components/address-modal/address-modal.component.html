@@ -1,0 +1,42 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Residential Address" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
+    <form *ngIf="form" [formGroup]='form'>
+        <div nz-row>
+            <div nz-col nzSpan="11">
+                <nz-form-item>
+                    <nz-form-label>Country</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="country" nzShowSearch>
+                            <nz-option *ngFor="let country of countries" [nzLabel]="country | country" [nzValue]="country"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label>Address</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="firstLine">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input formControlName="secondLine">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input formControlName="thirdLine">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+    </form>
+</nz-modal>

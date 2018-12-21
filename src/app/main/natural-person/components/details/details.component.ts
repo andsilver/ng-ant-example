@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd';
 
 import { AppService } from 'app/app.service';
 
@@ -11,39 +11,113 @@ import { AppService } from 'app/app.service';
 })
 export class DetailsComponent implements OnInit {
 
-  person: any;
+  person            : any;
   registrationNumber: number;
-  propertiesForm: FormGroup;
-  residentalAddressForm: FormGroup;
-  correspondenceAddressForm: FormGroup;
 
-  editionStatus = {
-    properties: false,
-    residentalAddress: false,
-    correspondence: false
+  editingStatus = {
+    properties        : false,
+    residentialAddress: false,
+    correspondence    : false
   };
 
+  addingPerson = false;
+
   constructor(
-    private route: ActivatedRoute,
-    private appService: AppService
+    private route     : ActivatedRoute,
+    private appService: AppService,
+    private message   : NzMessageService,
+    private router    : Router
   ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
-    this.appService.getNaturalPerson(id).subscribe(res => {
-      console.log(res);
-      this.person = res;
-    });
+    this.route.params.subscribe(res => {
+      this.appService.getNaturalPerson(res['id'])
+      .subscribe(res => {
+        this.person = res;
+      });
+    })    
+  }
 
-    this.propertiesForm = new FormGroup({
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
-      registration_number: new FormControl(''),
-      gender: new FormControl(''),
-      civil_status: new FormControl(''),
-      date_of_birth: new FormControl(''),
-      date_of_death: new FormControl('')
-    });
+  createPerson(person) {
+    this.addingPerson = false;
+    this.appService.createNaturalPerson(person)
+      .subscribe(res => {
+        this.message.success('A new person is added.')
+        this.router.navigate(['/natural-person', res['id']]);
+      });
+  }
+
+  removePerson() {
+    this.appService.removeNaturalPerson(this.person.id)
+      .subscribe(res => {
+        this.message.success('The person is removed.');
+        this.router.navigate(['/natural-person']);
+      });
+  }
+
+  showEditModal(type: string) {
+    this.editingStatus[type] = true;
+  }
+
+  updateProperties(properties) {
+    this.editingStatus.properties = false;
+    Object.assign(this.person, properties);
+    properties['id'] = this.person.id;
+
+    this.appService.updateNaturalPersonProperties(properties)
+      .subscribe(() => {
+        this.message.success('Properties are updated.');
+      })
+  }
+
+  updateResidentialAddress (address) {
+    this.editingStatus.residentialAddress = false;
+
+    if (!address) {
+      this.deleteResidentialAddress();
+      return;
+    }
+
+    this.person.residentialAddress = address;
+    address['id'] = this.person.id;
+
+    this.appService.updateNaturalPersonResidentialAddress(address)
+      .subscribe(() => {
+        this.message.success('Residential Address is updated.')
+      });
+  }
+
+  deleteResidentialAddress() {
+    this.person.residentialAddress = null;
+    this.appService.eraseNaturalPersonResidentialAddress(this.person.id)
+      .subscribe(() => {
+        this.message.success('Residential Address is deleted.');
+      });
+  }
+
+  updateCorrespondenceAddress (address) {
+    this.editingStatus.correspondence = false;
+
+    if (!address) {
+      this.deleteCorrespondenceAddress();
+      return;
+    }
+
+    this.person.correspondenceAddress = address;
+    address['id'] = this.person.id;
+
+    this.appService.updateNaturalPersonCorrespondenceAddress(address)
+      .subscribe(() => {
+        this.message.success('Correspondence Address is updated.')
+      });
+  }
+
+  deleteCorrespondenceAddress() {
+    this.person.correspondenceAddress = null;
+    this.appService.eraseNaturalPersonCorrespondenceAddress(this.person.id)
+      .subscribe(() => {
+        this.message.success('Correspondence Address is deleted.');
+      });
   }
 
 }

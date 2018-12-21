@@ -1,0 +1,125 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create a Natural Person" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
+  <nz-tabset>
+    <nz-tab nzTitle="Properties">
+      <form [formGroup]='propertiesForm'>
+          <div nz-row nzType="flex" nzJustify="space-between">
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Last Name</nz-form-label>
+                      <nz-form-control>
+                          <input nz-input formControlName="lastName" nzRequired>
+                          <nz-form-explain *ngIf="propertiesForm.get('lastName').dirty && propertiesForm.get('lastName').errors">Please input your last name!</nz-form-explain>
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>First Name</nz-form-label>
+                      <nz-form-control>
+                          <input nz-input formControlName="firstName" nzRequired>
+                          <nz-form-explain *ngIf="propertiesForm.get('firstName').dirty && propertiesForm.get('firstName').errors">Please input your last name!</nz-form-explain>
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+          </div>
+
+          <div nz-row nzType="flex" nzJustify="start">
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Registration Number</nz-form-label>
+                      <nz-form-control>
+                          <input nz-input formControlName="registrationNumber" type="number">
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+          </div>
+
+          <div nz-row nzType="flex" nzJustify="space-between">
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Gender</nz-form-label>
+                      <nz-form-control>
+                          <nz-select formControlName="gender" nzShowSearch nzRequired>
+                              <nz-option *ngFor="let gender of genders" [nzLabel]="gender | gender" [nzValue]="gender"></nz-option>
+                          </nz-select>
+                          <nz-form-explain *ngIf="propertiesForm.get('gender').dirty && propertiesForm.get('gender').errors">Please select your gender!</nz-form-explain>
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Civil status</nz-form-label>
+                      <nz-form-control>
+                          <nz-select formControlName="civilStatus" nzShowSearch nzRequired>
+                              <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus | civilStatus" [nzValue]="civilStatus"></nz-option>
+                          </nz-select>
+                          <nz-form-explain *ngIf="propertiesForm.get('civilStatus').dirty && propertiesForm.get('civilStatus').errors">Please select your civil status!</nz-form-explain>
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+          </div>
+
+          <div nz-row nzType="flex" nzJustify="space-between">
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Date of Birth</nz-form-label>
+                      <nz-form-control>
+                          <input nz-input formControlName="dateOfBirth" type="date">
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+              <div nz-col nzSpan="11">
+                  <nz-form-item>
+                      <nz-form-label>Date of Death</nz-form-label>
+                      <nz-form-control>
+                          <input nz-input formControlName="dateOfDeath" type="date">
+                      </nz-form-control>
+                  </nz-form-item>
+              </div>
+          </div>
+      </form>
+    </nz-tab>
+    <nz-tab *ngFor="let f of addressForms" [nzTitle]='f.title'>
+      <form [formGroup]='f.form'>
+        <div nz-row>
+          <div nz-col nzSpan="11">
+            <nz-form-item>
+              <nz-form-label>Country</nz-form-label>
+              <nz-form-control>
+                <nz-select formControlName="country" nzShowSearch>
+                  <nz-option *ngFor="let country of countries" [nzLabel]="country | country" [nzValue]="country"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+    
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>Address</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="firstLine">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+    
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="secondLine">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+    
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="thirdLine">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </nz-tab>
+  </nz-tabset>
+</nz-modal>

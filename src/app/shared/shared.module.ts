@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountryPipe } from './pipes/country.pipe';
+import { GenderPipe } from './pipes/gender.pipe';
+import { CivilStatusPipe } from './pipes/civil-status.pipe';
 
 @NgModule({
   declarations: [
-    CountryPipe
+    CountryPipe,
+    GenderPipe,
+    CivilStatusPipe
   ],
   imports: [
     CommonModule,
@@ -16,7 +20,9 @@ import { CountryPipe } from './pipes/country.pipe';
   exports: [
     FormsModule,
     NgZorroAntdModule,
-    CountryPipe
+    CountryPipe,
+    GenderPipe,
+    CivilStatusPipe
   ]
 })
 export class SharedModule { }

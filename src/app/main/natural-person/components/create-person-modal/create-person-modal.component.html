@@ -1,11 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Create a Natural Person" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
-
- <div nz-row>
-    <div nz-col nzSpan="11" *ngFor="let address of addressForms">
-        <label nz-checkbox [(ngModel)]="address.present" (ngModelChange)="presentAddressForm($event, address)">{{address.title}}</label>
-    </div>
-  </div>
-  <nz-divider></nz-divider>
+<nz-modal class="tab-modal" [(nzVisible)]="isVisible" nzTitle="Create a Natural Person" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
   <nz-tabset>
     <nz-tab nzTitle="Properties">
       <form [formGroup]='propertiesForm'>
@@ -88,6 +81,9 @@
       </form>
     </nz-tab>
     <nz-tab *ngFor="let f of addressForms" [nzTitle]="f.title" [nzDisabled]="!f.present">
+      <div nz-row>
+        <label nz-checkbox [(ngModel)]="f.present" (ngModelChange)="presentAddressForm($event, f)">{{f.checkbox}}</label>
+      </div>
       <form [formGroup]='f.form'>
         <div nz-row>
           <div nz-col nzSpan="11">

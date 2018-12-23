@@ -60,13 +60,15 @@ export class CreatePersonModalComponent {
     });
 
     this.addressForms = [{
-      title   : 'Residential Address',
-      form    : raddress,
-      present : true
+      title    : 'Residential Address',
+      checkbox : 'Has residential address',
+      form     : raddress,
+      present  : true
     }, {
-      title   : 'Correspondence Address',
-      form    : caddress,
-      present : true
+      title    : 'Correspondence Address',
+      checkbox : 'Has correspondence address',
+      form     : caddress,
+      present  : true
     }];
   }
 

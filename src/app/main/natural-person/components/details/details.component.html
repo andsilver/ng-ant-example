@@ -5,9 +5,9 @@
       <strong>Natural Person </strong><span>#{{person.id}}</span>
     </div>
     <div nz-col class="operation-btns">
-      <button nz-button nzType="primary" (click)="addingPerson = true"><i nz-icon type="plus"></i></button>
-      <button nz-button nzType="primary" nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removePerson()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
-      <button nz-button nzType="primary"><i nz-icon type="ellipsis"></i></button>
+      <button nz-button nzType="default" (click)="addingPerson = true"><i nz-icon type="plus"></i></button>
+      <button nz-button nzType="default" nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removePerson()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+      <button nz-button nzType="default"><i nz-icon type="ellipsis"></i></button>
     </div>
     <div nz-col>
       <form (ngSubmit)="lookUp()">
@@ -26,38 +26,50 @@
     <div nz-col nzSpan="24" nzMd="11" style="margin-right: 24px">
       <nz-card nzTitle="Properties" [nzExtra]="editProperties">
         <form nz-form class="edit-properties-form">
-          <div>
-            <h3>Name</h3>
-            <strong>{{person.firstName + ' ' + person.lastName}}</strong>
+          <div nz-row>
+            <nz-form-item>
+              <nz-form-label>Name</nz-form-label>
+              <div class="form-display-data">{{person.firstName + ' ' + person.lastName}}</div>
+            </nz-form-item>
           </div>
-          <div>
-            <h3>Registration Number</h3>
-            <strong>{{person.registrationNumber || '-'}}</strong>
+          <div nz-row>
+            <nz-form-item>
+              <nz-form-label>Registration Number</nz-form-label>
+              <div class="form-display-data">{{person.registrationNumber || '-'}}</div>
+            </nz-form-item>
           </div>
           <div nz-row>
             <div nz-col nzSpan="12">
-              <h3>Gender</h3>
-              <strong>{{person.gender | gender}}</strong>
+              <nz-form-item>
+                <nz-form-label>Gender</nz-form-label>
+                <div class="form-display-data">{{person.gender | gender}}</div>
+              </nz-form-item>
             </div>
             <div nz-col nzSpan="12">
-              <h3>Civil Status</h3>
-              <strong>{{person.civilStatus | civilStatus}}</strong>
+              <nz-form-item>
+                <nz-form-label>Civil Status</nz-form-label>
+                <div class="form-display-data">{{person.civilStatus | civilStatus}}</div>
+              </nz-form-item>
             </div>
           </div>
           <div nz-row>
             <div nz-col nzSpan="12">
-              <h3>Date of Birth</h3>
-              <strong>{{person.dateOfBirth ? ( person.dateOfBirth | date:'yyyy-MM-dd'  ) : '-'}}</strong>
+              <nz-form-item>
+                <nz-form-label>Date of Birth</nz-form-label>
+                <div class="form-display-data">{{person.dateOfBirth ? ( person.dateOfBirth | date:'yyyy-MM-dd'  ) : '-'}}</div>
+              </nz-form-item>
             </div>
             <div nz-col nzSpan="12">
-              <h3>Date of Death</h3>
-              <strong>{{person.dateOfDeath ? ( person.dateOfDeath | date:'yyyy-MM-dd' ) : '-'}}</strong>
+              <nz-form-item>
+                <nz-form-label>Date of Death</nz-form-label>
+                <div class="form-display-data">{{person.dateOfDeath ? ( person.dateOfDeath | date:'yyyy-MM-dd' ) : '-'}}</div>
+              </nz-form-item>
             </div>
           </div>
         </form>
       </nz-card>
       <ng-template #editProperties>
-        <button nz-button nzType="primary" (click)="showEditModal('properties')"><i nz-icon type="edit"></i></button>
+        <button nz-button nzType="default" (click)="showEditModal('properties')"><i nz-icon type="edit"></i></button>
       </ng-template>
     </div>
 
@@ -66,9 +78,9 @@
         <nz-card nzTitle="Residential Address" [nzExtra]="editResidential">
           <div *ngIf="person.residentialAddress">
             <p *ngFor="let line of person.residentialAddress.lines">
-              <strong>{{line}}</strong>
+              <span class="form-display-data">{{line}}</span>
             </p>
-            <p><strong>{{person.residentialAddress.country | country}}</strong></p>
+            <p><span class="form-display-data">{{person.residentialAddress.country | country}}</span></p>
           </div>
           <div *ngIf="!person.residentialAddress">
             Not provided
@@ -76,11 +88,11 @@
         </nz-card>
         <ng-template #editResidential>
           <ng-container *ngIf="person.residentialAddress">
-            <button nz-button nzType="primary" style="margin-right: 12px" (click)="showEditModal('residentialAddress')"><i nz-icon type="edit"></i></button>
-            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteResidentialAddress()" nzPlacement="top" nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+            <button nz-button nzType="default" style="margin-right: 12px" (click)="showEditModal('residentialAddress')"><i nz-icon type="edit"></i></button>
+            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteResidentialAddress()" nzPlacement="top" nz-button nzType="default"><i nz-icon type="delete"></i></button>
           </ng-container>
           <ng-container *ngIf="!person.residentialAddress">
-            <button nz-button nzType="primary" (click)="showEditModal('residentialAddress')"><i nz-icon type="plus"></i></button>
+            <button nz-button nzType="default" (click)="showEditModal('residentialAddress')"><i nz-icon type="plus"></i></button>
           </ng-container>
         </ng-template>
       </div>
@@ -88,9 +100,9 @@
         <nz-card nzTitle="Correspondence Address" [nzExtra]="editCorrespondence">
           <div *ngIf="person.correspondenceAddress">
             <p *ngFor="let line of person.correspondenceAddress.lines">
-              <strong>{{line}}</strong>
+              <span class="form-display-data">{{line}}</span>
             </p>
-            <p><strong>{{person.correspondenceAddress.country | country}}</strong></p>
+            <p><span class="form-display-data">{{person.correspondenceAddress.country | country}}</span></p>
           </div>
           <div *ngIf="!person.correspondenceAddress">
             Not provided
@@ -98,11 +110,11 @@
         </nz-card>
         <ng-template #editCorrespondence>
           <ng-container *ngIf="person.correspondenceAddress">
-            <button nz-button nzType="primary" style="margin-right: 12px" (click)="showEditModal('correspondence')"><i nz-icon type="edit"></i></button>
-            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteCorrespondenceAddress()" nzPlacement="top" nz-button nzType="primary"><i nz-icon type="delete"></i></button>
+            <button nz-button nzType="default" style="margin-right: 12px" (click)="showEditModal('correspondence')"><i nz-icon type="edit"></i></button>
+            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteCorrespondenceAddress()" nzPlacement="top" nz-button nzType="default"><i nz-icon type="delete"></i></button>
           </ng-container>
           <ng-container *ngIf="!person.correspondenceAddress">
-            <button nz-button nzType="primary" (click)="showEditModal('correspondence')"><i nz-icon type="plus"></i></button>
+            <button nz-button nzType="default" (click)="showEditModal('correspondence')"><i nz-icon type="plus"></i></button>
           </ng-container>
         </ng-template>
       </div>

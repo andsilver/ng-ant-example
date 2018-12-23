@@ -41,17 +41,17 @@
             </div>
             <div nz-col nzSpan="12">
               <h3>Civil Status</h3>
-              <strong>{{person.civilStatus || '-' | civilStatus}}</strong>
+              <strong>{{person.civilStatus | civilStatus}}</strong>
             </div>
           </div>
           <div nz-row>
             <div nz-col nzSpan="12">
               <h3>Date of Birth</h3>
-              <strong>{{person.dateOfBirth || '-'}}</strong>
+              <strong>{{person.dateOfBirth ? ( person.dateOfBirth | date:'yyyy-MM-dd'  ) : '-'}}</strong>
             </div>
             <div nz-col nzSpan="12">
               <h3>Date of Death</h3>
-              <strong>{{person.dateOfDeath || '-'}}</strong>
+              <strong>{{person.dateOfDeath ? ( person.dateOfDeath | date:'yyyy-MM-dd' ) : '-'}}</strong>
             </div>
           </div>
         </form>

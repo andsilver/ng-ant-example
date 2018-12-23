@@ -12,7 +12,7 @@ import { AppService } from 'app/app.service';
 export class DetailsComponent implements OnInit {
 
   person            : any;
-  registrationNumber: number;
+  registrationNumber: string;
 
   editingStatus = {
     properties        : false,
@@ -117,6 +117,13 @@ export class DetailsComponent implements OnInit {
     this.appService.eraseNaturalPersonCorrespondenceAddress(this.person.id)
       .subscribe(() => {
         this.message.success('Correspondence Address is deleted.');
+      });
+  }
+
+  lookUp() {
+    this.appService.lookUpNaturalPerson(this.registrationNumber)
+      .subscribe(res => {
+        this.router.navigate(['/natural-person', res['id']]);
       });
   }
 

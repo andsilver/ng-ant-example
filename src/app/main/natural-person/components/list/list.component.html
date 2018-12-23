@@ -8,16 +8,19 @@
         <div nz-col class="operation-btns">
           <button nz-button nzType="primary" (click)="showFilter = !showFilter"><i nz-icon type="filter"></i></button>
           <button nz-button nzType="primary" (click)="addingPerson = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nzType="primary" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
+          <button nz-button nzType="primary" nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
           <button nz-button nzType="primary"><i nz-icon type="ellipsis"></i></button>
         </div>
         <div nz-col>
-          <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" style="min-width: 270px" nz-input placeholder="Registration Number" [(ngModel)]="registrationNumber" type="number">
-          </nz-input-group>
-          <ng-template #suffixIconSearch>
-            <i nz-icon type="search"></i>
-          </ng-template>
+          <form (ngSubmit)="lookUp()">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input name="registrationNumber" style="min-width: 270px" nz-input placeholder="Registration Number" [(ngModel)]="registrationNumber" type="text">
+              <button type="submit" style="display: none;"></button>
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon type="search"></i>
+            </ng-template>
+          </form>
         </div>
       </div>
     </div>

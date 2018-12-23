@@ -45,19 +45,10 @@ export class AddressModalComponent implements OnInit {
 
   closeModal(save) {
 
-    const value = this.form.value;
-    let isAddressExist = false;
-    Object.keys(value).forEach(key => {
-      if (value[key]) {
-        isAddressExist = true;
-      }
-    });
-
-    const address = isAddressExist ? {
-      country: value.country,
-      lines  : [value.firstLine, value.secondLine, value.thirdLine]
-    } : null;
-
+    const value          = this.form.value;
+    const isAddressExist = Object.keys(value).some(key => value[key]);
+    const address        = isAddressExist ? { country: value.country, lines: [value.firstLine, value.secondLine, value.thirdLine] }
+                                          : null;
     this.isVisible = false;
     save ? this.onConfirm.emit(address) : this.onCancel.emit()
   }

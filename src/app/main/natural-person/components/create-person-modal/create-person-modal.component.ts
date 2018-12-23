@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 @Component({
@@ -6,17 +6,14 @@ import { FormGroup, FormControl, Validators} from '@angular/forms';
   templateUrl: './create-person-modal.component.html',
   styleUrls: ['./create-person-modal.component.scss']
 })
-export class CreatePersonModalComponent implements OnInit {
+export class CreatePersonModalComponent {
 
   isVisible = false;
 
   @Input()
   set visible(visible: boolean) {
     this.isVisible = visible;
-    if (visible == true) {
-      this.propertiesForm.reset();
-      this.addressForms.forEach(f => f.form.reset());
-    }
+    this.reset();
   }
 
   @Output()
@@ -25,7 +22,7 @@ export class CreatePersonModalComponent implements OnInit {
   @Output()
   onConfirm = new EventEmitter();
 
-  propertiesForm   : FormGroup;
+  propertiesForm: FormGroup;
 
   addressForms             = [];
   submitted                = false;
@@ -37,7 +34,7 @@ export class CreatePersonModalComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  reset() {
     this.propertiesForm = new FormGroup({
       lastName             : new FormControl('', [Validators.required]),
       firstName            : new FormControl('', [Validators.required]),
@@ -48,7 +45,14 @@ export class CreatePersonModalComponent implements OnInit {
       dateOfDeath          : new FormControl(''),
     });
 
-    const address = new FormGroup({
+    const raddress = new FormGroup({
+      country              : new FormControl(''),
+      firstLine            : new FormControl(''),
+      secondLine           : new FormControl(''),
+      thirdLine            : new FormControl('')
+    });
+
+    const caddress = new FormGroup({
       country              : new FormControl(''),
       firstLine            : new FormControl(''),
       secondLine           : new FormControl(''),
@@ -56,15 +60,32 @@ export class CreatePersonModalComponent implements OnInit {
     });
 
     this.addressForms = [{
-      title: 'Residential Address',
-      form : address
+      title   : 'Residential Address',
+      form    : raddress,
+      present : true
     }, {
-      title: 'Correspondence Address',
-      form : address
+      title   : 'Correspondence Address',
+      form    : caddress,
+      present : true
     }];
   }
 
+  presentAddressForm(value, form) {
+    const controls = form.form.controls;
+    if (value) {
+      Object.keys(controls).forEach(key => controls[key].enable());
+    } else {
+      Object.keys(controls).forEach(key => controls[key].disable());
+    }
+  }
+
   closeModal(save) {
+
+    if (!save) {
+      this.onCancel.emit();
+      this.isVisible = false;
+      return;
+    }
 
     this.submitted = true;
 
@@ -76,31 +97,23 @@ export class CreatePersonModalComponent implements OnInit {
       return;
     }
 
-    if (save) {
-      const person = this.propertiesForm.value;
-
-      for (const f of this.addressForms) {
+    const person = this.propertiesForm.value;
+    for (const f of this.addressForms) {
+      let value;
+      if (!f.present) {
+        value = null;
+      } else {
         const address = f.form.value;
-        let exist = false;
-        Object.keys(address).forEach(key => {
-          if (address[key]) {
-            exist = true;
-          }
-        });
-
-        const value = exist ? {
+        const exist   = Object.keys(address).some(key => address[key]);
+        value = exist ? {
           country: address.country,
           lines  : [address.firstLine, address.secondLine, address.thirdLine]
         } : null;
-
-        f.title === 'Residential Address' ? person['residentialAddress'] = value : person['correspondenceAddress'] = value;
       }
-
-      this.onConfirm.emit(person);
-    } else {
-      this.onCancel.emit();
+      f.title === 'Residential Address' ? person['residentialAddress'] = value : person['correspondenceAddress'] = value;
     }
 
+    this.onConfirm.emit(person);
     this.isVisible = false;
   }
 

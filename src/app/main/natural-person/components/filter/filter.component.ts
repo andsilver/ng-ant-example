@@ -12,40 +12,17 @@ export class FilterComponent implements OnInit {
   filterChanged = new EventEmitter();
 
   filterForm: FormGroup;
-  countries = [{
-      name: 'United States',
-      code: 'us'
-    }, {
-      name: 'United Kingdom',
-      code: 'uk'
-    }
-  ];
+  countries = ['UK', 'BE', 'FR'];
 
   constructor() { }
 
   ngOnInit() {
     this.filterForm = new FormGroup({
       first_name: new FormControl(''),
-      last_name: new FormControl(''),
-      country: new FormControl(''),
-      address: new FormControl('')
+      last_name : new FormControl(''),
+      country   : new FormControl(''),
+      address   : new FormControl('')
     });
-  }
-
-  get firstName() {
-    return this.filterForm.get('first_name');
-  }
-
-  get lastName() {
-    return this.filterForm.get('last_name');
-  }
-
-  get country() {
-    return this.filterForm.get('country');
-  }
-
-  get address() {
-    return this.filterForm.get('address');
   }
 
   applyFilter() {

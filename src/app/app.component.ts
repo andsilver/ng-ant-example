@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LoadingHandlerService } from 'app/services/loading-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +7,4 @@ import { LoadingHandlerService } from 'app/services/loading-handler.service';
 })
 export class AppComponent {
   title = 'malibu';
-
-  constructor(public loader: LoadingHandlerService) {}
 }

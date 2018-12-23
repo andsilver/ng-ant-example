@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
+import { forkJoin } from 'rxjs';
 import { AppService } from 'app/app.service';
 import { Filter } from 'app/app.models';
 
@@ -14,11 +15,11 @@ export class ListComponent implements OnInit {
   naturalPersons = [];
   filter: Filter;
 
-  page  = 1;
-  limit = 10;
-  total = 10;
+  page       = 1;
+  limit      = 10;
+  total      = 10;
   showFilter = false;
-  registrationNumber: number;
+  registrationNumber: string;
 
   sortMap = {
     last_name : null,
@@ -70,8 +71,29 @@ export class ListComponent implements OnInit {
   createPerson(person) {
     this.addingPerson = false;
     this.appService.createNaturalPerson(person)
-      .subscribe(res => {
+      .subscribe(() => {
         this.message.success('A new person is added.')
+        this.getPersons();
+      });
+  }
+
+  lookUp() {
+    this.appService.lookUpNaturalPerson(this.registrationNumber)
+      .subscribe(res => {
+        this.toDetailsPage(res);
+      });
+  }
+
+  removeSelected() {
+    const requests = this.naturalPersons.map(p => {
+      if (p.checked) {
+        return this.appService.removeNaturalPerson(p.id);
+      }
+    });
+
+    forkJoin(requests)
+      .subscribe(() => {
+        this.message.success('Selected Persons are removed.');
         this.getPersons();
       });
   }
@@ -82,7 +104,7 @@ export class ListComponent implements OnInit {
   }
 
   refreshStatus(): void {
-    const allChecked =   this.naturalPersons.every(value =>  value['checked'] === true);
+    const allChecked =   !this.naturalPersons.length ? false : this.naturalPersons.every(value =>  value['checked'] === true);
     const allUnChecked = this.naturalPersons.every(value => !value['checked']);
     this.checkStatus.all = allChecked;
     this.checkStatus.indeterminate = (!allChecked) && (!allUnChecked);
@@ -94,7 +116,6 @@ export class ListComponent implements OnInit {
   }
 
   sort(sort_by, status) {
-
     if (status) {
       this.filter.sort_by    = sort_by;
       this.filter.sort_order = status === 'ascend' ? 'asc' : 'desc';

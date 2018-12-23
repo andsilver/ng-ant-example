@@ -3,19 +3,19 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, Htt
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd';
-import { LoadingHandlerService } from 'app/services/loading-handler.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from 'environments/environment';
 
 @Injectable()
 export class HttpIntercepterService implements HttpInterceptor {
 
   constructor(
-    private loader : LoadingHandlerService,
-    private message: NzMessageService) { }
+    private message: NzMessageService,
+    private spinner: NgxSpinnerService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    this.loader.isLoading = true;
+    this.spinner.show();
     // Get the auth header from the service.
     const token = localStorage.getItem('token');
     const url = req.url.indexOf(environment.apiUrl) > -1
@@ -49,12 +49,12 @@ export class HttpIntercepterService implements HttpInterceptor {
             .pipe(
               tap((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                  this.loader.isLoading = false;
+                  this.spinner.hide();
                 }
               }, (err: any) => {
                 console.log(err);
-                this.message.error(err.error.msg);
-                this.loader.isLoading = false;
+                this.message.error(err.error.message);
+                this.spinner.hide();
               })
             )
   }

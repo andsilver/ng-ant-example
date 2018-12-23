@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingRoutingModule } from './app-routing.module';
 import { HttpIntercepterService } from './services/http-intercepter.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import en from '@angular/common/locales/en';
 import { MainComponent } from './main/main.component';
@@ -27,6 +28,7 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule,
     SharedModule,
     AppRoutingRoutingModule
   ],

@@ -38,6 +38,11 @@ export class AppService {
     return this.http.post(url, {id: id});
   }
 
+  public lookUpNaturalPerson(registrationNumber: string) {
+    const url = `${this.url}/lookup/${registrationNumber}`;
+    return this.http.get(url);
+  }
+
   public filterNaturalPersons (filter: Filter) {
     const url = `${this.url}/filter`;
     const params = this.setHttpParams(filter);

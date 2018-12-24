@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private settings: AppSettings) {}
 
   ngOnInit() {
-    this.settings.setLocale(environment.locale);
+    this.settings.init(environment.locale);
   }
 
 }

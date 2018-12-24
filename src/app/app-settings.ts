@@ -14,12 +14,8 @@ export class AppSettings {
 
   constructor() { }
 
-  public init(settings: Settings) {
-    this.settings = settings;
-  }
-
-  public setLocale(locale) {
-    this.settings.locale = locale;
+  public init(locale, date_format = 'yyyy-MM-dd') {
+    this.settings = new Settings(locale, date_format);
   }
 
   public get locale() {

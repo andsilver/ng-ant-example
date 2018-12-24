@@ -5,7 +5,7 @@ import { forkJoin } from 'rxjs';
 import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
 import { Filter } from 'app/app.models';
-import * as _ from 'app/shared/helpers/utils';
+import { download } from 'app/shared/helpers/utils';
 
 @Component({
   selector: 'app-list',
@@ -108,13 +108,11 @@ export class ListComponent implements OnInit {
   exportList () {
     this.appService.exportNaturalPersons()
       .subscribe(res => {
-
         const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
         const content   = res.body;
         const type      = 'text/csv';
         const extension = 'csv';
-
-        _.download(filename, content, type, extension);
+        download(filename, content, type, extension);
       });
   }
 

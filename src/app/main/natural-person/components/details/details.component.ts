@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-
+import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
+import { download } from 'app/shared/helpers/utils';
 
 @Component({
   selector: 'app-details',
@@ -128,6 +129,17 @@ export class DetailsComponent implements OnInit {
     this.appService.lookUpNaturalPerson(this.registrationNumber)
       .subscribe(res => {
         this.router.navigate(['/natural-person', res['id']]);
+      });
+  }
+
+  exportList () {
+    this.appService.exportNaturalPersons()
+      .subscribe(res => {
+        const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
+        const content   = res.body;
+        const type      = 'text/csv';
+        const extension = 'csv';
+        download(filename, content, type, extension);
       });
   }
 

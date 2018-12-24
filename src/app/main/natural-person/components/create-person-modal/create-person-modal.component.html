@@ -52,7 +52,7 @@
                       <nz-form-label>Civil status</nz-form-label>
                       <nz-form-control>
                           <nz-select formControlName="civilStatus" nzShowSearch nzRequired>
-                              <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus | civilStatus" [nzValue]="civilStatus"></nz-option>
+                              <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus.label" [nzValue]="civilStatus.value"></nz-option>
                           </nz-select>
                           <nz-form-explain *ngIf="propertiesForm.get('civilStatus').dirty && propertiesForm.get('civilStatus').errors">Please select your civil status!</nz-form-explain>
                       </nz-form-control>
@@ -91,12 +91,12 @@
               <nz-form-label>Country</nz-form-label>
               <nz-form-control>
                 <nz-select formControlName="country" nzShowSearch>
-                  <nz-option *ngFor="let country of countries" [nzLabel]="country | country" [nzValue]="country"></nz-option>
+                  <nz-option *ngFor="let country of countries" [nzLabel]="country.label" [nzValue]="country.value"></nz-option>
                 </nz-select>
               </nz-form-control>
             </nz-form-item>
           </div>
-    
+
           <div nz-col nzSpan="24">
             <nz-form-item>
               <nz-form-label>Address</nz-form-label>
@@ -105,7 +105,7 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-    
+
           <div nz-col nzSpan="24">
             <nz-form-item>
               <nz-form-control>
@@ -113,7 +113,7 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-    
+
           <div nz-col nzSpan="24">
             <nz-form-item>
               <nz-form-control>

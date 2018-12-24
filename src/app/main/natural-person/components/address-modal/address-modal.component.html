@@ -6,7 +6,7 @@
                     <nz-form-label>Country</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="country" nzShowSearch>
-                            <nz-option *ngFor="let country of countries" [nzLabel]="country | country" [nzValue]="country"></nz-option>
+                            <nz-option *ngFor="let country of countries" [nzLabel]="country.label" [nzValue]="country.value"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>

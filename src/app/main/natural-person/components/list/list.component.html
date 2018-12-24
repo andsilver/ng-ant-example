@@ -69,9 +69,11 @@
       </nz-table>
     </div>
   </div>
-  
+
   <app-create-person-modal
     [visible]="addingPerson"
+    [countries]="countries"
+    [civilStatuses]="civilStatuses"
     (onCancel)="addingPerson = false"
     (onConfirm)="createPerson($event)">
   </app-create-person-modal>

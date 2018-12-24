@@ -122,12 +122,15 @@
 
     <app-create-person-modal
       [visible]="addingPerson"
+      [civilStatuses]="civilStatuses"
+      [countries]="countries"
       (onCancel)="addingPerson = false"
       (onConfirm)="createPerson($event)">
     </app-create-person-modal>
 
     <app-properties-modal
       [properties]="person"
+      [civilStatuses]="civilStatuses"
       [visible]="editingStatus.properties"
       (onCancel)="editingStatus.properties = false"
       (onConfirm)="updateProperties($event)">
@@ -135,6 +138,7 @@
 
     <app-address-modal
       [address]="person.residentialAddress"
+      [countries]="countries"
       [visible]="editingStatus.residentialAddress"
       (onCancel)="editingStatus.residentialAddress = false"
       (onConfirm)="updateResidentialAddress($event)">
@@ -142,6 +146,7 @@
 
     <app-address-modal
       [address]="person.correspondenceAddress"
+      [countries]="countries"
       [visible]="editingStatus.correspondence"
       (onCancel)="editingStatus.correspondence = false"
       (onConfirm)="updateCorrespondenceAddress($event)">

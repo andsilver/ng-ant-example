@@ -16,6 +16,12 @@ export class CreatePersonModalComponent {
     this.reset();
   }
 
+  @Input()
+  civilStatuses = [];
+
+  @Input()
+  countries = [];
+
   @Output()
   onCancel = new EventEmitter();
 
@@ -29,8 +35,6 @@ export class CreatePersonModalComponent {
   addResidentialAddress    = false;
   addCorrespondenceAddress = false;
   genders                  = ['MALE', 'FEMALE', 'UNKNOWN'];
-  civilStatuses            = ['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED'];
-  countries                = ['FR', 'BE', 'UK'];
 
   constructor() { }
 

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
-import { DatePipe } from '@angular/common';
 import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
 import { Filter } from 'app/app.models';
@@ -11,19 +10,22 @@ import * as _ from 'app/shared/helpers/utils';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
-  providers: [ DatePipe ]
+  styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
 
-  naturalPersons = [];
   filter: Filter;
+  naturalPersons = [];
+  countries      = [];
+  civilStatuses  = [];
 
   page       = 1;
   limit      = 10;
   total      = 10;
   showFilter = false;
   registrationNumber: string;
+
+  addingPerson = false;
 
   sortMap = {
     last_name : null,
@@ -36,16 +38,16 @@ export class ListComponent implements OnInit {
     indeterminate: false
   }
 
-  addingPerson = false;
-
   constructor(
     private appService: AppService,
     private router    : Router,
-    private message   : NzMessageService,
-    private datePipe  : DatePipe
+    private message   : NzMessageService
   ) { }
 
   ngOnInit() {
+
+    this.countries     = this.appService.countries;
+    this.civilStatuses = this.appService.civilStatuses;
 
     this.filter = {
       offset    : this.offset,
@@ -106,7 +108,7 @@ export class ListComponent implements OnInit {
   exportList () {
     this.appService.exportNaturalPersons()
       .subscribe(res => {
-        
+
         const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
         const content   = res.body;
         const type      = 'text/csv';

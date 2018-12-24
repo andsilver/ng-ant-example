@@ -1,19 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-const civilStatuses = {
-  'SINGLE': 'Single',
-  'MARRIED': 'Married',
-  'DIVORCED': 'Divorced',
-  'WIDOWED': 'Widowed'
-};
+import { AppService } from 'app/app.service';
 
 @Pipe({
   name: 'civilStatus'
 })
 export class CivilStatusPipe implements PipeTransform {
 
+  civilStatuses = [];
+
+  constructor(private appService: AppService) {
+    this.civilStatuses = this.appService.civilStatuses;
+  }
+
   transform(value: any, args?: any): any {
-    return civilStatuses[value] ? civilStatuses[value] : '';
+    const civil = this.civilStatuses.find( c => c.value === value );
+    return civil ? civil.label : '';
   }
 
 }

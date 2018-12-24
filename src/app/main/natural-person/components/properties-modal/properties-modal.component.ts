@@ -12,6 +12,9 @@ export class PropertiesModalComponent {
   properties: any;
 
   @Input()
+  civilStatuses = [];
+
+  @Input()
   set visible(visible: boolean) {
     this.isVisible = visible;
     if (visible == true ) {
@@ -28,7 +31,6 @@ export class PropertiesModalComponent {
   form: FormGroup;
   isVisible = false;
   genders       = ['MALE', 'FEMALE', 'UNKNOWN'];
-  civilStatuses = ['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED'];
 
   constructor() { }
 

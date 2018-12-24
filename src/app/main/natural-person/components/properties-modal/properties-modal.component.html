@@ -50,7 +50,7 @@
                     <nz-form-label>Civil status</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="civilStatus" nzShowSearch nzRequired>
-                            <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus | civilStatus" [nzValue]="civilStatus"></nz-option>
+                            <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus.label" [nzValue]="civilStatus.value"></nz-option>
                         </nz-select>
                         <nz-form-explain *ngIf="form.get('civilStatus').dirty && form.get('civilStatus').errors">Please select your civil status!</nz-form-explain>
                     </nz-form-control>

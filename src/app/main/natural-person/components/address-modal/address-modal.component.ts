@@ -12,6 +12,9 @@ export class AddressModalComponent implements OnInit {
   address: any;
 
   @Input()
+  countries = [];
+
+  @Input()
   set visible (visible: boolean) {
     this.isVisible = visible;
     if (visible === true) {
@@ -27,8 +30,7 @@ export class AddressModalComponent implements OnInit {
 
   form: FormGroup;
   isVisible = false;
-  countries = ['FR', 'BE', 'UK'];
-  
+
   constructor() { }
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
+import { NaturalPersonResolverService } from './services/natural-person-resolver.service';
 
 const routes: Routes = [
   {
@@ -9,7 +10,10 @@ const routes: Routes = [
     children: [
       {
         path: 'natural-person',
-        loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule'
+        loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule',
+        resolve: {
+          data: NaturalPersonResolverService
+        }
       },
       {
         path: '',

@@ -7,10 +7,9 @@ import { Filter, NaturalPerson } from './app.models';
 })
 export class AppService {
 
-  url: string;
-
-  countries   = [];
-  civilStatus = [];
+  url          : string;
+  countries    : any;
+  civilStatuses: any;
 
   constructor(private http: HttpClient) {
     this.url = '/natural_person';
@@ -80,5 +79,15 @@ export class AppService {
   public exportNaturalPersons (lang: string = 'en') {
     const url = `${this.url}/export?locale=${lang}`;
     return this.http.get(url, { observe: 'response', responseType: 'blob' });
+  }
+
+  public getCoutries (lang: string = 'en') {
+    const url = `/context/countries?locale=${lang}`;
+    return this.http.get(url);
+  }
+
+  public getCivilStates (lang: string = 'en') {
+    const url = `/context/civil_statuses?locale=${lang}`;
+    return this.http.get(url);
   }
 }

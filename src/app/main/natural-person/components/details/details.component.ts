@@ -20,7 +20,9 @@ export class DetailsComponent implements OnInit {
     correspondence    : false
   };
 
-  addingPerson = false;
+  civilStatuses = [];
+  countries     = [];
+  addingPerson  = false;
 
   constructor(
     private route     : ActivatedRoute,
@@ -30,12 +32,14 @@ export class DetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.civilStatuses = this.appService.civilStatuses;
+    this.countries     = this.appService.countries;
     this.route.params.subscribe(res => {
       this.appService.getNaturalPerson(res['id'])
       .subscribe(res => {
         this.person = res;
       });
-    })    
+    })
   }
 
   createPerson(person) {

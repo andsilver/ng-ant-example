@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Filter, NaturalPerson } from './app.models';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Filter } from './app.models';
+import { AppSettings } from './app-settings';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,13 @@ import { Filter, NaturalPerson } from './app.models';
 export class AppService {
 
   url          : string;
+  locale       : string;
   countries    : any;
   civilStatuses: any;
 
-  constructor(private http: HttpClient) {
+  constructor( private http: HttpClient, private settings: AppSettings ) {
     this.url = '/natural_person';
+    this.locale = settings.locale || 'en';
   }
 
   private setHttpParams(params: Object) {
@@ -76,18 +79,18 @@ export class AppService {
     return this.http.post(url, {id: id});
   }
 
-  public exportNaturalPersons (lang: string = 'en') {
-    const url = `${this.url}/export?locale=${lang}`;
+  public exportNaturalPersons () {
+    const url = `${this.url}/export?locale=${this.locale}`;
     return this.http.get(url, { observe: 'response', responseType: 'blob' });
   }
 
-  public getCoutries (lang: string = 'en') {
-    const url = `/context/countries?locale=${lang}`;
+  public getCoutries () {
+    const url = `/context/countries?locale=${this.locale}`;
     return this.http.get(url);
   }
 
-  public getCivilStates (lang: string = 'en') {
-    const url = `/context/civil_statuses?locale=${lang}`;
+  public getCivilStates () {
+    const url = `/context/civil_statuses?locale=${this.locale}`;
     return this.http.get(url);
   }
 }

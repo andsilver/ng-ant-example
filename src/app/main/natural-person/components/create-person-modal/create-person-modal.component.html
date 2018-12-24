@@ -1,4 +1,4 @@
-<nz-modal class="tab-modal" [(nzVisible)]="isVisible" nzTitle="Create a Natural Person" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
+<nz-modal class="tab-modal" [(nzVisible)]="isVisible" nzTitle="Create a Natural Person" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
   <nz-tabset>
     <nz-tab nzTitle="Properties">
       <form [formGroup]='propertiesForm'>

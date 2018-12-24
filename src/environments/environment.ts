@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://109.237.211.176:8080'
+  apiUrl: 'http://109.237.211.176:8080',
+  locale: 'en'
 };
 
 /*

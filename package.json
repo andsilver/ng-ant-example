@@ -7,7 +7,15 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dev:en": "ng serve --configuration production -o",
+    "dev:fr": "ng serve --configuration production-fr -o",
+    "dev:nl": "ng serve --configuration production-nl -o",
+    "build:en": "ng build --prod --configuration production",
+    "build:fr": "ng build --prod --configuration production-fr",
+    "build:nl": "ng build --prod --configuration production-nl",
+    "extract": "ng xi18n --output-path=locale --i18n-locale en && npm run xliffmerge",
+    "xliffmerge": "xliffmerge --profile xliffmerge.json fr nl"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +53,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngx-i18nsupport": "^0.17.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",

@@ -1,4 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Residential Address" (nzOnCancel)="closeModal()" (nzOnOk)="closeModal(true)">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Residential Address" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
     <form *ngIf="form" [formGroup]='form'>
         <div nz-row>
             <div nz-col nzSpan="11">

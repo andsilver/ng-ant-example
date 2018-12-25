@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
 import { Filter } from 'app/app.models';
+import * as _ from 'app/shared/helpers/utils';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  providers: [ DatePipe ]
 })
 export class ListComponent implements OnInit {
 
@@ -37,7 +41,8 @@ export class ListComponent implements OnInit {
   constructor(
     private appService: AppService,
     private router    : Router,
-    private message   : NzMessageService
+    private message   : NzMessageService,
+    private datePipe  : DatePipe
   ) { }
 
   ngOnInit() {
@@ -95,6 +100,19 @@ export class ListComponent implements OnInit {
       .subscribe(() => {
         this.message.success('Selected Persons are removed.');
         this.getPersons();
+      });
+  }
+
+  exportList () {
+    this.appService.exportNaturalPersons()
+      .subscribe(res => {
+        
+        const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
+        const content   = res.body;
+        const type      = 'text/csv';
+        const extension = 'csv';
+
+        _.download(filename, content, type, extension);
       });
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Filter, NaturalPerson } from './app.models';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { Filter, NaturalPerson } from './app.models';
 export class AppService {
 
   url: string;
+
+  countries   = [];
+  civilStatus = [];
 
   constructor(private http: HttpClient) {
     this.url = '/natural_person';
@@ -72,5 +75,10 @@ export class AppService {
   public eraseNaturalPersonCorrespondenceAddress (id) {
     const url = `${this.url}/erase_correspondence_address`;
     return this.http.post(url, {id: id});
+  }
+
+  public exportNaturalPersons (lang: string = 'en') {
+    const url = `${this.url}/export?locale=${lang}`;
+    return this.http.get(url, { observe: 'response', responseType: 'blob' });
   }
 }

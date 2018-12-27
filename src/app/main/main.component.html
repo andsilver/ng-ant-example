@@ -3,9 +3,15 @@
     <div class="logo" i18n>Malibu</div>
     <ul nz-menu [nzMode]="'inline'" class="sider-bar">
       <li nz-submenu>
+        <span title i18n>Taxes</span>
+        <ul>
+          <li nz-menu-item [routerLink]="['/tax-module']" i18n>Tax Module</li>
+        </ul>
+      </li>
+      <li nz-submenu>
         <span title i18n>People & Entities</span>
         <ul>
-          <li nz-menu-item [routerLink]="['/natural-person']">Natural Person</li>
+          <li nz-menu-item [routerLink]="['/natural-person']" i18n>Natural Person</li>
         </ul>
       </li>
     </ul>

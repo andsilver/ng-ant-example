@@ -1,0 +1,69 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create Tax Module" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
+  <form *ngIf="form" nz-form [formGroup]='form' class="create-tax-module">
+    <div nz-row nzType="flex" nzGutter="24">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Code</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="code">
+            <nz-form-explain *ngIf="code.dirty && code.errors">Please input the code!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Name</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="name">
+            <nz-form-explain *ngIf="name.dirty && name.errors">Please input the name!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Tax Payers</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="taxPayers">
+              <label *ngFor="let payer of taxPayers" nz-radio [nzValue]="payer.value">{{payer.label}}</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <nz-divider nzText="Tax Authority" nzOrientation="left"></nz-divider>
+
+      <form nz-col nzSpan="24" formGroupName="taxAuthority">
+        <div nz-row nzType="flex" nzGutter="24">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Code</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="code">
+                <nz-form-explain *ngIf="authority_code.dirty && authority_code.errors">Please input the code!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Name</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="name">
+                <nz-form-explain *ngIf="authority_name.dirty && authority_name.errors">Please input the name!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <form formArrayName="address">
+          <nz-form-label>Address</nz-form-label>
+          <nz-form-control *ngFor="let address of addresses; let i=index;">
+            <input nz-input [formControlName]="i">
+          </nz-form-control>
+        </form>
+      </form>
+    </div>
+  </form>
+</nz-modal>

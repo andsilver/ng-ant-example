@@ -10,7 +10,7 @@ export class Settings {
 })
 export class AppSettings {
 
-  public settings: Settings;
+  private settings: Settings;
 
   constructor() { }
 

@@ -1,0 +1,135 @@
+<div *ngIf="taxModule" class="details-header">
+  <div nz-row nzType="flex" nzJustify="space-between" nzAlign="middle">
+    <div nz-col>
+      <div nz-row nzType="flex" nzJustify="start" nzAlign="middle" nzGutter='12'>
+        <div nz-col class="details-header-title">
+          <strong i18b>Tax Module </strong><span>{{taxModule.code}}</span>
+        </div>
+        <div nz-col class="operation-btns">
+          <button nz-button (click)="editingStatus.adding = true"><i nz-icon type="plus"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeTaxModule()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+          <nz-dropdown [nzTrigger]="'click'">
+            <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
+            <ul nz-menu>
+              <li nz-menu-item>
+                <a (click)="exportList()" i18n>Export List</a>
+              </li>
+            </ul>
+          </nz-dropdown>
+        </div>
+        <div nz-col>
+          <form (ngSubmit)="lookUp()">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input name="code" style="min-width: 270px" nz-input placeholder="code" [(ngModel)]="code">
+              <button type="submit" style="display: none;"></button>
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon type="search"></i>
+            </ng-template>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div nz-col>
+      <a nz-button [routerLink]="['/tax-module']" i18n>Back to List</a>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" style="padding: 24px 0" nzGutter="24">
+    <div nz-col nzSpan="24" nzMd="12">
+      <nz-card nzTitle="Properties" [nzExtra]="editProperties">
+        <form nz-form class="edit-properties-form">
+          <nz-form-item>
+            <nz-form-label>Code</nz-form-label>
+            <div class="form-display-data">{{taxModule.code}}</div>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Name</nz-form-label>
+            <div class="form-display-data">{{taxModule.name || '-'}}</div>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Tax Payers</nz-form-label>
+            <div class="form-display-data">{{taxModule.taxPayers || '-'}}</div>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label>Tax Authority</nz-form-label>
+            <div class="form-display-data">{{taxModule.taxAuthority.code}}</div>
+            <div class="form-display-data">{{taxModule.taxAuthority.name}}</div>
+            <div class="form-display-data" *ngFor="let address of taxModule.taxAuthority.address">{{address}}</div>
+          </nz-form-item>
+        </form>
+      </nz-card>
+      <ng-template #editProperties>
+        <button nz-button (click)="showModal('properties')"><i nz-icon type="edit"></i></button>
+      </ng-template>
+    </div>
+
+    <div nz-col nzSpan="24" nzMd="12">
+      <div style="margin-bottom: 24px">
+        <nz-card nzTitle="Status" [nzExtra]="editStatus">
+          <form nz-form class="edit-properties-form">
+            <div nz-row nzType="flex" nzGutter="24">
+              <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label>Status</nz-form-label>
+                  <div class="form-display-data">
+                    <nz-tag [nzColor]="taxModule.status | color">{{taxModule.status | status}}</nz-tag>
+                  </div>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label>Approval Date</nz-form-label>
+                  <div class="form-display-data">{{taxModule.approvalDate | customDate}}</div>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </nz-card>
+        <ng-template #editStatus>
+          <ng-container *ngIf="taxModule.status === 'DRAFT'">
+            <button nz-button (click)="approveTaxModule()">Approve</button>
+          </ng-container>
+          <ng-container *ngIf="taxModule.status === 'ACTIVE'">
+            <button style="margin-right: 24px" nz-button (click)="deactivateTaxModule()">Deactivate</button>
+            <button nz-button (click)="showModal('aprDate')"><i nz-icon type="edit"></i></button>
+          </ng-container>
+          <ng-container *ngIf="taxModule.status === 'INACTIVE'">
+            <button style="margin-right: 24px" nz-button (click)="reactivateTaxModule()">Reactivate</button>
+            <button nz-button (click)="showModal('aprDate')"><i nz-icon type="edit"></i></button>
+          </ng-container>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <app-create-tax-module
+    [visible]="editingStatus.adding"
+    (onCancel)="editingStatus.adding = false"
+    (onConfirm)="createTaxModule($event)">
+  </app-create-tax-module>
+
+  <app-properties-modal
+    [taxModule]="taxModule"
+    [visible]="editingStatus.properties"
+    (onCancel)="editingStatus.properties = false"
+    (onConfirm)="updateProperties($event)">
+  </app-properties-modal>
+
+  <div>
+    <nz-modal [(nzVisible)]="editingStatus.aprDate" nzTitle="Change Approval Date" (nzOnCancel)="editingStatus.aprDate = false" (nzOnOk)="updateApprovalDate()">
+      <div style="margin: 24px">
+        <nz-form-item>
+          <nz-form-label>Approval Date</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker [(ngModel)]="taxModule.approvalDate"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </nz-modal>
+  </div>
+</div>

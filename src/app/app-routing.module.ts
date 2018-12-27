@@ -16,6 +16,10 @@ const routes: Routes = [
         }
       },
       {
+        path: 'tax-module',
+        loadChildren: './main/tax-module/tax-module.module#TaxModuleModule'
+      },
+      {
         path: '',
         redirectTo: 'natural-person',
         pathMatch: 'full'

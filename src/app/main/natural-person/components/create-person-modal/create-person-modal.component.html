@@ -5,7 +5,7 @@
           <div nz-row nzType="flex" nzJustify="space-between">
               <div nz-col nzSpan="11">
                   <nz-form-item>
-                      <nz-form-label>Last Name</nz-form-label>
+                      <nz-form-label nzRequired>Last Name</nz-form-label>
                       <nz-form-control>
                           <input nz-input formControlName="lastName" nzRequired>
                           <nz-form-explain *ngIf="propertiesForm.get('lastName').dirty && propertiesForm.get('lastName').errors">Please input your last name!</nz-form-explain>
@@ -15,7 +15,7 @@
 
               <div nz-col nzSpan="11">
                   <nz-form-item>
-                      <nz-form-label>First Name</nz-form-label>
+                      <nz-form-label nzRequired>First Name</nz-form-label>
                       <nz-form-control>
                           <input nz-input formControlName="firstName" nzRequired>
                           <nz-form-explain *ngIf="propertiesForm.get('firstName').dirty && propertiesForm.get('firstName').errors">Please input your first name!</nz-form-explain>
@@ -38,7 +38,7 @@
           <div nz-row nzType="flex" nzJustify="space-between">
               <div nz-col nzSpan="11">
                   <nz-form-item>
-                      <nz-form-label>Gender</nz-form-label>
+                      <nz-form-label nzRequired>Gender</nz-form-label>
                       <nz-form-control>
                           <nz-select formControlName="gender" nzShowSearch nzRequired>
                               <nz-option *ngFor="let gender of genders" [nzLabel]="gender | gender" [nzValue]="gender"></nz-option>
@@ -49,7 +49,7 @@
               </div>
               <div nz-col nzSpan="11">
                   <nz-form-item>
-                      <nz-form-label>Civil status</nz-form-label>
+                      <nz-form-label nzRequired>Civil status</nz-form-label>
                       <nz-form-control>
                           <nz-select formControlName="civilStatus" nzShowSearch nzRequired>
                               <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus.label" [nzValue]="civilStatus.value"></nz-option>
@@ -73,7 +73,7 @@
                   <nz-form-item>
                       <nz-form-label>Date of Death</nz-form-label>
                       <nz-form-control>
-                            <nz-date-picker formControlName="dateOfDeath"></nz-date-picker>
+                            <nz-date-picker style="width: 100%" formControlName="dateOfDeath"></nz-date-picker>
                       </nz-form-control>
                   </nz-form-item>
               </div>

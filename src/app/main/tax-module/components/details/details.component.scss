@@ -1,0 +1,16 @@
+.operation-btns button{
+  margin-left: 12px;
+}
+
+.details-header {
+  padding: 24px;
+  &-title {
+    font-size: 24px;
+  }
+}
+
+.edit-properties-form {
+  >div {
+    margin-bottom: 20px;
+  }
+}

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
-import { PapaParseModule } from 'ngx-papaparse';
 
 import { FilterComponent } from './components/filter/filter.component';
 import { DetailsComponent } from './components/details/details.component';
@@ -34,8 +33,7 @@ const routes: Route[] = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    SharedModule,
-    PapaParseModule
+    SharedModule
   ],
   providers: [
     ApiService

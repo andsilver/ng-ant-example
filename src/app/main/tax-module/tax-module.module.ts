@@ -11,6 +11,7 @@ import { CreateTaxModuleComponent } from './components/create-tax-module/create-
 import { PropertiesModalComponent } from './components/properties-modal/properties-modal.component';
 import { StatusPipe } from './pipes/status.pipe';
 import { ColorPipe } from './pipes/color.pipe';
+import { ApprovalDateComponent } from './components/approval-date/approval-date.component';
 
 const routes: Route[] = [
   {
@@ -31,7 +32,8 @@ const routes: Route[] = [
     CreateTaxModuleComponent,
     PropertiesModalComponent,
     StatusPipe,
-    ColorPipe
+    ColorPipe,
+    ApprovalDateComponent
   ],
   imports: [
     CommonModule,

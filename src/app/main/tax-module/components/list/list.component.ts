@@ -82,10 +82,14 @@ export class ListComponent implements OnInit {
   }
 
   lookUp() {
-    this.api.lookupTaxModule(this.code);
-      // .subscribe(res => {
-      //   this.toDetailsPage(res);
-      // });
+    this.api.getTaxModule(this.code)
+      .subscribe(res => {
+        if (res) {
+          this.toDetailsPage(res);
+        } else {
+          this.message.warning('Tax Module not found!');
+        }
+      });
   }
 
   removeSelected() {
@@ -155,7 +159,7 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxModule) {
-    this.router.navigate(['tax-module', taxModule.code])
+    this.router.navigate(['tax-module', taxModule.code]);
   }
 
   get offset() {

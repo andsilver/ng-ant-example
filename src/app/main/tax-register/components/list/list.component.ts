@@ -79,10 +79,14 @@ export class ListComponent implements OnInit {
   }
 
   lookUp() {
-    // this.api.lookupTaxModule(this.code);
-      // .subscribe(res => {
-      //   this.toDetailsPage(res);
-      // });
+    this.api.getTaxRegisterDetails(this.code)
+      .subscribe(res => {
+        if (res) {
+          this.toDetailsPage(res);
+        } else {
+          this.message.warning('Tax Register not found!');
+        }
+      });
   }
 
   removeSelected() {

@@ -19,7 +19,8 @@ export class DetailsComponent implements OnInit {
     properties: false,
     status    : false,
     adding    : false,
-    aprDate   : false
+    aprDate   : false,
+    approve   : false
   };
 
   statuses  = [];
@@ -79,10 +80,14 @@ export class DetailsComponent implements OnInit {
   }
 
   lookUp() {
-    // this.apiService.lookUpNaturalTaxModule(this.code)
-    //   .subscribe(res => {
-    //     this.router.navigate(['/natural-taxModule', res['id']]);
-    //   });
+    this.apiService.getTaxModule(this.code)
+      .subscribe((res: any) => {
+        if (res) {
+          this.router.navigate(['tax-module', res.code]);
+        } else {
+          this.message.warning('Tax Module not found!');
+        }
+      });
   }
 
   exportList () {
@@ -96,8 +101,8 @@ export class DetailsComponent implements OnInit {
     //   });
   }
 
-  approveTaxModule() {
-    const date = this.formatDate.transform(new Date());
+  approveTaxModule(date) {
+    date = this.formatDate.transform(date);
     const code = this.taxModule.code;
 
     this.apiService.approveTaxModule(code, date)
@@ -123,8 +128,8 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  updateApprovalDate() {
-    this.taxModule.approvalDate = this.formatDate.transform(this.taxModule.approvalDate);
+  updateApprovalDate(approvalDate) {
+    this.taxModule.approvalDate = this.formatDate.transform(approvalDate);
     this.apiService.changeApprovalDate(this.taxModule.code, this.taxModule.approvalDate)
       .subscribe(res => {
         this.taxModule = res;

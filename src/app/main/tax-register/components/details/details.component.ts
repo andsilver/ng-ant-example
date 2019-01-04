@@ -77,4 +77,15 @@ export class DetailsComponent implements OnInit {
       });
   }
 
+  lookUp() {
+    this.apiService.getTaxRegisterDetails(this.code)
+      .subscribe((res: any) => {
+        if (res) {
+          this.router.navigate(['/tax-register', res.code]);
+        } else {
+          this.message.warning('Tax Register not found!');
+        }
+      });
+  }
+
 }

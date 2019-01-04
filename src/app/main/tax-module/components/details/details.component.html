@@ -92,7 +92,7 @@
         </nz-card>
         <ng-template #editStatus>
           <ng-container *ngIf="taxModule.status === 'DRAFT'">
-            <button nz-button (click)="approveTaxModule()">Approve</button>
+            <button nz-button (click)="showModal('approve')">Approve</button>
           </ng-container>
           <ng-container *ngIf="taxModule.status === 'ACTIVE'">
             <button style="margin-right: 24px" nz-button (click)="deactivateTaxModule()">Deactivate</button>
@@ -120,16 +120,17 @@
     (onConfirm)="updateProperties($event)">
   </app-properties-modal>
 
-  <div>
-    <nz-modal [(nzVisible)]="editingStatus.aprDate" nzTitle="Change Approval Date" (nzOnCancel)="editingStatus.aprDate = false" (nzOnOk)="updateApprovalDate()">
-      <div style="margin: 24px">
-        <nz-form-item>
-          <nz-form-label>Approval Date</nz-form-label>
-          <nz-form-control>
-            <nz-date-picker [(ngModel)]="taxModule.approvalDate"></nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </nz-modal>
-  </div>
+  <app-approval-date
+    [visible]="editingStatus.approve"
+    (onCancel)="editingStatus.approve = false"
+    (onConfirm)="approveTaxModule($event)">
+  </app-approval-date>
+
+  <app-approval-date
+    [approvalDate]="taxModule.approvalDate"
+    [visible]="editingStatus.aprDate"
+    (onCancel)="editingStatus.aprDate = false"
+    (onConfirm)="updateApprovalDate($event)">
+  </app-approval-date>
+
 </div>

@@ -1,0 +1,14 @@
+.operation-btns button{
+  margin-left: 12px;
+}
+
+.tax-registers-filter {
+  opacity: 0;
+  overflow: hidden;
+  transition: width .3s;
+  border-right: 1px solid #ececec;
+}
+
+.collapsed {
+  opacity: 1;
+}

@@ -1,0 +1,59 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Tax Register" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
+  <form *ngIf="form" nz-form [formGroup]='form' class="edit-tax-register">
+    <div nz-row nzType="flex" nzGutter="24">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Code</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="code">
+            <nz-form-explain *ngIf="code.dirty && code.errors">Please input the code!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Name</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="name">
+            <nz-form-explain *ngIf="name.dirty && name.errors">Please input the name!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Tax Module</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="taxModule">
+              <nz-option *ngFor="let module of taxModules" [nzValue]="module.code" [nzLabel]="module.name"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="taxModule.dirty && taxModule.errors">Please select the tax module!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzGutter="24">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Tax Year</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="taxYear" nzPlaceHolder="Tax Year">
+            <nz-form-explain *ngIf="taxYear.dirty && taxYear.errors">Please input the tax year!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label nzRequired>Accounting Year</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="accountingYear" nzPlaceHolder="Accounting Year">
+            <nz-form-explain *ngIf="accountingYear.dirty && accountingYear.errors">Please input the accounting year!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</nz-modal>

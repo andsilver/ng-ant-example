@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
 import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
+import { ApiService } from '../../api/api.service';
 import { Filter } from 'app/app.models';
 import { download } from 'app/shared/helpers/utils';
 
@@ -13,6 +14,9 @@ import { download } from 'app/shared/helpers/utils';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+
+  @ViewChild('file')
+  file;
 
   filter: Filter;
   naturalPersons = [];
@@ -38,8 +42,11 @@ export class ListComponent implements OnInit {
     indeterminate: false
   }
 
+  fileContent: any;
+
   constructor(
     private appService: AppService,
+    private api       : ApiService,
     private router    : Router,
     private message   : NzMessageService
   ) { }
@@ -92,9 +99,10 @@ export class ListComponent implements OnInit {
   }
 
   removeSelected() {
-    const requests = this.naturalPersons.map(p => {
+    const requests = [];
+    this.naturalPersons.forEach(p => {
       if (p.checked) {
-        return this.appService.removeNaturalPerson(p.id);
+        requests.push(this.appService.removeNaturalPerson(p.id));
       }
     });
 
@@ -131,6 +139,24 @@ export class ListComponent implements OnInit {
   filterChanged(filter) {
     Object.assign(this.filter, filter);
     this.getPersons();
+  }
+
+  importList() {
+    this.file.nativeElement.click();
+  }
+
+  onFileSelect() {
+    const files = this.file.nativeElement.files;
+    console.log(files);
+    if (!files || !files.length) {
+      return;
+    }
+    const fileToRead = files[0];
+    this.api.importFile(fileToRead)
+      .subscribe(res => {
+        this.message.success('Natural Persons are imported.');
+        this.getPersons();
+      });
   }
 
   sort(sort_by, status) {

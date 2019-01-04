@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: './main/tax-module/tax-module.module#TaxModuleModule'
       },
       {
+        path: 'tax-register',
+        loadChildren: './main/tax-register/tax-register.module#TaxRegisterModule'
+      },
+      {
         path: '',
         redirectTo: 'natural-person',
         pathMatch: 'full'

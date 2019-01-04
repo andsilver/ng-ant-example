@@ -14,4 +14,9 @@ export class ApiService {
     formData.append('file', file, file.name);
     return this.http.post(url, formData);
   }
+
+  fetch(pagination) {
+    const url = `${this.url}/fetch`;
+    return this.http.post(url, pagination);
+  }
 }

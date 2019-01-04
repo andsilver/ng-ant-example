@@ -25,6 +25,8 @@ export class ListComponent implements OnInit {
 
   page       = 1;
   limit      = 10;
+  next       = false;
+  previous   = false;
   total      = 10;
   showFilter = false;
   registrationNumber: string;
@@ -32,8 +34,8 @@ export class ListComponent implements OnInit {
   addingPerson = false;
 
   sortMap = {
-    last_name : null,
-    first_name: null,
+    lastName : null,
+    firstName: null,
     address   : null
   };
 
@@ -66,7 +68,97 @@ export class ListComponent implements OnInit {
       address   : ''
     };
 
-    this.getPersons();
+    // this.getPersons();
+    this.firstPage();
+  }
+
+  setPage(pagination) {
+    this.api.fetch(pagination)
+      .subscribe((res: any) => {
+        this.naturalPersons = res.items.map(p => {
+          p['checked']            = false;
+          // p['registrationNumber'] = '';
+          return p;
+        });
+        this.previous = res.previous;
+        this.next     = res.next;
+        this.refreshStatus();
+      });
+  }
+
+  firstPage() {
+    const pagination = {
+      action: 'next',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: null
+    };
+    this.setPage(pagination);
+  }
+
+  lastPage() {
+    const pagination = {
+      action: 'previous',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: null
+    };
+    this.setPage(pagination);
+  }
+
+  previousPage() {
+    const cursor = this.naturalPersons[0];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'previous',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
+  }
+
+  nextPage() {
+    const cursor = this.naturalPersons[this.naturalPersons.length - 1];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'next',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
+  }
+
+  reloadPage() {
+    if (!this.naturalPersons.length) {
+      this.firstPage();
+      return;
+    }
+    const cursor = this.naturalPersons[0];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'current',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
   }
 
   getPersons() {
@@ -87,7 +179,7 @@ export class ListComponent implements OnInit {
     this.appService.createNaturalPerson(person)
       .subscribe(() => {
         this.message.success('A new person is added.')
-        this.getPersons();
+        this.reloadPage();
       });
   }
 
@@ -109,7 +201,7 @@ export class ListComponent implements OnInit {
     forkJoin(requests)
       .subscribe(() => {
         this.message.success('Selected Persons are removed.');
-        this.getPersons();
+        this.firstPage();
       });
   }
 
@@ -155,7 +247,7 @@ export class ListComponent implements OnInit {
     this.api.importFile(fileToRead)
       .subscribe(res => {
         this.message.success('Natural Persons are imported.');
-        this.getPersons();
+        this.reloadPage();
       });
   }
 
@@ -176,11 +268,7 @@ export class ListComponent implements OnInit {
       }
     });
 
-    this.getPersons();
-  }
-
-  pageChanged(page) {
-    console.log(page);
+    this.reloadPage();
   }
 
   toDetailsPage(person) {

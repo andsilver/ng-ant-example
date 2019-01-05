@@ -51,7 +51,7 @@
 
           <nz-form-item>
             <nz-form-label>Tax Payers</nz-form-label>
-            <div class="form-display-data">{{taxModule.taxPayers || '-'}}</div>
+            <div class="form-display-data">{{taxModule.taxPayers | taxPayer}}</div>
           </nz-form-item>
 
           <nz-form-item>

@@ -32,9 +32,9 @@ export class FilterComponent implements OnInit {
 
   applyFilter() {
     const filter = this.filterForm.value;
-    if (filter['tax_payers'] === 'ANY') {
-      filter['tax_payers'] = [this.taxPayers[0].value, this.taxPayers[1].value];
-    }
+    // if (filter['tax_payers'] === 'ANY') {
+    //   filter['tax_payers'] = [this.taxPayers[0].value, this.taxPayers[1].value];
+    // }
     this.filterChanged.emit(filter);
   }
 

@@ -65,7 +65,7 @@
               <nz-tag [nzColor]="data.status | color">{{data.status | status}}</nz-tag>
             </td>
             <td (click)="toDetailsPage(data)">{{data.approvalDate | customDate}}</td>
-            <td (click)="toDetailsPage(data)">{{data.taxPayers}}</td>
+            <td (click)="toDetailsPage(data)">{{data.taxPayers | taxPayer}}</td>
           </tr>
         </tbody>
       </nz-table>

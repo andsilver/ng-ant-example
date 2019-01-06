@@ -1,0 +1,30 @@
+<form *ngIf="form" nz-form [formGroup]="form">
+  <nz-form-item *ngFor="let field of fields">
+    <nz-form-label *ngIf="field.value.type != 'logical'" [nzRequired]="!field.optional">{{field.label}}</nz-form-label>
+    <nz-form-control>
+      <ng-container *ngIf="field.value.type == 'enumeration'">
+        <nz-select [formControlName]="field.name">
+          <nz-option *ngFor="let choice of field.value.choices" [nzValue]="choice" [nzLabel]="choice"></nz-option>
+        </nz-select>
+      </ng-container>
+
+      <ng-container *ngIf="field.value.type == 'number'">
+        <nz-input-number [formControlName]="field.name" [nzPrecision]="field.value.decimals"></nz-input-number>
+      </ng-container>
+
+      <ng-container *ngIf="field.value.type == 'logical'">
+        <label nz-checkbox [formControlName]="field.name">{{field.label}}</label>
+      </ng-container>
+
+      <ng-container *ngIf="field.value.type == 'date'">
+        <nz-date-picker [formControlName]="field.name"></nz-date-picker>
+      </ng-container>
+
+      <ng-container *ngIf="field.value.type == 'text'">
+        <input nz-input [formControlName]="field.name">
+      </ng-container>
+
+      <nz-form-explain *ngIf="form.get(field.name).dirty && form.get(field.name).errors">Please input the {{field.label}}!</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+</form>

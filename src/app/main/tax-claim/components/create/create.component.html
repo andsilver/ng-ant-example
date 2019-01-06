@@ -1,0 +1,28 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create Tax Claim" (nzOnCancel)="closeModal()" (nzOnOk)="nextStep()">
+  <div style="padding: 24px">
+    <nz-steps [nzCurrent]="step">
+      <nz-step></nz-step>
+      <nz-step></nz-step>
+      <nz-step></nz-step>
+    </nz-steps>
+    <form *ngIf="form" nz-form [formGroup]="form" style="margin-top: 24px">
+      <div *ngIf="step == 0" nz-row nzType="flex" nzGutter="24">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Select Tax Register</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="register">
+                <nz-option *ngFor="let reg of taxRegisters" [nzValue]="reg.code" [nzLabel]="reg.name"></nz-option>
+              </nz-select>
+              <nz-form-explain *ngIf="register.dirty && register.errors">Please select the tax register!</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div *ngIf="step == 2">
+        <app-dynamic-form *ngIf="structure" [structure]="structure" [submit]="submit" (onSubmit)="saveModal($event)"></app-dynamic-form>
+      </div>
+    </form>
+  </div>
+</nz-modal>

@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: './main/tax-register/tax-register.module#TaxRegisterModule'
       },
       {
+        path: 'tax-claim',
+        loadChildren: './main/tax-claim/tax-claim.module#TaxClaimModule'
+      },
+      {
         path: '',
         redirectTo: 'natural-person',
         pathMatch: 'full'

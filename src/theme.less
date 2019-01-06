@@ -1,6 +1,10 @@
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 
 // @primary-color          : #666666;
+.ant-layout {
+  background: #ffffff !important;
+}
+
 .ant-menu {
   color: white;
   border-right: unset;
@@ -11,8 +15,13 @@
     border-right: unset !important;
     width: 100% !important;
 
+    &:focus {
+      outline: none !important;
+    }
+
     &-selected {
       background: #000000 !important;
+      color: white;
       border-right: unset !important;
 
       &::after {

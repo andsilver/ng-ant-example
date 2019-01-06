@@ -8,6 +8,7 @@ import { CivilStatusPipe } from './pipes/civil-status.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { TaxPayerPipe } from './pipes/tax-payer.pipe';
+import { LabelPipe } from './pipes/label.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TaxPayerPipe } from './pipes/tax-payer.pipe';
     CivilStatusPipe,
     CustomDatePipe,
     DynamicFormComponent,
-    TaxPayerPipe
+    TaxPayerPipe,
+    LabelPipe
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { TaxPayerPipe } from './pipes/tax-payer.pipe';
     CivilStatusPipe,
     CustomDatePipe,
     TaxPayerPipe,
+    LabelPipe,
     DynamicFormComponent
   ]
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ApiService } from '../../api/api.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class CreateTaxModuleComponent implements OnInit {
   isVisible = false;
   taxPayers = [];
 
-  form: FormGroup;
+  propertiesForm  : FormGroup;
+  taxAuthorityForm: FormGroup;
 
   @Input()
   set visible(visible: boolean) {
@@ -33,39 +34,41 @@ export class CreateTaxModuleComponent implements OnInit {
   }
 
   reset() {
-    this.form = this.fb.group({
+    this.propertiesForm = this.fb.group({
       code        : this.fb.control('', [Validators.required]),
       name        : this.fb.control('', [Validators.required]),
-      taxPayers   : this.fb.control('', [Validators.required]),
-      taxAuthority: this.fb.group({
-        code   : this.fb.control(''),
-        name   : this.fb.control(''),
-        address: this.fb.array([
-          this.fb.control(''),
-          this.fb.control('')
-        ])
-      })
+      taxPayers   : this.fb.control('', [Validators.required])
+    });
+
+    this.taxAuthorityForm = this.fb.group({
+      code   : this.fb.control(''),
+      name   : this.fb.control(''),
+      address: this.fb.array([
+        this.fb.control(''),
+        this.fb.control(''),
+        this.fb.control('')
+      ])
     });
   }
 
   get code() {
-    return this.form.get('code');
+    return this.propertiesForm.get('code');
   }
 
   get name() {
-    return this.form.get('name');
+    return this.propertiesForm.get('name');
   }
 
   get authority_name() {
-    return this.form.get('taxAuthority.name');
+    return this.taxAuthorityForm.get('name');
   }
 
   get authority_code() {
-    return this.form.get('taxAuthority.code');
+    return this.taxAuthorityForm.get('code');
   }
 
   get addresses() {
-    const addr = this.form.get('taxAuthority.address') as FormArray;
+    const addr = this.taxAuthorityForm.get('address') as FormArray;
     return addr.controls;
   }
 
@@ -77,17 +80,18 @@ export class CreateTaxModuleComponent implements OnInit {
       return;
     }
 
-    if (!this.form.valid && save) {
-      for (let i in this.form.controls) {
-        this.form.controls[i].markAsDirty();
-        this.form.controls[i].updateValueAndValidity();
+    if (!this.propertiesForm.valid && save) {
+      for (let i in this.propertiesForm.controls) {
+        this.propertiesForm.controls[i].markAsDirty();
+        this.propertiesForm.controls[i].updateValueAndValidity();
       }
       return;
     }
 
-    console.log(this.form.value);
+    const v = this.propertiesForm.value;
+    v['taxAuthority'] = this.taxAuthorityForm.value;
 
-    this.onConfirm.emit(this.form.value);
+    this.onConfirm.emit(this.propertiesForm.value);
     this.isVisible = false;
   }
 

@@ -9,13 +9,14 @@ import { ApiService } from '../../api/api.service';
 })
 export class PropertiesModalComponent implements OnInit {
 
+  @Input()
+  taxModule: any;
+
   isVisible = false;
   taxPayers = [];
 
-  form: FormGroup;
-
-  @Input()
-  taxModule: any;
+  propertiesForm  : FormGroup;
+  taxAuthorityForm: FormGroup;
 
   @Input()
   set visible(visible: boolean) {
@@ -36,40 +37,41 @@ export class PropertiesModalComponent implements OnInit {
   }
 
   reset() {
-    console.log(this.taxModule['taxPayers'])
-    this.form = this.fb.group({
+    this.propertiesForm = this.fb.group({
       code        : this.fb.control(this.taxModule['code'],      [Validators.required]),
       name        : this.fb.control(this.taxModule['name'],      [Validators.required]),
-      taxPayers   : this.fb.control(this.taxModule['taxPayers'], [Validators.required]),
-      taxAuthority: this.fb.group({
-        code   : this.fb.control(this.taxModule.taxAuthority['code']),
-        name   : this.fb.control(this.taxModule.taxAuthority['name']),
-        address: this.fb.array([
-          this.fb.control(this.taxModule.taxAuthority['address'] ? this.taxModule.taxAuthority['address'][0] : ''),
-          this.fb.control(this.taxModule.taxAuthority['address'] ? this.taxModule.taxAuthority['address'][1] : '')
-        ])
-      })
+      taxPayers   : this.fb.control(this.taxModule['taxPayers'], [Validators.required])
+    });
+
+    this.taxAuthorityForm = this.fb.group({
+      code   : this.fb.control(this.taxModule.taxAuthority['code']),
+      name   : this.fb.control(this.taxModule.taxAuthority['name']),
+      address: this.fb.array([
+        this.fb.control(this.taxModule.taxAuthority['address'] ? this.taxModule.taxAuthority['address'][0] : ''),
+        this.fb.control(this.taxModule.taxAuthority['address'] ? this.taxModule.taxAuthority['address'][1] : ''),
+        this.fb.control(this.taxModule.taxAuthority['address'] ? this.taxModule.taxAuthority['address'][2] : '')
+      ])
     });
   }
 
   get code() {
-    return this.form.get('code');
+    return this.propertiesForm.get('code');
   }
 
   get name() {
-    return this.form.get('name');
+    return this.propertiesForm.get('name');
   }
 
   get authority_name() {
-    return this.form.get('taxAuthority.name');
+    return this.taxAuthorityForm.get('name');
   }
 
   get authority_code() {
-    return this.form.get('taxAuthority.code');
+    return this.taxAuthorityForm.get('code');
   }
 
   get addresses() {
-    const addr = this.form.get('taxAuthority.address') as FormArray;
+    const addr = this.taxAuthorityForm.get('address') as FormArray;
     return addr.controls;
   }
 
@@ -81,15 +83,18 @@ export class PropertiesModalComponent implements OnInit {
       return;
     }
 
-    if (!this.form.valid && save) {
-      for (let i in this.form.controls) {
-        this.form.controls[i].markAsDirty();
-        this.form.controls[i].updateValueAndValidity();
+    if (!this.propertiesForm.valid && save) {
+      for (let i in this.propertiesForm.controls) {
+        this.propertiesForm.controls[i].markAsDirty();
+        this.propertiesForm.controls[i].updateValueAndValidity();
       }
       return;
     }
 
-    this.onConfirm.emit(this.form.value);
+    const v = this.propertiesForm.value;
+    v['taxAuthority'] = this.taxAuthorityForm.value;
+
+    this.onConfirm.emit(this.propertiesForm.value);
     this.isVisible = false;
   }
 

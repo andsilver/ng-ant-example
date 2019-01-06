@@ -2,11 +2,18 @@
   <nz-sider [nzWidth]="200">
     <ul nz-menu [nzMode]="'inline'" class="sider-bar">
       <div class="logo" i18n>Malibu</div>
-      <li nz-submenu>
+      <li nz-submenu *ngFor="let sub of menu" [nzOpen]="sub.opened">
+        <span title>{{sub.title}}</span>
+        <ul>
+          <li *ngFor="let item of sub.subs" nz-menu-item [routerLink]="[item.link]" [nzSelected]="item.selected">{{item.title}}</li>
+        </ul>
+      </li>
+      <!-- <li nz-submenu>
         <span title i18n>Taxes</span>
         <ul>
           <li nz-menu-item [routerLink]="['/tax-module']" i18n>Tax Module</li>
           <li nz-menu-item [routerLink]="['/tax-register']" i18n>Tax Register</li>
+          <li nz-menu-item [routerLink]="['/tax-claim']" i18n>Tax Claim</li>
         </ul>
       </li>
       <li nz-submenu>
@@ -14,11 +21,11 @@
         <ul>
           <li nz-menu-item [routerLink]="['/natural-person']" i18n>Natural Person</li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-content style="background:#fff; min-height: 280px;">
+    <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>

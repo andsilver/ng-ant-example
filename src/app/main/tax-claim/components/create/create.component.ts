@@ -1,24 +1,25 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { formatDate } from '@angular/common';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ApiService } from '../../api/api.service';
 import { ApiService as TaxRegisterApi } from '../../../tax-register/api/api.service';
+import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  styleUrls: ['./create.component.scss'],
+  providers: [CustomDatePipe]
 })
 export class CreateComponent implements OnInit {
 
   isVisible = false;
   taxRegisters: any = [];
   selectedTaxRegister: any;
-  structure: any;
-  step = 0;
-  submit = false;
+  step   = 0;
+  fields = [];
 
-  form: FormGroup;
+  form       : FormGroup;
+  dynamicForm: FormGroup;
 
   @Input()
   set visible(visible: boolean) {
@@ -35,7 +36,8 @@ export class CreateComponent implements OnInit {
   constructor(
     private api: ApiService,
     private fb: FormBuilder,
-    private taxRegisterApi: TaxRegisterApi) { }
+    private taxRegisterApi: TaxRegisterApi,
+    private format: CustomDatePipe) { }
 
   ngOnInit() {
     this.api.getActiveTaxRegisters()
@@ -80,29 +82,36 @@ export class CreateComponent implements OnInit {
         .subscribe(res => {
           this.selectedTaxRegister = res;
         });
-      return;
     } else if (this.step === 1) {
       this.step = 2;
       this.api.loadFormData(this.selectedTaxRegister.code)
         .subscribe(res => {
-          console.log(res);
-          this.structure = res;
+          const structure = {};
+          const object = res['object'];
+          this.fields = res['fields'];
+          this.fields.forEach(field => {
+            structure[field.name] = this.fb.control(object[field.name], field.optional ? [] : [Validators.required]);
+          });
+          this.dynamicForm = this.fb.group(structure);
         });
-      return;
     } else if (this.step === 2) {
-      this.submit = true;
+      if (!this.dynamicForm.valid) {
+        for (let i in this.dynamicForm.controls) {
+          this.dynamicForm.controls[i].markAsDirty();
+          this.dynamicForm.controls[i].updateValueAndValidity();
+        }
+        return;
+      } else {
+        const dates = this.fields.filter(f => f.value.type === 'date');
+        const v = this.dynamicForm.value;
+        dates.forEach(date => {
+          v[date.name] = this.format.transform(v[date.name]);
+        });
+        const taxClaim = this.form.value;
+        taxClaim['content'] = v;
+        this.onConfirm.emit(taxClaim);
+      }
     }
-  }
-
-  saveModal(value) {
-    if (!value) {
-      this.submit = false;
-      return;
-    }
-    let v = this.form.value;
-    v['content'] = value;
-    console.log(v);
-    this.onConfirm.emit(v);
   }
 
 }

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import { forkJoin } from 'rxjs';
-import { formatDate } from '@angular/common';
 import { ApiService } from '../../api/api.service';
-import { download } from 'app/shared/helpers/utils';
+// import { download } from 'app/shared/helpers/utils';
 
 @Component({
   selector: 'app-list',
@@ -155,14 +153,14 @@ export class ListComponent implements OnInit {
   }
 
   lookUp() {
-    // this.api.getTaxClaimDetails(this.code)
-    //   .subscribe(res => {
-    //     if (res) {
-    //       this.toDetailsPage(res);
-    //     } else {
-    //       this.message.warning('Tax Register not found!');
-    //     }
-    //   });
+    this.api.lookUp(this.reference)
+      .subscribe(res => {
+        if (res) {
+          this.toDetailsPage(res);
+        } else {
+          this.message.warning('Tax Register not found!');
+        }
+      });
   }
 
   removeSelected() {
@@ -228,7 +226,7 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxClaim) {
-    this.router.navigate(['tax-claim', taxClaim.id])
+    this.router.navigate(['tax-claim', taxClaim.id]);
   }
 
   get offset() {

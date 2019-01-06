@@ -38,7 +38,7 @@
   <div nz-row nzType="flex" style="padding: 24px 0" nzGutter="24">
     <div nz-col nzSpan="24" nzMd="12">
       <div style="margin-bottom: 24px">
-        <nz-card nzTitle="Properties" [nzExtra]="editProperties">
+        <nz-card nzTitle="Properties">
           <form nz-form class="edit-properties-form">
             <div nz-row>
               <div nz-col nzSpan="12">
@@ -53,7 +53,7 @@
                   <div class="form-display-data">{{taxClaim.register}}</div>
                 </nz-form-item>
               </div>
-              <div nz-col nzSpan="12">
+              <div nz-col nzSpan="24">
                 <nz-form-item>
                   <nz-form-label>Status</nz-form-label>
                   <div class="form-display-data">
@@ -63,69 +63,30 @@
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
-                  <nz-form-label>Amount</nz-form-label>
-                  <div class="form-display-data">{{taxClaim.netAmount}}</div>
-                </nz-form-item>
-              </div>
-            </div>
-          </form>
-          <ng-template #editProperties>
-            <button nz-button (click)="showModal('properties')"><i nz-icon type="edit"></i></button>
-          </ng-template>
-        </nz-card>
-      </div>
-
-      <div style="margin-bottom: 24px" *ngFor="let statement of taxClaim.statements; let i=index;">
-        <nz-card [nzTitle]="'Statement'">
-          <form nz-form class="edit-properties-form">
-            <div nz-row>
-              <div nz-col nzSpan="12">
-                <nz-form-item>
-                  <nz-form-label>Type</nz-form-label>
-                  <div class="form-display-data">{{statement.type}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="12">
-                <nz-form-item>
-                  <nz-form-label>Date</nz-form-label>
-                  <div class="form-display-data">{{statement.date}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="12">
-                <nz-form-item>
                   <nz-form-label>Net Amount</nz-form-label>
-                  <div class="form-display-data">{{statement.netAmount}}</div>
+                  <div class="form-display-data">{{taxClaim.netAmount | number:'1.2-2'}}</div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Base Amount</nz-form-label>
-                  <div class="form-display-data">{{statement.baseAmount}}</div>
+                  <div class="form-display-data">{{taxClaim.baseAmount | number:'1.2-2'}}</div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Increase Amount</nz-form-label>
-                  <div class="form-display-data">{{statement.increaseAmount}}</div>
+                  <div class="form-display-data">{{taxClaim.increaseAmount | number:'1.2-2'}}</div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Reduction Amount</nz-form-label>
-                  <div class="form-display-data">{{statement.reductionAmount}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="12" *ngFor="let item of statement.content | keyvalue">
-                <nz-form-item>
-                  <nz-form-label>{{item.key | label}}</nz-form-label>
-                  <div class="form-display-data">{{item.value || '-'}}</div>
+                  <div class="form-display-data">{{taxClaim.reductionAmount | number:'1.2-2'}}</div>
                 </nz-form-item>
               </div>
             </div>
           </form>
-          <!-- <ng-template #editProperties>
-            <button nz-button (click)="showModal('properties')"><i nz-icon type="edit"></i></button>
-          </ng-template> -->
         </nz-card>
       </div>
 
@@ -191,7 +152,7 @@
         </nz-card>
       </div>
       <div style="margin-bottom: 24px">
-        <nz-card nzTitle="Tax Authority" [nzExtra]="editTaxAuthority">
+        <nz-card nzTitle="Tax Authority">
           <form *ngIf="taxClaim.taxAuthority" nz-form class="edit-properties-form">
             <div nz-row>
               <div nz-col nzSpan="12">
@@ -218,10 +179,6 @@
           <ng-container *ngIf="!taxClaim.taxAuthority">
             No Data
           </ng-container>
-
-          <ng-template #editTaxAuthority>
-            <button nz-button (click)="showModal('taxAuthority')"><i nz-icon type="edit"></i></button>
-          </ng-template>
         </nz-card>
       </div>
 
@@ -269,10 +226,56 @@
     </div>
   </div>
 
+  <div nz-row nzType="flex" nzGutter="24">
+    <div style="margin-bottom: 24px" nz-col nzSpan="24" nzMd="12" *ngFor="let statement of taxClaim.statements; let i=index;">
+      <nz-card [nzTitle]="'Statement'">
+        <form nz-form class="edit-properties-form">
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label>Type</nz-form-label>
+                <div class="form-display-data">{{statement.type}}</div>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Date</nz-form-label>
+                <div class="form-display-data">{{statement.date}}</div>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Net Amount</nz-form-label>
+                <div class="form-display-data">{{statement.netAmount | number:'1.2-2'}}</div>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Base Amount</nz-form-label>
+                <div class="form-display-data">{{statement.baseAmount | number:'1.2-2'}}</div>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Increase Amount</nz-form-label>
+                <div class="form-display-data">{{statement.increaseAmount | number:'1.2-2'}}</div>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label>Reduction Amount</nz-form-label>
+                <div class="form-display-data">{{statement.reductionAmount | number:'1.2-2'}}</div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="12">
+              <nz-form-item  *ngFor="let item of statement.content | keyvalue">
+                <nz-form-label>{{item.key | label}}</nz-form-label>
+                <div class="form-display-data">{{item.value || '-'}}</div>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+        <!-- <ng-template #editProperties>
+          <button nz-button (click)="showModal('properties')"><i nz-icon type="edit"></i></button>
+        </ng-template> -->
+      </nz-card>
+    </div>
+  </div>
+
   <app-create
     [visible]="editingStatus.adding"
     (onCancel)="editingStatus.adding = false"
-    (onConfirm)="createTaxModule($event)">
+    (onConfirm)="createTaxClaim($event)">
   </app-create>
 
   <!-- <app-properties-modal

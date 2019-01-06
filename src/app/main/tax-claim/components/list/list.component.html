@@ -21,7 +21,7 @@
         <div nz-col>
           <form (ngSubmit)="lookUp()">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input name="registrationNumber" style="min-width: 270px" nz-input placeholder="Code" [(ngModel)]="reference" type="text">
+              <input name="registrationNumber" style="min-width: 270px" nz-input placeholder="Reference" [(ngModel)]="reference" type="text">
               <button type="submit" style="display: none;"></button>
             </nz-input-group>
             <ng-template #suffixIconSearch>
@@ -58,17 +58,19 @@
             <th nzShowSort [(nzSort)]="sortMap.reference" (nzSortChange)="sort('reference', $event)" i18n>Reference</th>
             <th nzShowSort [(nzSort)]="sortMap.register" (nzSortChange)="sort('register', $event)" i18n>Register</th>
             <th nzShowSort [(nzSort)]="sortMap.status" (nzSortChange)="sort('status', $event)" i18n>Status</th>
-            <th nzShowSort [(nzSort)]="sortMap.netAmount" (nzSortChange)="sort('netAmount', $event)" i18n>NetAmount</th>
+            <th nzShowSort [(nzSort)]="sortMap.netAmount" (nzSortChange)="sort('netAmount', $event)" i18n>Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of filterTable.data">
             <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
             <td (click)="toDetailsPage(data)">{{data.id}}</td>
-            <td (click)="toDetailsPage(data)">{{data.reference}}</td>
+            <td (click)="toDetailsPage(data)">{{data.reference || '-'}}</td>
             <td (click)="toDetailsPage(data)">{{data.register}}</td>
-            <td (click)="toDetailsPage(data)">{{data.status}}</td>
-            <td (click)="toDetailsPage(data)">{{data.netAmount}}</td>
+            <td (click)="toDetailsPage(data)">
+              <nz-tag [nzColor]="data.status | color">{{data.status | status}}</nz-tag>
+            </td>
+            <td (click)="toDetailsPage(data)">{{data.netAmount | number:'1.2-2'}}</td>
           </tr>
         </tbody>
       </nz-table>

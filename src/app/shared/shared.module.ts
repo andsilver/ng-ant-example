@@ -6,7 +6,6 @@ import { CountryPipe } from './pipes/country.pipe';
 import { GenderPipe } from './pipes/gender.pipe';
 import { CivilStatusPipe } from './pipes/civil-status.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
-import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { TaxPayerPipe } from './pipes/tax-payer.pipe';
 import { LabelPipe } from './pipes/label.pipe';
 
@@ -16,7 +15,6 @@ import { LabelPipe } from './pipes/label.pipe';
     GenderPipe,
     CivilStatusPipe,
     CustomDatePipe,
-    DynamicFormComponent,
     TaxPayerPipe,
     LabelPipe
   ],
@@ -36,8 +34,7 @@ import { LabelPipe } from './pipes/label.pipe';
     CivilStatusPipe,
     CustomDatePipe,
     TaxPayerPipe,
-    LabelPipe,
-    DynamicFormComponent
+    LabelPipe
   ]
 })
 export class SharedModule { }

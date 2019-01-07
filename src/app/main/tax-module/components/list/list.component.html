@@ -6,7 +6,7 @@
           <strong i18n>Tax Module </strong><span i18n>List</span>
         </div>
         <div nz-col class="operation-btns">
-          <button nz-button (click)="showFilter = !showFilter"><i nz-icon type="filter"></i></button>
+          <button nz-button (click)="showFilter = !showFilter" [ngClass]="{'selected': showFilter}"><i nz-icon type="filter"></i></button>
           <button nz-button (click)="addingTaxModule = true"><i nz-icon type="plus"></i></button>
           <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">

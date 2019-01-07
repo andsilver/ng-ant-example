@@ -43,4 +43,16 @@ export class DetailsComponent implements OnInit {
       });
   }
 
+  typeOf(value) {
+    if (value === null) {
+      return 'STATIC';
+    } else if (value instanceof Array) {
+      return 'ARRAY';
+    } else if (value instanceof Object) {
+      return 'JSON';
+    } else {
+      return 'STATIC';
+    }
+  }
+
 }

@@ -260,7 +260,21 @@
             <div nz-col nzSpan="12">
               <nz-form-item  *ngFor="let item of statement.content | keyvalue">
                 <nz-form-label>{{item.key | label}}</nz-form-label>
-                <div class="form-display-data">{{item.value || '-'}}</div>
+                <div class="form-display-data">
+                  <ng-container *ngIf="typeOf(item.value) == 'STATIC'">
+                    {{item.value || '-'}}
+                  </ng-container>
+                  <ng-container *ngIf="typeOf(item.value) == 'ARRAY'">
+                    <div *ngFor="let it of item.value">
+                      {{it || '-'}}
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="typeOf(item.value) == 'JSON'">
+                    <div *ngFor="let it of item.value | keyvalue">
+                      {{it.key | label}}: {{it.value}}
+                    </div>
+                  </ng-container>
+                </div>
               </nz-form-item>
             </div>
           </div>

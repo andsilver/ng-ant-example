@@ -26,13 +26,17 @@ const routes: Routes = [
       {
         path: 'tax-claim',
         loadChildren: './main/tax-claim/tax-claim.module#TaxClaimModule'
-      },
-      {
-        path: '',
-        redirectTo: 'natural-person',
-        pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'auth',
+    loadChildren: './auth/auth.module#AuthModule'
+  },
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
   }
 ];
 

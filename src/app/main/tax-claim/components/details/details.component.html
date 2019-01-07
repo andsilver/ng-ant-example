@@ -265,9 +265,6 @@
             </div>
           </div>
         </form>
-        <!-- <ng-template #editProperties>
-          <button nz-button (click)="showModal('properties')"><i nz-icon type="edit"></i></button>
-        </ng-template> -->
       </nz-card>
     </div>
   </div>
@@ -277,12 +274,5 @@
     (onCancel)="editingStatus.adding = false"
     (onConfirm)="createTaxClaim($event)">
   </app-create>
-
-  <!-- <app-properties-modal
-    [taxClaim]="taxClaim"
-    [visible]="editingStatus.properties"
-    (onCancel)="editingStatus.properties = false"
-    (onConfirm)="updateProperties($event)">
-  </app-properties-modal> -->
 
 </div>

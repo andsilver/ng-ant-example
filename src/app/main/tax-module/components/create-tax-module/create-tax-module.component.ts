@@ -35,9 +35,10 @@ export class CreateTaxModuleComponent implements OnInit {
 
   reset() {
     this.propertiesForm = this.fb.group({
-      code        : this.fb.control('', [Validators.required]),
-      name        : this.fb.control('', [Validators.required]),
-      taxPayers   : this.fb.control('', [Validators.required])
+      code           : this.fb.control('', [Validators.required]),
+      name           : this.fb.control('', [Validators.required]),
+      taxPayers      : this.fb.control('', [Validators.required]),
+      declarationMode: this.fb.control('NO_DECLARATION'),
     });
 
     this.taxAuthorityForm = this.fb.group({

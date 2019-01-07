@@ -8,20 +8,6 @@
           <li *ngFor="let item of sub.subs" nz-menu-item [routerLink]="[item.link]" [nzSelected]="item.selected">{{item.title}}</li>
         </ul>
       </li>
-      <!-- <li nz-submenu>
-        <span title i18n>Taxes</span>
-        <ul>
-          <li nz-menu-item [routerLink]="['/tax-module']" i18n>Tax Module</li>
-          <li nz-menu-item [routerLink]="['/tax-register']" i18n>Tax Register</li>
-          <li nz-menu-item [routerLink]="['/tax-claim']" i18n>Tax Claim</li>
-        </ul>
-      </li>
-      <li nz-submenu>
-        <span title i18n>People & Entities</span>
-        <ul>
-          <li nz-menu-item [routerLink]="['/natural-person']" i18n>Natural Person</li>
-        </ul>
-      </li> -->
     </ul>
   </nz-sider>
   <nz-layout>

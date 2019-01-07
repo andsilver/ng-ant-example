@@ -1,0 +1,16 @@
+.removal-item {
+  width: 80%;
+  margin-right: 12px;
+}
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: relative;
+  font-size: 20px;
+  color: #999;
+  transition: all .3s;
+}
+
+.dynamic-delete-button:hover {
+  color: #777;
+}

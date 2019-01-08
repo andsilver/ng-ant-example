@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   getActiveTaxModules() {
-    const url = '/tax_module/list_active';
+    const url = '/api/taxes/modules?status=ACTIVE';
     return this.http.get(url);
   }
 

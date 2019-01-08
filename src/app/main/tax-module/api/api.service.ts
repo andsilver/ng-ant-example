@@ -5,7 +5,7 @@ import { AppSettings } from 'app/app-settings';
 @Injectable()
 export class ApiService {
 
-  url = '/tax_module';
+  url = '/api/taxes/modules';
 
   taxPayers = [
     {
@@ -37,6 +37,25 @@ export class ApiService {
     }
   ];
 
+  declarationModes = [
+    {
+      label: 'No Declaration',
+      value: 'NO_DECLARATION'
+    },
+    {
+      label: 'Request Declaration',
+      value: 'REQUEST_DECLARATION'
+    },
+    {
+      label: 'Propose Declaration',
+      value: 'PROPOSE_DECLARATION'
+    },
+    {
+      label: 'Unprompted Declaration',
+      value: 'UNPROMPTED_DECLARATION'
+    }
+  ]
+
   constructor(private http: HttpClient, private settings: AppSettings) { }
 
   private setHttpParams(params: Object) {
@@ -60,7 +79,7 @@ export class ApiService {
   }
 
   getTaxModule(code: string) {
-    const url = `${this.url}/get/${code}`;
+    const url = `${this.url}/${code}`;
     return this.http.get(url);
   }
 
@@ -89,10 +108,9 @@ export class ApiService {
     return this.http.post(url, {code: code});
   }
 
-  filterTaxModules(filter: any) {
-    const url = `${this.url}/filter`;
-    const params = this.setHttpParams(filter);
-    return this.http.get(url, params);
+  fetch(pagination: any) {
+    const url = this.url;
+    return this.http.post(url, pagination);
   }
 
   changeApprovalDate(code, approvalDate) {
@@ -102,6 +120,40 @@ export class ApiService {
 
   lookupTaxModule(code: string) {
 
+  }
+
+  uploadFile(file: any, code: string) {
+    const url = `${this.url}/${code}/assessment-template`;
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(url, formData);
+  }
+
+  removeFile(code: string) {
+    const url = `${this.url}/${code}/assessment-template`;
+    return this.http.delete(url);
+  }
+
+  downloadFile(code: string) {
+    const url = `${this.url}/${code}/assessment-template`;
+    return this.http.get(url, { observe: 'response', responseType: 'blob' });
+  }
+
+  uploadFileDT(file: any, code: string) {
+    const url = `${this.url}/${code}/declaration-template`;
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(url, formData);
+  }
+
+  removeFileDT(code: string) {
+    const url = `${this.url}/${code}/declaration-template`;
+    return this.http.delete(url);
+  }
+
+  downloadFileDT(code: string) {
+    const url = `${this.url}/${code}/declaration-template`;
+    return this.http.get(url, { observe: 'response', responseType: 'blob' });
   }
 
 }

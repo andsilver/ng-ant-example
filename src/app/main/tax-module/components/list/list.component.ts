@@ -19,6 +19,8 @@ export class ListComponent implements OnInit {
   page            = 1;
   limit           = 10;
   total           = 10;
+  previous        = false;
+  next            = false;
   showFilter      = false;
   addingTaxModule = false;
 
@@ -27,9 +29,7 @@ export class ListComponent implements OnInit {
   sortMap = {
     code        : null,
     name        : null,
-    status      : null,
-    approvalDate: null,
-    taxPayers   : null
+    approvalDate: null
   };
 
   checkStatus = {
@@ -57,19 +57,95 @@ export class ListComponent implements OnInit {
       status             : ''
     };
 
-    this.getTaxModules();
+    this.firstPage();
   }
 
-  getTaxModules() {
-    this.api.filterTaxModules(this.filter)
-      .subscribe((res: any)=> {
-        this.taxModules = res.map(p => {
-          p['checked'] = false;
+  setPage(pagination) {
+    this.api.fetch(pagination)
+      .subscribe((res: any) => {
+        this.taxModules = res.items.map(p => {
+          p['checked']            = false;
           return p;
         });
+        this.previous = res.previous;
+        this.next     = res.next;
         this.refreshStatus();
-        this.total = this.taxModules.length;
       });
+  }
+
+  firstPage() {
+    const pagination = {
+      action: 'next',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: null
+    };
+    this.setPage(pagination);
+  }
+
+  lastPage() {
+    const pagination = {
+      action: 'previous',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: null
+    };
+    this.setPage(pagination);
+  }
+
+  previousPage() {
+    const cursor = this.taxModules[0];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'previous',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
+  }
+
+  nextPage() {
+    const cursor = this.taxModules[this.taxModules.length - 1];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'next',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
+  }
+
+  reloadPage() {
+    if (!this.taxModules.length) {
+      this.firstPage();
+      return;
+    }
+    const cursor = this.taxModules[0];
+    delete cursor['checked'];
+    const pagination = {
+      action: 'current',
+      limit : this.limit,
+      sort  : {
+        column: this.filter.sort_by,
+        order : this.filter.sort_order
+      },
+      cursor: cursor
+    };
+    this.setPage(pagination);
   }
 
   createTaxModule(taxModule) {
@@ -77,7 +153,7 @@ export class ListComponent implements OnInit {
     this.api.createTaxModule(taxModule)
       .subscribe(() => {
         this.message.success('A new Tax Module is added.')
-        this.getTaxModules();
+        this.reloadPage();
       });
   }
 
@@ -102,7 +178,7 @@ export class ListComponent implements OnInit {
     forkJoin(requests)
       .subscribe(() => {
         this.message.success('Selected Tax Modules are removed.');
-        this.getTaxModules();
+        this.firstPage();
       });
   }
 
@@ -131,7 +207,7 @@ export class ListComponent implements OnInit {
 
   filterChanged(filter) {
     Object.assign(this.filter, filter);
-    this.getTaxModules();
+    this.firstPage();
   }
 
   sort(sort_by, status) {
@@ -151,7 +227,7 @@ export class ListComponent implements OnInit {
       }
     });
 
-    this.getTaxModules();
+    this.reloadPage();
   }
 
   pageChanged(page) {

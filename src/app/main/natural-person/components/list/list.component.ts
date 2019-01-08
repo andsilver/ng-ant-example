@@ -16,7 +16,7 @@ import { download } from 'app/shared/helpers/utils';
 export class ListComponent implements OnInit {
 
   @ViewChild('file')
-  file;
+  file: any;
 
   filter: Filter;
   naturalPersons = [];

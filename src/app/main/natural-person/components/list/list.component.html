@@ -38,8 +38,8 @@
     <div nz-col class="col-pagination">
       <nz-button-group nzSize="small">
         <button nz-button (click)="firstPage()" [disabled]="!previous">First</button>
-        <button nz-button (click)="previousPage()" [disabled]="!previous">Prev</button>
-        <button nz-button (click)="nextPage()" [disabled]="!next">Next</button>
+        <button nz-button (click)="previousPage()" [disabled]="!previous"><i nz-icon type="left" theme="outline"></i></button>
+        <button nz-button (click)="nextPage()" [disabled]="!next"><i nz-icon type="right" theme="outline"></i></button>
         <button nz-button (click)="lastPage()" [disabled]="!next">Last</button>
       </nz-button-group>
     </div>

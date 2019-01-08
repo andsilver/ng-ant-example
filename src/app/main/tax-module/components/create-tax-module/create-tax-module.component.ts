@@ -11,6 +11,7 @@ export class CreateTaxModuleComponent implements OnInit {
 
   isVisible = false;
   taxPayers = [];
+  dModes    = [];
 
   propertiesForm  : FormGroup;
   taxAuthorityForm: FormGroup;
@@ -31,6 +32,7 @@ export class CreateTaxModuleComponent implements OnInit {
 
   ngOnInit() {
     this.taxPayers = this.api.taxPayers;
+    this.dModes    = this.api.declarationModes;
   }
 
   reset() {
@@ -38,7 +40,7 @@ export class CreateTaxModuleComponent implements OnInit {
       code           : this.fb.control('', [Validators.required]),
       name           : this.fb.control('', [Validators.required]),
       taxPayers      : this.fb.control('', [Validators.required]),
-      declarationMode: this.fb.control('NO_DECLARATION'),
+      declarationMode: this.fb.control('NO_DECLARATION', [Validators.required]),
     });
 
     this.taxAuthorityForm = this.fb.group({
@@ -58,6 +60,10 @@ export class CreateTaxModuleComponent implements OnInit {
 
   get name() {
     return this.propertiesForm.get('name');
+  }
+
+  get declarationMode() {
+    return this.propertiesForm.get('declarationMode');
   }
 
   get authority_name() {

@@ -32,7 +32,12 @@
       </div>
     </div>
     <div nz-col class="col-pagination">
-      <nz-pagination [nzSize]="'small'" [nzPageIndex]="page" [nzTotal]="total" (nzPageIndexChange)="pageChanged($event)"></nz-pagination>
+      <nz-button-group nzSize="small">
+        <button nz-button (click)="firstPage()" [disabled]="!previous">First</button>
+        <button nz-button (click)="previousPage()" [disabled]="!previous"><i nz-icon type="left" theme="outline"></i></button>
+        <button nz-button (click)="nextPage()" [disabled]="!next"><i nz-icon type="right" theme="outline"></i></button>
+        <button nz-button (click)="lastPage()" [disabled]="!next">Last</button>
+      </nz-button-group>
     </div>
   </div>
   <div nz-row nzType="flex">
@@ -51,9 +56,9 @@
             </th>
             <th nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
             <th nzShowSort [(nzSort)]="sortMap.name"   (nzSortChange)="sort('name', $event)" i18n>Name</th>
-            <th nzShowSort [(nzSort)]="sortMap.status" (nzSortChange)="sort('status', $event)" i18n>Status</th>
+            <th i18n>Status</th>
             <th nzShowSort [(nzSort)]="sortMap.approvalDate" (nzSortChange)="sort('approvalDate', $event)" i18n>Approval Date</th>
-            <th nzShowSort [(nzSort)]="sortMap.taxPayers" (nzSortChange)="sort('taxPayers', $event)" i18n>Tax Payers</th>
+            <th i18n>Tax Payers</th>
           </tr>
         </thead>
         <tbody>

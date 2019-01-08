@@ -24,6 +24,20 @@
         </div>
 
         <div nz-row>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Declaration Mode</nz-form-label>
+              <nz-form-control>
+                <nz-select formControlName="declarationMode" nzShowSearch nzRequired>
+                    <nz-option *ngFor="let mode of dModes" [nzLabel]="mode.label" [nzValue]="mode.value"></nz-option>
+                </nz-select>
+                <nz-form-explain *ngIf="declarationMode.dirty && declarationMode.errors">Please select a declaration mode!</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row>
           <div nz-col nzSpan="24">
             <nz-form-item>
               <nz-form-label>Tax Payers</nz-form-label>

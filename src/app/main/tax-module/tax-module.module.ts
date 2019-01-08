@@ -12,6 +12,7 @@ import { PropertiesModalComponent } from './components/properties-modal/properti
 import { StatusPipe } from './pipes/status.pipe';
 import { ColorPipe } from './pipes/color.pipe';
 import { ApprovalDateComponent } from './components/approval-date/approval-date.component';
+import { DeclarationModePipe } from './pipes/declaration-mode.pipe';
 
 const routes: Route[] = [
   {
@@ -33,7 +34,8 @@ const routes: Route[] = [
     PropertiesModalComponent,
     StatusPipe,
     ColorPipe,
-    ApprovalDateComponent
+    ApprovalDateComponent,
+    DeclarationModePipe
   ],
   imports: [
     CommonModule,

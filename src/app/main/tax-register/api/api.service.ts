@@ -42,8 +42,8 @@ export class ApiService {
   }
 
   getActiveTaxModules() {
-    const url = '/api/taxes/modules?status=ACTIVE';
-    return this.http.get(url);
+    const url = '/api/taxes/modules';
+    return this.http.post(url, {view: 'select'});
   }
 
   filterTaxRegister(filter: any) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { AppSettings } from 'app/app-settings';
 
 @Injectable()
@@ -74,7 +74,7 @@ export class ApiService {
   }
 
   createTaxModule(module: any) {
-    const url = `${this.url}/create`;
+    const url = `${this.url}`;
     return this.http.post(url, module);
   }
 
@@ -84,28 +84,28 @@ export class ApiService {
   }
 
   removeTaxModule(code: string) {
-    const url = `${this.url}/remove`;
-    return this.http.post(url, {code: code});
+    const url = `${this.url}/${code}`;
+    return this.http.delete(url);
   }
 
-  updateTaxModule(module: any) {
-    const url = `${this.url}/update_properties`;
+  updateTaxModule(code: string, module: any) {
+    const url = `${this.url}/${code}/properties`;
     return this.http.post(url, module);
   }
 
   approveTaxModule(code: string, approvalDate: string) {
-    const url = `${this.url}/approve`;
-    return this.http.post(url, {code: code, approvalDate: approvalDate});
+    const url = `${this.url}/${code}/approval`;
+    return this.http.post(url, {approvalDate: approvalDate});
   }
 
   reactivateTaxModule(code: string) {
-    const url = `${this.url}/reactivate`;
-    return this.http.post(url, {code: code});
+    const url = `${this.url}/${code}/activation`;
+    return this.http.post(url, {action: 'reactivate'});
   }
 
   deactivateTaxModule(code: string) {
-    const url = `${this.url}/deactivate`;
-    return this.http.post(url, {code: code});
+    const url = `${this.url}/${code}/activation`;
+    return this.http.post(url, {action: 'deactivate'});
   }
 
   fetch(pagination: any) {
@@ -114,8 +114,8 @@ export class ApiService {
   }
 
   changeApprovalDate(code, approvalDate) {
-    const url = `${this.url}/change_approval_date`;
-    return this.http.post(url, {code: code, approvalDate: approvalDate});
+    const url = `${this.url}/${code}/approval`;
+    return this.http.put(url, {approvalDate: approvalDate});
   }
 
   lookupTaxModule(code: string) {
@@ -154,6 +154,13 @@ export class ApiService {
   downloadFileDT(code: string) {
     const url = `${this.url}/${code}/declaration-template`;
     return this.http.get(url, { observe: 'response', responseType: 'blob' });
+  }
+
+  updateSpecification(code: string, specification: string) {
+    const url = `${this.url}/${code}/specification`;
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'text/plain');
+    return this.http.put(url, specification, {headers: headers});
   }
 
 }

@@ -64,7 +64,7 @@ export class ListComponent implements OnInit {
     this.api.fetch(pagination)
       .subscribe((res: any) => {
         this.taxModules = res.items.map(p => {
-          p['checked']            = false;
+          p['checked'] = false;
           return p;
         });
         this.previous = res.previous;
@@ -81,6 +81,7 @@ export class ListComponent implements OnInit {
         column: this.filter.sort_by,
         order : this.filter.sort_order
       },
+      view: 'page',
       cursor: null
     };
     this.setPage(pagination);

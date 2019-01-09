@@ -54,7 +54,7 @@ export class HttpIntercepterService implements HttpInterceptor {
                 }
               }, (err: any) => {
                 console.log(err);
-                this.message.error(err.error.message);
+                this.message.error(err.error.message || 'Something went wrong.' );
                 this.spinner.hideLoading();
               })
             )

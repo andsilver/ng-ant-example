@@ -23,11 +23,12 @@ export class DetailsComponent implements OnInit {
   code     : string;
 
   editingStatus = {
-    properties: false,
-    status    : false,
-    adding    : false,
-    aprDate   : false,
-    approve   : false
+    properties   : false,
+    status       : false,
+    adding       : false,
+    aprDate      : false,
+    approve      : false,
+    specification: false
   };
 
   statuses  = [];
@@ -79,11 +80,7 @@ export class DetailsComponent implements OnInit {
 
   updateProperties(properties) {
     this.editingStatus.properties = false;
-    properties['oldCode'] = this.taxModule.code;
-    properties['newCode'] = properties['code'];
-    delete properties['code'];
-
-    this.api.updateTaxModule(properties)
+    this.api.updateTaxModule(this.taxModule.code, properties)
       .subscribe((res) => {
         this.message.success('Properties are updated.');
         this.taxModule = res;
@@ -219,6 +216,15 @@ export class DetailsComponent implements OnInit {
     this.api.uploadFileDT(fileToRead, this.taxModule.code)
       .subscribe(res => {
         this.message.success('Declaration Template is uploaded.');
+        this.taxModule = res;
+      });
+  }
+
+  updateSpecification(specification: string) {
+    this.editingStatus.specification = false;
+    this.api.updateSpecification(this.taxModule.code, specification)
+      .subscribe(res => {
+        this.message.success('Specification is uploaded.');
         this.taxModule = res;
       });
   }

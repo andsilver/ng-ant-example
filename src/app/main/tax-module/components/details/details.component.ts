@@ -62,7 +62,7 @@ export class DetailsComponent implements OnInit {
     this.api.createTaxModule(taxModule)
       .subscribe(res => {
         this.message.success('A new Tax Module is added.')
-        this.router.navigate(['/tax-module', res['code']]);
+        this.router.navigate(['/taxes/modules', res['code']]);
       });
   }
 
@@ -70,7 +70,7 @@ export class DetailsComponent implements OnInit {
     this.api.removeTaxModule(this.taxModule.code)
       .subscribe(res => {
         this.message.success('The Tax Module is removed.');
-        this.router.navigate(['/tax-module']);
+        this.router.navigate(['/taxes/modules']);
       });
   }
 
@@ -91,7 +91,7 @@ export class DetailsComponent implements OnInit {
     this.api.getTaxModule(this.code)
       .subscribe((res: any) => {
         if (res) {
-          this.router.navigate(['tax-module', res.code]);
+          this.router.navigate(['taxes/modules', res.code]);
         } else {
           this.message.warning('Tax Module not found!');
         }

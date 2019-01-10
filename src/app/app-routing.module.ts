@@ -16,16 +16,21 @@ const routes: Routes = [
         }
       },
       {
-        path: 'tax-module',
-        loadChildren: './main/tax-module/tax-module.module#TaxModuleModule'
-      },
-      {
-        path: 'tax-register',
-        loadChildren: './main/tax-register/tax-register.module#TaxRegisterModule'
-      },
-      {
-        path: 'tax-claim',
-        loadChildren: './main/tax-claim/tax-claim.module#TaxClaimModule'
+        path: 'taxes',
+        children: [
+          {
+            path: 'modules',
+            loadChildren: './main/tax-module/tax-module.module#TaxModuleModule'
+          },
+          {
+            path: 'register',
+            loadChildren: './main/tax-register/tax-register.module#TaxRegisterModule'
+          },
+          {
+            path: 'claim',
+            loadChildren: './main/tax-claim/tax-claim.module#TaxClaimModule'
+          }
+        ]
       }
     ]
   },

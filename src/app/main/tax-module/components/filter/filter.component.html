@@ -3,14 +3,14 @@
     <nz-form-item>
       <nz-form-label>Name</nz-form-label>
       <nz-form-control>
-        <input nz-input formControlName="name" type="text">
+        <input nz-input formControlName="filterName" type="text">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label>Status</nz-form-label>
       <nz-form-control>
-        <nz-checkbox-group formControlName="status" [ngModel]="statuses"></nz-checkbox-group>
+        <nz-checkbox-group formControlName="filterStatus" [ngModel]="statuses"></nz-checkbox-group>
       </nz-form-control>
     </nz-form-item>
 
@@ -19,10 +19,10 @@
       <nz-form-control>
         <div nz-row nzType="flex" nzGutter="24">
           <div nz-col nzSpan="12">
-            <nz-date-picker formControlName="approval_date_from" nzPlaceHolder="From"></nz-date-picker>
+            <nz-date-picker formControlName="filterApprovalDateFrom" nzPlaceHolder="From"></nz-date-picker>
           </div>
           <div nz-col nzSpan="12">
-            <nz-date-picker formControlName="approval_date_to" nzPlaceHolder="To"></nz-date-picker>
+            <nz-date-picker formControlName="filterApprovalDateTo" nzPlaceHolder="To"></nz-date-picker>
           </div>
         </div>
       </nz-form-control>
@@ -31,7 +31,7 @@
     <nz-form-item>
       <nz-form-label>Tax Payers</nz-form-label>
       <nz-form-control>
-        <nz-checkbox-group formControlName="tax_payers" [ngModel]="taxPayers"></nz-checkbox-group>
+        <nz-checkbox-group formControlName="filterTaxPayers" [ngModel]="taxPayers"></nz-checkbox-group>
       </nz-form-control>
     </nz-form-item>
 

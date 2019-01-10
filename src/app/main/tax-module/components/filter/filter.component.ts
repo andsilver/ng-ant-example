@@ -29,11 +29,11 @@ export class FilterComponent implements OnInit {
       t['checked'] = true;
     })
     this.filterForm = new FormGroup({
-      name              : new FormControl(''),
-      status            : new FormControl(this.statuses),
-      approval_date_from: new FormControl(''),
-      approval_date_to  : new FormControl(''),
-      tax_payers        : new FormControl(this.taxPayers)
+      filterName            : new FormControl(''),
+      filterStatus          : new FormControl(this.statuses),
+      filterApprovalDateFrom: new FormControl(''),
+      filterApprovalDateTo  : new FormControl(''),
+      filterTaxPayers       : new FormControl(this.taxPayers)
     });
   }
 
@@ -42,8 +42,8 @@ export class FilterComponent implements OnInit {
     // if (filter['tax_payers'] === 'ANY') {
     //   filter['tax_payers'] = [this.taxPayers[0].value, this.taxPayers[1].value];
     // }
-    filter.status = filter.status.filter(s => s.checked).map(s => s.value);
-    filter.tax_payers = filter.tax_payers.filter(t => t.checked).map(t => t.value);
+    filter.filterStatus = filter.filterStatus.filter(s => s.checked).map(s => s.value);
+    filter.filterTaxPayers = filter.filterTaxPayers.filter(t => t.checked).map(t => t.value);
     console.log(filter);
     this.filterChanged.emit(filter);
   }

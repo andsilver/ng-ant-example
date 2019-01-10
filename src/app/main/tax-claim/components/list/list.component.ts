@@ -226,7 +226,7 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxClaim) {
-    this.router.navigate(['tax-claim', taxClaim.id]);
+    this.router.navigate(['/taxes/claim', taxClaim.id]);
   }
 
   get offset() {

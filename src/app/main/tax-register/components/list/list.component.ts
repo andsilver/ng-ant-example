@@ -156,7 +156,7 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxRegister) {
-    this.router.navigate(['tax-register', taxRegister.code])
+    this.router.navigate(['/taxes/register', taxRegister.code])
   }
 
   get offset() {

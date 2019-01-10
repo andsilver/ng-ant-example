@@ -61,14 +61,15 @@ export class ApiService {
   private setHttpParams(params: Object) {
     let httpParams = new HttpParams();
     Object.keys(params).forEach(key => {
-      if (!params[key]) {
-        return;
-      }
-      if (typeof params[key] === 'object' && params[key].length) {
-        params[key].forEach(value => httpParams = httpParams.append(key, value));
-      } else {
-        httpParams = httpParams.append(key, params[key]);
-      }
+      // if (!params[key]) {
+      //   return;
+      // }
+      httpParams = httpParams.append(key, params[key] || '');
+      // if (params[key] instanceof Array) {
+      //   params[key].forEach(value => httpParams = httpParams.append(key, value));
+      // } else {
+      //   httpParams = httpParams.append(key, params[key] || '');
+      // }
     });
     return { params: httpParams };
   }
@@ -110,7 +111,8 @@ export class ApiService {
 
   fetch(pagination: any) {
     const url = this.url;
-    return this.http.post(url, pagination);
+    const params = this.setHttpParams(pagination);
+    return this.http.get(url, params);
   }
 
   changeApprovalDate(code, approvalDate) {

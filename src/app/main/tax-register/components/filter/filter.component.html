@@ -2,11 +2,16 @@
   <form nz-form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
 
     <nz-form-item>
+      <nz-form-label>Name</nz-form-label>
+      <nz-form-control>
+        <input formControlName="name" nz-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label>Status</nz-form-label>
       <nz-form-control>
-        <nz-radio-group formControlName="status">
-          <label *ngFor="let status of statuses" nz-radio [nzValue]="status.value">{{status.label}}</label>
-        </nz-radio-group>
+        <nz-checkbox-group formControlName="status" [ngModel]="statuses"></nz-checkbox-group>
       </nz-form-control>
     </nz-form-item>
 
@@ -14,6 +19,34 @@
       <nz-form-label>Tax Module</nz-form-label>
       <nz-form-control>
         <input formControlName="taxModule" nz-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>Tax Year</nz-form-label>
+      <nz-form-control>
+        <div nz-row nzType="flex" nzGutter="24">
+          <div nz-col nzSpan="12">
+            <nz-year-picker formControlName="taxYearFrom" nzPlaceHolder="From"></nz-year-picker>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-year-picker formControlName="taxYearTo" nzPlaceHolder="To"></nz-year-picker>
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>Accounting Year</nz-form-label>
+      <nz-form-control>
+        <div nz-row nzType="flex" nzGutter="24">
+          <div nz-col nzSpan="12">
+            <nz-year-picker formControlName="accountingYearFrom" nzPlaceHolder="From"></nz-year-picker>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-year-picker formControlName="accountingYearTo" nzPlaceHolder="To"></nz-year-picker>
+          </div>
+        </div>
       </nz-form-control>
     </nz-form-item>
 

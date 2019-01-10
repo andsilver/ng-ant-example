@@ -26,17 +26,17 @@ export class MainComponent implements OnInit {
       subs: [
         {
           title: 'Tax Module',
-          link: '/tax-module',
+          link: '/taxes/modules',
           selected: false
         },
         {
           title: 'Tax Register',
-          link: '/tax-register',
+          link: '/taxes/register',
           selected: false
         },
         {
           title: 'Tax Claim',
-          link: '/tax-claim',
+          link: '/taxes/claim',
           selected: false
         }
       ]

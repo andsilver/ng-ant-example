@@ -13,12 +13,8 @@ import { download } from 'app/shared/helpers/utils';
 })
 export class ListComponent implements OnInit {
 
-  filter: any;
   taxModules = [];
 
-  page            = 1;
-  limit           = 10;
-  total           = 10;
   previous        = false;
   next            = false;
   showFilter      = false;
@@ -35,7 +31,18 @@ export class ListComponent implements OnInit {
   checkStatus = {
     all          : false,
     indeterminate: false
-  }
+  };
+
+  filter = {
+    limit                 : 10,
+    sortBy                : '',
+    sortOrder             : '',
+    filterName            : '',
+    filterStatus          : [],
+    filterApprovalDateFrom: '',
+    filterApprovalDateTo  : '',
+    filterTaxPayers       : []
+  };
 
   constructor(
     private api    : ApiService,
@@ -44,20 +51,20 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.filter = {
-      offset             : this.offset,
-      limit              : this.limit,
-      tax_payers         : [],
-      approval_date_from : '',
-      approval_date_to   : '',
-      sort_by            : '',
-      sort_order         : '',
-      address            : '',
-      status             : ''
-    };
-
     this.firstPage();
+  }
+
+  buildPaginationParams(cursor, action) {
+    cursor = cursor || {};
+    const pagination = {
+      view              : 'page',
+      action            : action,
+      cursorCode        : cursor['code'],
+      cursorName        : cursor['name'],
+      cursorApprovalDate: cursor['approvalDate']
+    };
+    Object.assign(pagination, this.filter);
+    return pagination;
   }
 
   setPage(pagination) {
@@ -74,59 +81,24 @@ export class ListComponent implements OnInit {
   }
 
   firstPage() {
-    const pagination = {
-      action: 'next',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      view: 'page',
-      cursor: null
-    };
+    const pagination = this.buildPaginationParams(null, 'next');
     this.setPage(pagination);
   }
 
   lastPage() {
-    const pagination = {
-      action: 'previous',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: null
-    };
+    const pagination = this.buildPaginationParams(null, 'previous');
     this.setPage(pagination);
   }
 
   previousPage() {
     const cursor = this.taxModules[0];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'previous',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'previous');
     this.setPage(pagination);
   }
 
   nextPage() {
     const cursor = this.taxModules[this.taxModules.length - 1];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'next',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'next');
     this.setPage(pagination);
   }
 
@@ -136,16 +108,7 @@ export class ListComponent implements OnInit {
       return;
     }
     const cursor = this.taxModules[0];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'current',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'current');
     this.setPage(pagination);
   }
 
@@ -179,7 +142,7 @@ export class ListComponent implements OnInit {
     forkJoin(requests)
       .subscribe(() => {
         this.message.success('Selected Tax Modules are removed.');
-        this.firstPage();
+        this.reloadPage();
       });
   }
 
@@ -213,11 +176,11 @@ export class ListComponent implements OnInit {
 
   sort(sort_by, status) {
     if (status) {
-      this.filter.sort_by    = sort_by;
-      this.filter.sort_order = status === 'ascend' ? 'asc' : 'desc';
+      this.filter.sortBy    = sort_by;
+      this.filter.sortOrder = status === 'ascend' ? 'asc' : 'desc';
     } else {
-      this.filter.sort_by    = null;
-      this.filter.sort_order = null;
+      this.filter.sortBy    = null;
+      this.filter.sortOrder = null;
     }
 
     Object.keys(this.sortMap).forEach(key => {
@@ -228,18 +191,10 @@ export class ListComponent implements OnInit {
       }
     });
 
-    this.reloadPage();
-  }
-
-  pageChanged(page) {
-    console.log(page);
+    this.firstPage();
   }
 
   toDetailsPage(taxModule) {
-    this.router.navigate(['tax-module', taxModule.code]);
-  }
-
-  get offset() {
-    return (this.page - 1) * this.limit + 1;
+    this.router.navigate(['/taxes/module', taxModule.code]);
   }
 }

@@ -51,7 +51,7 @@ export class DetailsComponent implements OnInit {
     this.apiService.createTaxRegister(taxRegister)
       .subscribe(res => {
         this.message.success('A new Tax Register is added.')
-        this.router.navigate(['/tax-register', res['code']]);
+        this.router.navigate(['/taxes/register', res['code']]);
       });
   }
 
@@ -59,7 +59,7 @@ export class DetailsComponent implements OnInit {
     this.apiService.removeTaxRegister(this.taxRegister.code)
       .subscribe(res => {
         this.message.success('The Tax Module is removed.');
-        this.router.navigate(['/tax-register']);
+        this.router.navigate(['/taxes/register']);
       });
   }
 
@@ -81,7 +81,7 @@ export class DetailsComponent implements OnInit {
     this.apiService.getTaxRegisterDetails(this.code)
       .subscribe((res: any) => {
         if (res) {
-          this.router.navigate(['/tax-register', res.code]);
+          this.router.navigate(['/taxes/register', res.code]);
         } else {
           this.message.warning('Tax Register not found!');
         }

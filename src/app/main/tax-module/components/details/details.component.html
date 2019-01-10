@@ -31,7 +31,7 @@
       </div>
     </div>
     <div nz-col>
-      <a nz-button [routerLink]="['/tax-module']" i18n>Back to List</a>
+      <a nz-button [routerLink]="['/taxes/modules']" i18n>Back to List</a>
     </div>
   </div>
 
@@ -134,10 +134,9 @@
         </ng-template>
       </div>
       <div style="margin-bottom: 24px">
-        <nz-card nzTitle="Assessment Template">
+        <nz-card nzTitle="Assessment Template" [nzExtra]="assTemp">
           <ng-container *ngIf="!taxModule.assessmentTemplate">
-            <button nz-button (click)="uploadAssessmentTemplate()" nzType="primary">Upload assessment template</button>
-            <input type="file" #file (change)="onFileSelect($event.target)" name="Upload assessment template" style="display: none">
+            No Data
           </ng-container>
           <form *ngIf="taxModule.assessmentTemplate" nz-form class="edit-properties-form">
             <div nz-row nzType="flex" nzGutter="24">
@@ -154,20 +153,25 @@
                   <div class="form-display-data">{{taxModule.assessmentTemplate.size}}</div>
                 </nz-form-item>
               </div>
-
-              <div nz-col nzSpan="24">
-                <button style="margin-right: 12px" nz-button nzType="primary" (click)="downloadAssessmentTemplate()">Download assessment template</button>
-                <button nz-button (click)="removeAssessmentTemplate()">Remove assessment template</button>
-              </div>
             </div>
           </form>
+
+          <ng-template #assTemp>
+            <ng-container *ngIf="!taxModule.assessmentTemplate">
+              <button nz-button (click)="uploadAssessmentTemplate()"><i nz-icon type="upload"></i></button>
+              <input type="file" #file (change)="onFileSelect($event.target)" name="Upload assessment template" style="display: none">
+            </ng-container>
+            <ng-container *ngIf="taxModule.assessmentTemplate">
+              <button style="margin-right: 12px" nz-button (click)="downloadAssessmentTemplate()"><i nz-icon type="download"></i></button>
+              <button nz-button (click)="removeAssessmentTemplate()"  nzType="primary"><i nz-icon type="delete"></i></button>
+            </ng-container>
+          </ng-template>
         </nz-card>
       </div>
       <div style="margin-bottom: 24px" *ngIf="taxModule.declarationMode == 'REQUEST_DECLARATION' || taxModule.declarationMode == 'PROPOSE_DECLARATION'">
-        <nz-card nzTitle="Declaration Template">
+        <nz-card nzTitle="Declaration Template" [nzExtra]="dclTemp">
           <ng-container *ngIf="!taxModule.declarationTemplate">
-            <button nz-button (click)="uploadDeclarationTemplate()" nzType="primary">Upload declaration template</button>
-            <input type="file" #file_dt (change)="onFileDTSelect($event.target)" name="Upload declaration template" style="display: none">
+            No Data
           </ng-container>
           <form *ngIf="taxModule.declarationTemplate" nz-form class="edit-properties-form">
             <div nz-row nzType="flex" nzGutter="24">
@@ -184,14 +188,19 @@
                   <div class="form-display-data">{{taxModule.declarationTemplate.size}}</div>
                 </nz-form-item>
               </div>
-
-              <div nz-col nzSpan="24">
-                <button style="margin-right: 12px" nz-button nzType="primary" (click)="downloadDeclarationTemplate()">Download declaration template</button>
-                <button nz-button (click)="removeDeclarationTemplate()">Remove declaration template</button>
-              </div>
             </div>
           </form>
         </nz-card>
+        <ng-template #dclTemp>
+          <ng-container *ngIf="!taxModule.declarationTemplate">
+            <button nz-button (click)="uploadDeclarationTemplate()"><i nz-icon type="upload"></i></button>
+            <input type="file" #file_dt (change)="onFileDTSelect($event.target)" name="Upload declaration template" style="display: none">
+          </ng-container>
+          <ng-container *ngIf="taxModule.declarationTemplate">
+            <button style="margin-right: 12px" nz-button (click)="downloadDeclarationTemplate()"><i nz-icon type="download"></i></button>
+            <button nz-button (click)="removeDeclarationTemplate()" nzType="primary"><i nz-icon type="delete"></i></button>
+          </ng-container>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -39,7 +39,7 @@ export class DetailsComponent implements OnInit {
     this.api.create(taxClaim)
       .subscribe((res) => {
         this.message.success('A new Tax Claim is added.');
-        this.router.navigate(['tax-claim', res['id']]);
+        this.router.navigate(['/taxes/claim', res['id']]);
       });
   }
 

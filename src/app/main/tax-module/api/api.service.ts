@@ -61,15 +61,15 @@ export class ApiService {
   private setHttpParams(params: Object) {
     let httpParams = new HttpParams();
     Object.keys(params).forEach(key => {
-      // if (!params[key]) {
-      //   return;
-      // }
-      httpParams = httpParams.append(key, params[key] || '');
-      // if (params[key] instanceof Array) {
-      //   params[key].forEach(value => httpParams = httpParams.append(key, value));
-      // } else {
-      //   httpParams = httpParams.append(key, params[key] || '');
-      // }
+      if (!params[key]) {
+        return;
+      }
+      // httpParams = httpParams.append(key, params[key] || '');
+      if (params[key] instanceof Array) {
+        params[key].forEach(value => httpParams = httpParams.append(key, value));
+      } else {
+        httpParams = httpParams.append(key, params[key] || '');
+      }
     });
     return { params: httpParams };
   }

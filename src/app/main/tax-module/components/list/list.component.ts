@@ -15,6 +15,7 @@ export class ListComponent implements OnInit {
 
   taxModules = [];
 
+  limit           = 10;
   previous        = false;
   next            = false;
   showFilter      = false;
@@ -34,7 +35,7 @@ export class ListComponent implements OnInit {
   };
 
   filter = {
-    limit                 : 10,
+    limit                 : this.limit,
     sortBy                : '',
     sortOrder             : '',
     filterName            : '',
@@ -57,7 +58,7 @@ export class ListComponent implements OnInit {
   buildPaginationParams(cursor, action) {
     cursor = cursor || {};
     const pagination = {
-      view              : 'page',
+      view              : 'list',
       action            : action,
       cursorCode        : cursor['code'],
       cursorName        : cursor['name'],
@@ -74,6 +75,7 @@ export class ListComponent implements OnInit {
           p['checked'] = false;
           return p;
         });
+        console.log(this.taxModules);
         this.previous = res.previous;
         this.next     = res.next;
         this.refreshStatus();
@@ -195,6 +197,6 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxModule) {
-    this.router.navigate(['/taxes/module', taxModule.code]);
+    this.router.navigate(['/taxes/modules', taxModule.code]);
   }
 }

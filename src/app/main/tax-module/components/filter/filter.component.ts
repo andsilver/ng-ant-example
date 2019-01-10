@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ApiService } from '../../api/api.service';
+import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss']
+  styleUrls: ['./filter.component.scss'],
+  providers: [CustomDatePipe]
 })
 export class FilterComponent implements OnInit {
 
@@ -17,7 +19,7 @@ export class FilterComponent implements OnInit {
   taxPayers = [];
   statuses  = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private date: CustomDatePipe) { }
 
   ngOnInit() {
     this.taxPayers = this.api.taxPayers;
@@ -39,12 +41,10 @@ export class FilterComponent implements OnInit {
 
   applyFilter() {
     const filter = this.filterForm.value;
-    // if (filter['tax_payers'] === 'ANY') {
-    //   filter['tax_payers'] = [this.taxPayers[0].value, this.taxPayers[1].value];
-    // }
-    filter.filterStatus = filter.filterStatus.filter(s => s.checked).map(s => s.value);
-    filter.filterTaxPayers = filter.filterTaxPayers.filter(t => t.checked).map(t => t.value);
-    console.log(filter);
+    filter.filterApprovalDateFrom = this.date.transform(filter.filterApprovalDateFrom, null);
+    filter.filterApprovalDateTo   = this.date.transform(filter.filterApprovalDateTo, null);
+    filter.filterStatus           = filter.filterStatus.filter(s => s.checked).map(s => s.value);
+    filter.filterTaxPayers        = filter.filterTaxPayers.filter(t => t.checked).map(t => t.value);
     this.filterChanged.emit(filter);
   }
 

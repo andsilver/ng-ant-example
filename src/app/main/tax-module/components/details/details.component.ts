@@ -146,6 +146,15 @@ export class DetailsComponent implements OnInit {
       })
   }
 
+  saveFile(res) {
+    const content   = res.body;
+    const filename  = res.headers.get('Content-Disposition').split('"')[1];
+    const extension = filename.split('.')[1];
+    const name      = filename.split('.')[0];
+    const type      = `text/${extension}`;
+    download(name, content, type, extension);
+  }
+
   uploadAssessmentTemplate() {
     this.file.nativeElement.click();
   }
@@ -153,12 +162,7 @@ export class DetailsComponent implements OnInit {
   downloadAssessmentTemplate() {
     this.api.downloadFile(this.taxModule.code)
       .subscribe(res => {
-        console.log(res);
-        const filename  = `TaxModule_${this.formatDate.transform(new Date())}`;
-        const content   = res.body;
-        // const type      = 'text/csv';
-        // const extension = 'doc';
-        // download(filename, content, type, extension);
+        this.saveFile(res);
       });
   }
 
@@ -190,13 +194,7 @@ export class DetailsComponent implements OnInit {
   downloadDeclarationTemplate() {
     this.api.downloadFileDT(this.taxModule.code)
       .subscribe(res => {
-        console.log(res);
-        const filename  = `TaxModule_${this.formatDate.transform(new Date())}`;
-        const content   = res.body;
-        console.log(res.headers.get('Content-Disposition'));
-        // const type      = 'text/csv';
-        // const extension = 'doc';
-        // download(filename, content, type, extension);
+        this.saveFile(res);
       });
   }
 

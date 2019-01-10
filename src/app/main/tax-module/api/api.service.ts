@@ -155,7 +155,7 @@ export class ApiService {
 
   downloadFileDT(code: string) {
     const url = `${this.url}/${code}/declaration-template`;
-    return this.http.get(url, { observe: 'response', responseType: 'blob' });
+    return this.http.get(url, { observe: 'response', responseType: 'blob' as 'json' });
   }
 
   updateSpecification(code: string, specification: string) {

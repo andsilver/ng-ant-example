@@ -150,7 +150,7 @@
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Size</nz-form-label>
-                  <div class="form-display-data">{{taxModule.assessmentTemplate.size}}</div>
+                  <div class="form-display-data">{{taxModule.assessmentTemplate.size | fileSize}}</div>
                 </nz-form-item>
               </div>
             </div>
@@ -185,7 +185,7 @@
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Size</nz-form-label>
-                  <div class="form-display-data">{{taxModule.declarationTemplate.size}}</div>
+                  <div class="form-display-data">{{taxModule.declarationTemplate.size | fileSize}}</div>
                 </nz-form-item>
               </div>
             </div>

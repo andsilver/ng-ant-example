@@ -193,6 +193,7 @@ export class DetailsComponent implements OnInit {
         console.log(res);
         const filename  = `TaxModule_${this.formatDate.transform(new Date())}`;
         const content   = res.body;
+        console.log(res.headers.get('Content-Disposition'));
         // const type      = 'text/csv';
         // const extension = 'doc';
         // download(filename, content, type, extension);

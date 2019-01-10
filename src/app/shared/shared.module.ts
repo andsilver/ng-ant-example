@@ -12,6 +12,7 @@ import { TaxPayerPipe } from './pipes/tax-payer.pipe';
 import { LabelPipe } from './pipes/label.pipe';
 
 import { CodeEditorComponent } from './components/code-editor/code-editor.component';
+import { FileSizePipe } from './pipes/file-size.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CodeEditorComponent } from './components/code-editor/code-editor.compon
     CustomDatePipe,
     TaxPayerPipe,
     LabelPipe,
-    CodeEditorComponent
+    CodeEditorComponent,
+    FileSizePipe
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { CodeEditorComponent } from './components/code-editor/code-editor.compon
     CustomDatePipe,
     TaxPayerPipe,
     LabelPipe,
+    FileSizePipe,
     CodeEditorComponent
   ]
 })

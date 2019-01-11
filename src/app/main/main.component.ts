@@ -31,12 +31,12 @@ export class MainComponent implements OnInit {
         },
         {
           title: 'Tax Register',
-          link: '/taxes/register',
+          link: '/taxes/registers',
           selected: false
         },
         {
           title: 'Tax Claim',
-          link: '/taxes/claim',
+          link: '/taxes/claims',
           selected: false
         }
       ]

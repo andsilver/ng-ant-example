@@ -4,21 +4,21 @@
     <nz-form-item>
       <nz-form-label>Name</nz-form-label>
       <nz-form-control>
-        <input formControlName="name" nz-input>
+        <input formControlName="filterName" nz-input>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label>Status</nz-form-label>
       <nz-form-control>
-        <nz-checkbox-group formControlName="status" [ngModel]="statuses"></nz-checkbox-group>
+        <nz-checkbox-group formControlName="filterStatus" [ngModel]="statuses"></nz-checkbox-group>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label>Tax Module</nz-form-label>
       <nz-form-control>
-        <input formControlName="taxModule" nz-input>
+        <input formControlName="filterTaxModule" nz-input>
       </nz-form-control>
     </nz-form-item>
 
@@ -27,10 +27,10 @@
       <nz-form-control>
         <div nz-row nzType="flex" nzGutter="24">
           <div nz-col nzSpan="12">
-            <nz-year-picker formControlName="taxYearFrom" nzPlaceHolder="From"></nz-year-picker>
+            <nz-year-picker formControlName="filterTaxYearFrom" nzPlaceHolder="From"></nz-year-picker>
           </div>
           <div nz-col nzSpan="12">
-            <nz-year-picker formControlName="taxYearTo" nzPlaceHolder="To"></nz-year-picker>
+            <nz-year-picker formControlName="filterTaxYearTo" nzPlaceHolder="To"></nz-year-picker>
           </div>
         </div>
       </nz-form-control>
@@ -41,10 +41,10 @@
       <nz-form-control>
         <div nz-row nzType="flex" nzGutter="24">
           <div nz-col nzSpan="12">
-            <nz-year-picker formControlName="accountingYearFrom" nzPlaceHolder="From"></nz-year-picker>
+            <nz-year-picker formControlName="filterAccountingYearFrom" nzPlaceHolder="From"></nz-year-picker>
           </div>
           <div nz-col nzSpan="12">
-            <nz-year-picker formControlName="accountingYearTo" nzPlaceHolder="To"></nz-year-picker>
+            <nz-year-picker formControlName="filterAccountingYearTo" nzPlaceHolder="To"></nz-year-picker>
           </div>
         </div>
       </nz-form-control>

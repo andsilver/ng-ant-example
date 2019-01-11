@@ -35,14 +35,10 @@ export class ListComponent implements OnInit {
   };
 
   filter = {
-    limit                 : this.limit,
-    sortBy                : '',
-    sortOrder             : '',
-    filterName            : '',
-    filterStatus          : [],
-    filterApprovalDateFrom: '',
-    filterApprovalDateTo  : '',
-    filterTaxPayers       : []
+    view     : 'list',
+    limit    : this.limit,
+    sortBy   : '',
+    sortOrder: ''
   };
 
   constructor(
@@ -58,7 +54,6 @@ export class ListComponent implements OnInit {
   buildPaginationParams(cursor, action) {
     cursor = cursor || {};
     const pagination = {
-      view              : 'list',
       action            : action,
       cursorCode        : cursor['code'],
       cursorName        : cursor['name'],

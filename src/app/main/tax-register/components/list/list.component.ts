@@ -13,12 +13,11 @@ import { download } from 'app/shared/helpers/utils';
 })
 export class ListComponent implements OnInit {
 
-  filter: any;
   taxRegisters    = [];
 
-  page              = 1;
   limit             = 10;
-  total             = 10;
+  previous          = false;
+  next              = false;
   showFilter        = false;
   addingTaxRegister = false;
 
@@ -38,6 +37,12 @@ export class ListComponent implements OnInit {
     indeterminate: false
   }
 
+  filter = {
+    limit          : this.limit,
+    sortBy         : '',
+    sortOrder      : ''
+  };
+
   constructor(
     private api    : ApiService,
     private router : Router,
@@ -45,28 +50,67 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.filter = {
-      offset             : this.offset,
-      limit              : this.limit,
-      tax_module         : '',
-      sort_by            : '',
-      sort_order         : ''
-    };
-
-    this.getTaxRegisters();
+    this.firstPage();
   }
 
-  getTaxRegisters() {
-    this.api.filterTaxRegister(this.filter)
-      .subscribe((res: any)=> {
-        this.taxRegisters = res.map(p => {
+  buildPaginationParams(cursor, action) {
+    cursor = cursor || {};
+    const pagination = {
+      view                : 'list',
+      action              : action,
+      cursorCode          : cursor['code'],
+      cursorName          : cursor['name'],
+      cursorTaxModule     : cursor['taxModule'],
+      cursorTaxYear       : cursor['taxYear'],
+      curosrAccountingYear: cursor['accountingYear']
+    };
+    Object.assign(pagination, this.filter);
+    return pagination;
+  }
+
+  setPage(pagination) {
+    this.api.fetch(pagination)
+      .subscribe((res: any) => {
+        this.taxRegisters = res.items.map(p => {
           p['checked'] = false;
           return p;
         });
+        this.previous = res.previous;
+        this.next     = res.next;
         this.refreshStatus();
-        this.total = this.taxRegisters.length;
       });
+  }
+
+  firstPage() {
+    const pagination = this.buildPaginationParams(null, 'next');
+    this.setPage(pagination);
+  }
+
+  lastPage() {
+    const pagination = this.buildPaginationParams(null, 'previous');
+    this.setPage(pagination);
+  }
+
+  previousPage() {
+    const cursor = this.taxRegisters[0];
+    const pagination = this.buildPaginationParams(cursor, 'previous');
+    this.setPage(pagination);
+  }
+
+  nextPage() {
+    const cursor = this.taxRegisters[this.taxRegisters.length - 1];
+    const pagination = this.buildPaginationParams(cursor, 'next');
+    this.setPage(pagination);
+  }
+
+  reloadPage() {
+    if (!this.taxRegisters.length) {
+      this.firstPage();
+      return;
+    }
+    const cursor = this.taxRegisters[0];
+    const pagination = this.buildPaginationParams(cursor, 'current');
+    this.setPage(pagination);
   }
 
   createTaxRegister(taxRegister) {
@@ -74,7 +118,7 @@ export class ListComponent implements OnInit {
     this.api.createTaxRegister(taxRegister)
       .subscribe(() => {
         this.message.success('A new Tax Register is added.')
-        this.getTaxRegisters();
+        this.reloadPage();
       });
   }
 
@@ -99,14 +143,14 @@ export class ListComponent implements OnInit {
     forkJoin(requests)
       .subscribe(() => {
         this.message.success('Selected Tax Registers are removed.');
-        this.getTaxRegisters();
+        this.firstPage();
       });
   }
 
   exportList () {
-    // this.api.exporttaxModules()
+    // this.api.exporttaxRegisters()
     //   .subscribe(res => {
-    //     const filename  = `taxModules_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
+    //     const filename  = `taxRegisters_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
     //     const content   = res.body;
     //     const type      = 'text/csv';
     //     const extension = 'csv';
@@ -128,27 +172,27 @@ export class ListComponent implements OnInit {
 
   filterChanged(filter) {
     Object.assign(this.filter, filter);
-    this.getTaxRegisters();
+    this.firstPage();
   }
 
-  sort(sort_by, status) {
+  sort(sortBy, status) {
     if (status) {
-      this.filter.sort_by    = sort_by;
-      this.filter.sort_order = status === 'ascend' ? 'asc' : 'desc';
+      this.filter.sortBy    = sortBy;
+      this.filter.sortOrder = status === 'ascend' ? 'asc' : 'desc';
     } else {
-      this.filter.sort_by    = null;
-      this.filter.sort_order = null;
+      this.filter.sortBy    = null;
+      this.filter.sortOrder = null;
     }
 
     Object.keys(this.sortMap).forEach(key => {
-      if (key === sort_by) {
+      if (key === sortBy) {
         this.sortMap[key] = status;
       } else {
         this.sortMap[key] = null;
       }
     });
 
-    this.getTaxRegisters();
+    this.firstPage();
   }
 
   pageChanged(page) {
@@ -156,10 +200,6 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxRegister) {
-    this.router.navigate(['/taxes/register', taxRegister.code])
-  }
-
-  get offset() {
-    return (this.page - 1) * this.limit + 1;
+    this.router.navigate(['/taxes/registers', taxRegister.code])
   }
 }

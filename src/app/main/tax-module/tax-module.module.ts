@@ -10,8 +10,6 @@ import { CreateTaxModuleComponent } from './components/create-tax-module/create-
 import { PropertiesModalComponent } from './components/properties-modal/properties-modal.component';
 import { ApprovalDateComponent } from './components/approval-date/approval-date.component';
 
-import { ApiService } from './api/api.service';
-
 import { StatusPipe } from './pipes/status.pipe';
 import { ColorPipe } from './pipes/color.pipe';
 import { DeclarationModePipe } from './pipes/declaration-mode.pipe';
@@ -45,9 +43,6 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule
-  ],
-  providers: [
-    ApiService
   ]
 })
 export class TaxModuleModule { }

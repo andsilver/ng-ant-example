@@ -31,8 +31,8 @@ export class CreateComponent implements OnInit {
 
   ngOnInit() {
     this.api.getActiveTaxModules()
-      .subscribe(res => {
-        this.taxModules = res;
+      .subscribe((res: any) => {
+        this.taxModules = res.items;
       });
   }
 

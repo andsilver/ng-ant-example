@@ -25,22 +25,22 @@ export class FilterComponent implements OnInit {
       s['checked'] = true;
     });
     this.filterForm = new FormGroup({
-      name              : new FormControl(''),
-      status            : new FormControl(this.statuses),
-      taxModule         : new FormControl(''),
-      taxYearFrom       : new FormControl(''),
-      taxYearTo         : new FormControl(''),
-      accountingYearFrom: new FormControl(''),
-      accountingYearTo  : new FormControl('')
+      filterName              : new FormControl(''),
+      filterStatus            : new FormControl(this.statuses),
+      filterTaxModule         : new FormControl(''),
+      filterTaxYearFrom       : new FormControl(''),
+      filterTaxYearTo         : new FormControl(''),
+      filterAccountingYearFrom: new FormControl(''),
+      filterAccountingYearTo  : new FormControl('')
     });
   }
 
   applyFilter() {
     const filter = this.filterForm.value;
-    filter.taxYearFrom        = formatDate(filter.taxYearFrom, 'yyyy', 'en');
-    filter.taxYearTo          = formatDate(filter.taxYearTo, 'yyyy', 'en');
-    filter.accountingYearFrom = formatDate(filter.accountingYearFrom, 'yyyy', 'en');
-    filter.accountingYearTo   = formatDate(filter.accountingYearTo, 'yyyy', 'en');
+    filter.filterTaxYearFrom        = formatDate(filter.filterTaxYearFrom, 'yyyy', 'en');
+    filter.filterTaxYearTo          = formatDate(filter.filterTaxYearTo, 'yyyy', 'en');
+    filter.filterAccountingYearFrom = formatDate(filter.filterAccountingYearFrom, 'yyyy', 'en');
+    filter.filterAccountingYearTo   = formatDate(filter.filterAccountingYearTo, 'yyyy', 'en');
     this.filterChanged.emit(filter);
   }
 

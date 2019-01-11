@@ -4,21 +4,21 @@
     <nz-form-item>
       <nz-form-label>Last Name</nz-form-label>
       <nz-form-control>
-        <input nz-input formControlName="last_name">
+        <input nz-input formControlName="filterLastName">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label>First Name</nz-form-label>
       <nz-form-control>
-        <input nz-input formControlName="first_name">
+        <input nz-input formControlName="filterFirstName">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label>Country</nz-form-label>
       <nz-form-control>
-          <nz-select formControlName="country" nzShowSearch>
+          <nz-select formControlName="filterCountry" nzShowSearch>
             <nz-option *ngFor="let country of countries" [nzLabel]="country | country" [nzValue]="country"></nz-option>
           </nz-select>
       </nz-form-control>
@@ -27,7 +27,7 @@
     <nz-form-item>
       <nz-form-label>Address</nz-form-label>
       <nz-form-control>
-        <input nz-input formControlName="address">
+        <input nz-input formControlName="filterAddress">
       </nz-form-control>
     </nz-form-item>
 

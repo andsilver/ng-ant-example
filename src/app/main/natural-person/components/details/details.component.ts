@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
+import { ApiService } from '../../api/api.service';
 import { download } from 'app/shared/helpers/utils';
 
 @Component({
@@ -28,6 +29,7 @@ export class DetailsComponent implements OnInit {
   constructor(
     private route     : ActivatedRoute,
     private appService: AppService,
+    private api       : ApiService,
     private message   : NzMessageService,
     private router    : Router
   ) { }
@@ -36,7 +38,7 @@ export class DetailsComponent implements OnInit {
     this.civilStatuses = this.appService.civilStatuses;
     this.countries     = this.appService.countries;
     this.route.params.subscribe(res => {
-      this.appService.getNaturalPerson(res['id'])
+      this.api.getNaturalPerson(res['id'])
       .subscribe(res => {
         this.person = res;
       });
@@ -45,7 +47,7 @@ export class DetailsComponent implements OnInit {
 
   createPerson(person) {
     this.addingPerson = false;
-    this.appService.createNaturalPerson(person)
+    this.api.createNaturalPerson(person)
       .subscribe(res => {
         this.message.success('A new person is added.')
         this.router.navigate(['/natural-person', res['id']]);
@@ -53,7 +55,7 @@ export class DetailsComponent implements OnInit {
   }
 
   removePerson() {
-    this.appService.removeNaturalPerson(this.person.id)
+    this.api.removeNaturalPerson(this.person.id)
       .subscribe(res => {
         this.message.success('The person is removed.');
         this.router.navigate(['/natural-person']);
@@ -66,11 +68,9 @@ export class DetailsComponent implements OnInit {
 
   updateProperties(properties) {
     this.editingStatus.properties = false;
-    Object.assign(this.person, properties);
-    properties['id'] = this.person.id;
-
-    this.appService.updateNaturalPersonProperties(properties)
-      .subscribe(() => {
+    this.api.updateNaturalPersonProperties(this.person.id, properties)
+      .subscribe(res => {
+        this.person = res;
         this.message.success('Properties are updated.');
       })
   }
@@ -83,19 +83,17 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
-    this.person.residentialAddress = address;
-    address['id'] = this.person.id;
-
-    this.appService.updateNaturalPersonResidentialAddress(address)
-      .subscribe(() => {
+    this.api.updateNaturalPersonResidentialAddress(this.person.id, address)
+      .subscribe(res => {
+        this.person = res;
         this.message.success('Residential Address is updated.')
       });
   }
 
   deleteResidentialAddress() {
-    this.person.residentialAddress = null;
-    this.appService.eraseNaturalPersonResidentialAddress(this.person.id)
-      .subscribe(() => {
+    this.api.eraseNaturalPersonResidentialAddress(this.person.id)
+      .subscribe(res => {
+        this.person = res;
         this.message.success('Residential Address is deleted.');
       });
   }
@@ -108,32 +106,32 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
-    this.person.correspondenceAddress = address;
-    address['id'] = this.person.id;
-
-    this.appService.updateNaturalPersonCorrespondenceAddress(address)
+    this.api.updateNaturalPersonCorrespondenceAddress(this.person.id, address)
       .subscribe(() => {
         this.message.success('Correspondence Address is updated.')
       });
   }
 
   deleteCorrespondenceAddress() {
-    this.person.correspondenceAddress = null;
-    this.appService.eraseNaturalPersonCorrespondenceAddress(this.person.id)
-      .subscribe(() => {
+    this.api.eraseNaturalPersonCorrespondenceAddress(this.person.id)
+      .subscribe(res => {
+        this.person = res;
         this.message.success('Correspondence Address is deleted.');
       });
   }
 
   lookUp() {
-    this.appService.lookUpNaturalPerson(this.registrationNumber)
+    this.api.lookUpNaturalPerson(this.registrationNumber)
       .subscribe(res => {
+        if (!res) {
+          this.message.success('Not found.');
+        }
         this.router.navigate(['/natural-person', res['id']]);
       });
   }
 
   exportList () {
-    this.appService.exportNaturalPersons()
+    this.api.exportNaturalPersons()
       .subscribe(res => {
         const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
         const content   = res.body;

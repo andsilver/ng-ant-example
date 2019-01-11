@@ -23,11 +23,11 @@ const routes: Routes = [
             loadChildren: './main/tax-module/tax-module.module#TaxModuleModule'
           },
           {
-            path: 'register',
+            path: 'registers',
             loadChildren: './main/tax-register/tax-register.module#TaxRegisterModule'
           },
           {
-            path: 'claim',
+            path: 'claims',
             loadChildren: './main/tax-claim/tax-claim.module#TaxClaimModule'
           }
         ]

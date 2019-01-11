@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AppService } from 'app/app.service';
 
 @Component({
   selector: 'app-filter',
@@ -12,16 +13,17 @@ export class FilterComponent implements OnInit {
   filterChanged = new EventEmitter();
 
   filterForm: FormGroup;
-  countries = ['UK', 'BE', 'FR'];
+  countries = [];
 
-  constructor() { }
+  constructor(private app: AppService) {}
 
   ngOnInit() {
+    this.countries = this.app.countries;
     this.filterForm = new FormGroup({
-      first_name: new FormControl(''),
-      last_name : new FormControl(''),
-      country   : new FormControl(''),
-      address   : new FormControl('')
+      filterFirstName: new FormControl(''),
+      filterLastName : new FormControl(''),
+      filterCountry  : new FormControl(''),
+      filterAddress  : new FormControl('')
     });
   }
 

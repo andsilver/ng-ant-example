@@ -7,13 +7,13 @@
         </div>
         <div nz-col class="operation-btns">
           <button nz-button (click)="editingStatus.adding = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeTaxModule()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove this tax module?" (nzOnConfirm)="removeTaxModule()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>
-              <li nz-menu-item>
+              <!--li nz-menu-item>
                 <a (click)="exportList()" i18n>Export List</a>
-              </li>
+              </li-->
             </ul>
           </nz-dropdown>
         </div>

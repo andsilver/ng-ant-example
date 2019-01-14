@@ -11,7 +11,7 @@ import { ApiService } from '../../api/api.service';
 export class PropertiesComponent implements OnInit {
 
   isVisible = false;
-  taxModules: any = [];
+  taxModules = [];
 
   form: FormGroup;
 
@@ -34,8 +34,8 @@ export class PropertiesComponent implements OnInit {
 
   ngOnInit() {
     this.api.getActiveTaxModules()
-      .subscribe(res => {
-        this.taxModules = res;
+      .subscribe((res: any) => {
+        this.taxModules = res.items;
       });
   }
 
@@ -44,7 +44,7 @@ export class PropertiesComponent implements OnInit {
     this.form = this.fb.group({
       code          : this.fb.control(this.taxRegister.code          , [Validators.required]),
       name          : this.fb.control(this.taxRegister.name          , [Validators.required]),
-      taxModule     : this.fb.control(this.taxRegister.taxModule     , [Validators.required]),
+      taxModule     : this.fb.control(this.taxRegister.taxModule.code, [Validators.required]),
       taxYear       : this.fb.control(this.taxRegister.taxYear       , [Validators.required]),
       accountingYear: this.fb.control(this.taxRegister.accountingYear, [Validators.required])
     });
@@ -87,8 +87,8 @@ export class PropertiesComponent implements OnInit {
     }
 
     let v = this.form.value;
-    v.taxYear = formatDate(v.taxYear, 'yyyy', 'en')
-    v.accountingYear = formatDate(v.accountingYear, 'yyyy', 'en')
+    v.taxYear = Number(formatDate(v.taxYear, 'yyyy', 'en'));
+    v.accountingYear = Number(formatDate(v.accountingYear, 'yyyy', 'en'));
 
     this.onConfirm.emit(v);
     this.isVisible = false;

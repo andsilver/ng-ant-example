@@ -84,8 +84,10 @@ export class CreateComponent implements OnInit {
     }
 
     let v = this.form.value;
-    v.taxYear = formatDate(v.taxYear, 'yyyy', 'en')
-    v.accountingYear = formatDate(v.accountingYear, 'yyyy', 'en')
+    v.taxYear        = Number(formatDate(v.taxYear, 'yyyy', 'en'));
+    v.accountingYear = Number(formatDate(v.accountingYear, 'yyyy', 'en'));
+
+    console.log(v);
 
     this.onConfirm.emit(v);
     this.isVisible = false;

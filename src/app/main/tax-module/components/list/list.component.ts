@@ -124,7 +124,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.api.createTaxModule(taxModule)
       .subscribe((res: any) => {
         this.message.success('A new Tax Module is added.')
-        this.toDetailsPage(res.code);
+        this.toDetailsPage(res);
       });
   }
 

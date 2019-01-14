@@ -63,7 +63,10 @@
 
           <nz-form-item>
             <nz-form-label>Tax Module</nz-form-label>
-            <div class="form-display-data">{{taxRegister.taxModule}}</div>
+            <div class="form-display-data">
+              <span style="margin-right: 12px">Code: {{taxRegister.taxModule.code}}</span>
+              <span>Name: {{taxRegister.taxModule.name}}</span>
+            </div>
           </nz-form-item>
 
           <div nz-row>

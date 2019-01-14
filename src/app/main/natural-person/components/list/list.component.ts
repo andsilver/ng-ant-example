@@ -25,7 +25,6 @@ export class ListComponent implements OnInit {
   limit      = 10;
   next       = false;
   previous   = false;
-  total      = 10;
   showFilter = false;
   registrationNumber: string;
 

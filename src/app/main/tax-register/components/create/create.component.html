@@ -26,9 +26,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>Tax Module</nz-form-label>
           <nz-form-control>
-            <nz-select formControlName="taxModule">
-              <nz-option *ngFor="let module of taxModules" [nzValue]="module.code" [nzLabel]="module.name"></nz-option>
-            </nz-select>
+            <app-autocomplete formControlName="taxModule" [data]="taxModules" valueField="code" labelField="name"></app-autocomplete>
             <nz-form-explain *ngIf="taxModule.dirty && taxModule.errors">Please select the tax module!</nz-form-explain>
           </nz-form-control>
         </nz-form-item>

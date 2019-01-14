@@ -73,8 +73,8 @@ export class ApiService {
   }
 
   updateTaxRegister(code: string, register: any) {
-    const url = `${this.url}/${code}/properties`;
-    return this.http.post(url, register);
+    const url = `${this.url}/${code}`;
+    return this.http.put(url, register);
   }
 
   enforceTaxRegister(code: string, params: any) {

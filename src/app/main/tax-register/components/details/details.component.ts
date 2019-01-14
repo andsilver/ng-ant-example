@@ -58,13 +58,18 @@ export class DetailsComponent implements OnInit {
   removeTaxRegister() {
     this.apiService.removeTaxRegister(this.taxRegister.code)
       .subscribe(res => {
-        this.message.success('The Tax Module is removed.');
+        this.message.success('The Tax Register is removed.');
         this.router.navigate(['/taxes/registers']);
       });
   }
 
-  updateProperties() {
+  updateProperties(params: any) {
     this.editingStatus.properties = false;
+    this.apiService.updateTaxRegister(this.taxRegister.code, params)
+      .subscribe(res => {
+        this.message.success('The Tax Register is updated.');
+        this.taxRegister = res;
+      })
   }
 
   performEnforce(params: any) {

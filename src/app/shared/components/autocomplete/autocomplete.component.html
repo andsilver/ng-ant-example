@@ -1,0 +1,4 @@
+<input nz-input [ngModel]="label" (input)="onInput($event.target?.value)" (ngModelChange)="ngModelChanged($event)" [nzAutocomplete]="auto">
+<nz-autocomplete #auto>
+  <nz-auto-option *ngFor="let option of filteredOptions" [nzValue]="option.value">{{option.label}}</nz-auto-option>
+</nz-autocomplete>

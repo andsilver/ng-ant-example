@@ -93,7 +93,7 @@ export class ApiService {
 
   updateTaxModule(code: string, module: any) {
     const url = `${this.url}/${code}/properties`;
-    return this.http.post(url, module);
+    return this.http.put(url, module);
   }
 
   approveTaxModule(code: string, approvalDate: string) {

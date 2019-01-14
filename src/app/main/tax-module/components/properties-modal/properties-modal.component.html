@@ -1,4 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Properties" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Edit Properties" nzClassName="tax-module-properties-modal" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
   <nz-tabset>
     <nz-tab nzTitle="Properties">
       <form nz-form [formGroup]='propertiesForm' class="create-tax-module">
@@ -75,10 +75,12 @@
         </div>
 
         <form formArrayName="address">
-          <nz-form-label>Address</nz-form-label>
-          <nz-form-control *ngFor="let address of addresses; let i=index;">
-            <input nz-input [formControlName]="i">
-          </nz-form-control>
+          <nz-form-item>
+            <nz-form-label>Address</nz-form-label>
+            <nz-form-control *ngFor="let address of addresses; let i=index;">
+              <input nz-input [formControlName]="i">
+            </nz-form-control>
+          </nz-form-item>
         </form>
       </form>
     </nz-tab>

@@ -11,9 +11,7 @@
           <nz-form-item>
             <nz-form-label>Select Tax Register</nz-form-label>
             <nz-form-control>
-              <nz-select formControlName="register">
-                <nz-option *ngFor="let reg of taxRegisters" [nzValue]="reg.code" [nzLabel]="reg.name"></nz-option>
-              </nz-select>
+              <app-autocomplete formControlName="register" [data]="taxRegisters" valueField="code" labelField="name"></app-autocomplete>
               <nz-form-explain *ngIf="register.dirty && register.errors">Please select the tax register!</nz-form-explain>
             </nz-form-control>
           </nz-form-item>

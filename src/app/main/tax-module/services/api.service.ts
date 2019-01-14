@@ -122,6 +122,11 @@ export class ApiService {
     return this.http.put(url, {approvalDate: approvalDate});
   }
 
+  loadFormData(code: string) {
+    const url = `${this.url}/${code}/form`;
+    return this.http.get(url);
+  }
+
   lookupTaxModule(code: string) {
 
   }

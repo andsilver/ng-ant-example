@@ -13,7 +13,7 @@ import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 export class CreateComponent implements OnInit {
 
   isVisible = false;
-  taxRegisters: any = [];
+  taxRegisters = [];
   selectedTaxRegister: any;
   step   = 0;
   fields = [];

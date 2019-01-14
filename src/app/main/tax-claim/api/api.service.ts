@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApiService as TaxRegisterApi } from '../../tax-register/api/api.service'
+import { ApiService as TaxModuleApi   } from '../../tax-module/services/api.service';
 
 @Injectable()
 export class ApiService {
@@ -22,7 +23,7 @@ export class ApiService {
     }
   ];
 
-  constructor(private http: HttpClient, private trApi: TaxRegisterApi) { }
+  constructor(private http: HttpClient, private trApi: TaxRegisterApi, private tmApi: TaxModuleApi) { }
 
   protected setHttpParams(params: Object) {
     let httpParams = new HttpParams();
@@ -43,15 +44,14 @@ export class ApiService {
   getActiveTaxRegisters() {
     const params = {
       view        : 'reference',
-      filterStatus: 'ACTIVE',
+      filterStatus: 'ENFORCEABLE',
       action      : 'next'
     }
     return this.trApi.fetch(params);
   }
 
   loadFormData(code: string) {
-    const url = `/tax_module/load_form/${code}`;
-    return this.http.get(url);
+    return this.tmApi.loadFormData(code);
   }
 
   getDetails(id: string) {

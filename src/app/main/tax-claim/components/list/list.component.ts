@@ -73,7 +73,6 @@ export class ListComponent implements OnInit {
           p['checked'] = false;
           return p;
         });
-        console.log(this.taxClaims);
         this.previous = res.previous;
         this.next     = res.next;
         this.refreshStatus();
@@ -115,9 +114,9 @@ export class ListComponent implements OnInit {
   createTaxClaim(taxClaim) {
     this.addingTaxClaim = false;
     this.api.create(taxClaim)
-      .subscribe(() => {
+      .subscribe((res: any) => {
         this.message.success('A new Tax Claim is added.')
-        this.reloadPage();
+        this.toDetailsPage(res);
       });
   }
 

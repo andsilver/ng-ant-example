@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
+import { forkJoin } from 'rxjs';
 import { ApiService } from '../../api/api.service';
 // import { download } from 'app/shared/helpers/utils';
 
@@ -11,12 +12,9 @@ import { ApiService } from '../../api/api.service';
 })
 export class ListComponent implements OnInit {
 
-  filter: any;
   taxClaims    = [];
 
-  page              = 1;
   limit             = 10;
-  total             = 10;
   next              = false;
   previous          = false;
   showFilter        = false;
@@ -37,6 +35,13 @@ export class ListComponent implements OnInit {
     indeterminate: false
   }
 
+  filter = {
+    view     : 'list',
+    limit    : this.limit,
+    sortBy   : '',
+    sortOrder: ''
+  };
+
   constructor(
     private api    : ApiService,
     private router : Router,
@@ -44,24 +49,31 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.filter = {
-      offset             : this.offset,
-      limit              : this.limit,
-      sort_by            : '',
-      sort_order         : ''
-    };
-
     this.firstPage();
+  }
+
+  buildPaginationParams(cursor, action) {
+    cursor = cursor || {};
+    const pagination = {
+      action            : action,
+      cursorId        : cursor['id'],
+      cursorReference : cursor['reference'],
+      cursorRegister  : cursor['register'],
+      cursorStatus    : cursor['status'],
+      cursorAmount    : cursor['amount']
+    };
+    Object.assign(pagination, this.filter);
+    return pagination;
   }
 
   setPage(pagination) {
     this.api.fetch(pagination)
       .subscribe((res: any) => {
         this.taxClaims = res.items.map(p => {
-          p['checked']            = false;
+          p['checked'] = false;
           return p;
         });
+        console.log(this.taxClaims);
         this.previous = res.previous;
         this.next     = res.next;
         this.refreshStatus();
@@ -69,58 +81,24 @@ export class ListComponent implements OnInit {
   }
 
   firstPage() {
-    const pagination = {
-      action: 'next',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: null
-    };
+    const pagination = this.buildPaginationParams(null, 'next');
     this.setPage(pagination);
   }
 
   lastPage() {
-    const pagination = {
-      action: 'previous',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: null
-    };
+    const pagination = this.buildPaginationParams(null, 'previous');
     this.setPage(pagination);
   }
 
   previousPage() {
     const cursor = this.taxClaims[0];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'previous',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'previous');
     this.setPage(pagination);
   }
 
   nextPage() {
     const cursor = this.taxClaims[this.taxClaims.length - 1];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'next',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'next');
     this.setPage(pagination);
   }
 
@@ -130,16 +108,7 @@ export class ListComponent implements OnInit {
       return;
     }
     const cursor = this.taxClaims[0];
-    delete cursor['checked'];
-    const pagination = {
-      action: 'current',
-      limit : this.limit,
-      sort  : {
-        column: this.filter.sort_by,
-        order : this.filter.sort_order
-      },
-      cursor: cursor
-    };
+    const pagination = this.buildPaginationParams(cursor, 'current');
     this.setPage(pagination);
   }
 
@@ -158,29 +127,29 @@ export class ListComponent implements OnInit {
         if (res) {
           this.toDetailsPage(res);
         } else {
-          this.message.warning('Tax Register not found!');
+          this.message.warning('Tax Claim not found!');
         }
       });
   }
 
   removeSelected() {
-    // const requests = this.taxClaims.map(p => {
-    //   if (p.checked) {
-    //     return this.api.removeTaxClaim(p.code);
-    //   }
-    // });
+    const requests = this.taxClaims.map(p => {
+      if (p.checked) {
+        return this.api.remove(p.code);
+      }
+    });
 
-    // forkJoin(requests)
-    //   .subscribe(() => {
-    //     this.message.success('Selected Tax Registers are removed.');
-    //     this.getTaxClaims();
-    //   });
+    forkJoin(requests)
+      .subscribe(() => {
+        this.message.success('Selected Tax Claims are removed.');
+        this.firstPage();
+      });
   }
 
   exportList () {
-    // this.api.exporttaxModules()
+    // this.api.exporttaxClaims()
     //   .subscribe(res => {
-    //     const filename  = `taxModules_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
+    //     const filename  = `taxClaims_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
     //     const content   = res.body;
     //     const type      = 'text/csv';
     //     const extension = 'csv';
@@ -205,17 +174,17 @@ export class ListComponent implements OnInit {
   //   this.getTaxClaims();
   // }
 
-  sort(sort_by, status) {
+  sort(sortBy, status) {
     if (status) {
-      this.filter.sort_by    = sort_by;
-      this.filter.sort_order = status === 'ascend' ? 'asc' : 'desc';
+      this.filter.sortBy    = sortBy;
+      this.filter.sortOrder = status === 'ascend' ? 'asc' : 'desc';
     } else {
-      this.filter.sort_by    = null;
-      this.filter.sort_order = null;
+      this.filter.sortBy    = null;
+      this.filter.sortOrder = null;
     }
 
     Object.keys(this.sortMap).forEach(key => {
-      if (key === sort_by) {
+      if (key === sortBy) {
         this.sortMap[key] = status;
       } else {
         this.sortMap[key] = null;
@@ -226,10 +195,6 @@ export class ListComponent implements OnInit {
   }
 
   toDetailsPage(taxClaim) {
-    this.router.navigate(['/taxes/claim', taxClaim.id]);
-  }
-
-  get offset() {
-    return (this.page - 1) * this.limit + 1;
+    this.router.navigate(['/taxes/claims', taxClaim.id]);
   }
 }

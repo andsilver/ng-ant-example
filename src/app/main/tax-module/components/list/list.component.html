@@ -33,18 +33,18 @@
     </div>
     <div nz-col class="col-pagination">
       <nz-button-group nzSize="small">
-        <button nz-button (click)="firstPage()" [disabled]="!previous">First</button>
+        <button nz-button (click)="firstPage()" [disabled]="!previous"><i nz-icon type="vertical-right" theme="outline"></i></button>
         <button nz-button (click)="previousPage()" [disabled]="!previous"><i nz-icon type="left" theme="outline"></i></button>
         <button nz-button (click)="nextPage()" [disabled]="!next"><i nz-icon type="right" theme="outline"></i></button>
-        <button nz-button (click)="lastPage()" [disabled]="!next">Last</button>
+        <button nz-button (click)="lastPage()" [disabled]="!next"><i nz-icon type="vertical-left" theme="outline"></i></button>
       </nz-button-group>
     </div>
   </div>
-  <div nz-row nzType="flex">
-    <div nz-col [nzSpan]="showFilter ? 6 : 0" class="tax-modules-filter" [ngClass]="{'collapsed': showFilter}">
-      <app-filter (filterChanged)="filterChanged($event)"></app-filter>
+  <div class="filter-list">
+    <div class="filter-box" [ngClass]="{'filter-opened': showFilter}">
+      <app-filter></app-filter>
     </div>
-    <div nz-col [nzSpan]="showFilter ? 18 : 24" style="padding: 0 24px">
+    <div style="padding: 0 24px">
       <nz-table #filterTable nzSize="middle" [nzData]="taxModules" [nzPageSize]="limit" nzShowPagination="false">
         <thead>
           <tr>
@@ -54,11 +54,11 @@
               [nzIndeterminate]="checkStatus.indeterminate"
               (nzCheckedChange)="checkAll($event)">
             </th>
-            <th nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
+            <th nzWidth="10%" nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
             <th nzShowSort [(nzSort)]="sortMap.name"   (nzSortChange)="sort('name', $event)" i18n>Name</th>
-            <th i18n>Status</th>
-            <th nzShowSort [(nzSort)]="sortMap.approvalDate" (nzSortChange)="sort('approvalDate', $event)" i18n>Approval Date</th>
-            <th i18n>Tax Payers</th>
+            <th nzWidth="10%" i18n>Status</th>
+            <th nzWidth="15%" nzShowSort [(nzSort)]="sortMap.approvalDate" (nzSortChange)="sort('approvalDate', $event)" i18n>Approval Date</th>
+            <th nzWidth="15%" i18n>Tax Payers</th>
           </tr>
         </thead>
         <tbody>

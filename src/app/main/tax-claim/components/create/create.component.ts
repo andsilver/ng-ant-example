@@ -43,8 +43,8 @@ export class CreateComponent implements OnInit {
 
   ngOnInit() {
     this.api.getActiveTaxRegisters()
-      .subscribe(res => {
-        this.taxRegisters = res;
+      .subscribe((res: any) => {
+        this.taxRegisters = res.items;
       });
   }
 

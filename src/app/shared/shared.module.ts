@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MonacoEditorModule } from 'ngx-monaco';
+// import { MonacoEditorModule } from 'ngx-monaco';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { CountryPipe } from './pipes/country.pipe';
@@ -30,7 +31,11 @@ import { FileSizePipe } from './pipes/file-size.pipe';
     FormsModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    MonacoEditorModule.forRoot()
+    // MonacoEditorModule,
+    MonacoEditorModule
+  ],
+  providers: [
+    CustomDatePipe
   ],
   exports: [
     CommonModule,

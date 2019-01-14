@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { ApiService } from '../../api/api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-create-tax-module',
   templateUrl: './create-tax-module.component.html',
-  styleUrls: ['./create-tax-module.component.scss']
+  styleUrls: ['./create-tax-module.component.scss'],
 })
 export class CreateTaxModuleComponent implements OnInit {
 

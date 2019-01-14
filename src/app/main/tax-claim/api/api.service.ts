@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { ApiService as TaxRegisterApi } from '../../tax-register/api/api.service'
 
 @Injectable()
 export class ApiService {
 
-  url = '/tax_claim'
+  url = '/api/taxes/claims'
 
   statuses = [
     {
@@ -21,11 +22,31 @@ export class ApiService {
     }
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private trApi: TaxRegisterApi) { }
+
+  protected setHttpParams(params: Object) {
+    let httpParams = new HttpParams();
+    Object.keys(params).forEach(key => {
+      if (!params[key]) {
+        return;
+      }
+      if (params[key] instanceof Array) {
+        params[key].forEach(value => httpParams = httpParams.append(key, value));
+      } else {
+        httpParams = httpParams.append(key, params[key]);
+      }
+    });
+    return { params: httpParams };
+  }
+
 
   getActiveTaxRegisters() {
-    const url = '/tax_register/list_active';
-    return this.http.get(url);
+    const params = {
+      view        : 'reference',
+      filterStatus: 'ACTIVE',
+      action      : 'next'
+    }
+    return this.trApi.fetch(params);
   }
 
   loadFormData(code: string) {
@@ -33,23 +54,29 @@ export class ApiService {
     return this.http.get(url);
   }
 
-  getDetails(id) {
-    const url = `${this.url}/get/${id}`;
-    return this.http.get(url);
-  }
-
-  fetch(pagination: any) {
-    const url = `${this.url}/fetch`;
-    return this.http.post(url, pagination);
-  }
-
-  lookUp(reference: string) {
-    const url = `${this.url}/lookup/${reference}`;
+  getDetails(id: string) {
+    const url = `${this.url}/${id}`;
     return this.http.get(url);
   }
 
   create(taxClaim: any) {
-    const url = `${this.url}/create`;
+    const url = `${this.url}`;
     return this.http.post(url, taxClaim);
+  }
+
+  remove(id: string) {
+    const url = `${this.url}/${id}`;
+    return this.http.delete(url);
+  }
+
+  fetch(pagination: any) {
+    const url = this.url;
+    const params = this.setHttpParams(pagination);
+    return this.http.get(url, params);
+  }
+
+  lookUp(reference: string) {
+    const url = `${this.url}/reference/${reference}`;
+    return this.http.get(url);
   }
 }

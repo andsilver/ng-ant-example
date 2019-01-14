@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppSettings } from 'app/app-settings';
-import { ApiService as TaxModuleApi } from '../../tax-module/api/api.service';
+import { ApiService as TaxModuleApi } from '../../tax-module/services/api.service';
 
 @Injectable({
   providedIn: 'root'

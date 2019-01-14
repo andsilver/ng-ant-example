@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ApiService } from '../../api/api.service';
+import { ApiService } from '../../services/api.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 import { download } from 'app/shared/helpers/utils';
 

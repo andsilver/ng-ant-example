@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ApiService } from '../../api/api.service';
+import { FilterService } from '../../services/filter.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 
 @Component({
@@ -19,38 +19,27 @@ export class FilterComponent implements OnInit {
   taxPayers = [];
   statuses  = [];
 
-  constructor(private api: ApiService, private date: CustomDatePipe) { }
+  constructor(private filter: FilterService) { }
 
   ngOnInit() {
-    this.taxPayers = this.api.taxPayers;
-    this.statuses  = this.api.statuses;
-    this.statuses.forEach(s => {
-      s['checked'] = true;
-    });
-    this.taxPayers.forEach(t => {
-      t['checked'] = true;
-    })
-    this.filterForm = new FormGroup({
-      filterName            : new FormControl(''),
-      filterStatus          : new FormControl(this.statuses),
-      filterApprovalDateFrom: new FormControl(''),
-      filterApprovalDateTo  : new FormControl(''),
-      filterTaxPayers       : new FormControl(this.taxPayers)
-    });
+    this.taxPayers = this.filter.taxPayers;
+    this.statuses  = this.filter.statuses;
+    this.filterForm = this.filter.filterForm;
+  }
+
+  reset() {
+    this.filterForm = this.filter.initFilterForm();
   }
 
   applyFilter() {
     const filter = this.filterForm.value;
-    filter.filterApprovalDateFrom = this.date.transform(filter.filterApprovalDateFrom, null);
-    filter.filterApprovalDateTo   = this.date.transform(filter.filterApprovalDateTo, null);
-    filter.filterStatus           = filter.filterStatus.filter(s => s.checked).map(s => s.value);
-    filter.filterTaxPayers        = filter.filterTaxPayers.filter(t => t.checked).map(t => t.value);
-    this.filterChanged.emit(filter);
+    this.filter.saveFilter(filter);
   }
 
   clearFilter() {
-    this.filterForm.reset();
-    this.applyFilter();
+    this.reset();
+    const filter = this.filterForm.value;
+    this.filter.saveFilter(filter);
   }
 
 }

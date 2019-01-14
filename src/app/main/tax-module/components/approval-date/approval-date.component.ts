@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ApprovalDateComponent implements OnInit {
 
   isVisible = false;
+  title: string;
 
   @Input()
   approvalDate;
@@ -16,7 +17,9 @@ export class ApprovalDateComponent implements OnInit {
   set visible(visible: boolean) {
     this.isVisible = visible;
     if (!this.approvalDate) {
-      this.approvalDate = new Date();
+      this.title = 'Approve';
+    } else {
+      this.title = 'Edit Approval Date';
     }
   }
 

@@ -100,7 +100,7 @@
       <div style="margin-bottom: 24px">
         <nz-card nzTitle="Status" [nzExtra]="editStatus">
           <form nz-form class="edit-properties-form">
-            <div nz-row nzType="flex" nzGutter="24">
+            <div nz-row nzType="flex" nzGutter="12">
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Status</nz-form-label>
@@ -117,18 +117,21 @@
                 </nz-form-item>
               </div>
             </div>
+
+            <div>
+              <nz-form-item>
+                <button *ngIf="taxModule.status === 'DRAFT'"    nz-button (click)="showModal('approve')">Approve</button>
+                <button *ngIf="taxModule.status === 'ACTIVE'"   nz-button (click)="deactivateTaxModule()">Deactivate</button>
+                <button *ngIf="taxModule.status === 'INACTIVE'" nz-button (click)="reactivateTaxModule()">Reactivate</button>
+              </nz-form-item>
+            </div>
           </form>
         </nz-card>
         <ng-template #editStatus>
-          <ng-container *ngIf="taxModule.status === 'DRAFT'">
-            <button nz-button (click)="showModal('approve')">Approve</button>
-          </ng-container>
           <ng-container *ngIf="taxModule.status === 'ACTIVE'">
-            <button style="margin-right: 24px" nz-button (click)="deactivateTaxModule()">Deactivate</button>
             <button nz-button (click)="showModal('aprDate')"><i nz-icon type="edit"></i></button>
           </ng-container>
           <ng-container *ngIf="taxModule.status === 'INACTIVE'">
-            <button style="margin-right: 24px" nz-button (click)="reactivateTaxModule()">Reactivate</button>
             <button nz-button (click)="showModal('aprDate')"><i nz-icon type="edit"></i></button>
           </ng-container>
         </ng-template>

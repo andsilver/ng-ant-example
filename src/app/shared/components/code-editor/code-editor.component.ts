@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MonacoFile, MonacoEditorOptions } from 'ngx-monaco';
+// import { MonacoFile, MonacoEditorOptions } from 'ngx-monaco';
+import neon from '../../monaco-editor.config';
 
 @Component({
   selector: 'app-code-editor',
@@ -15,35 +16,31 @@ export class CodeEditorComponent implements OnInit {
   content: string = '';
 
   @Input()
-  theme: string = 'vc';
+  theme: string = 'vs';
 
   @Input()
-  height: number = 300;
+  height: number = 500;
 
   @Output()
   contentChange = new EventEmitter();
 
-  file: MonacoFile;
-  options: MonacoEditorOptions;
-
-  constructor() { }
-
-  ngOnInit() {
-    this.file = {
-      uri: '',
-      language: this.language,
-      content: this.content
-    };
-    this.options = {
-      minimap: {
+  options = {
+    theme: 'vs',
+    language: 'neon',
+    automaticLayout: true,
+    minimap: {
         enabled: false
       },
       autoIndent: true
-    }
   }
 
-  onChange(file) {
-    this.content = file.content;
+  constructor() { }
+
+  ngOnInit() {}
+
+
+  onChange(content: string) {
+    this.content = content;
     this.contentChange.emit(this.content);
   }
 

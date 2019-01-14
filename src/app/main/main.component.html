@@ -1,5 +1,6 @@
 <nz-layout class="main">
   <nz-sider [nzWidth]="200">
+  <!-- <nz-sider [nzWidth]="200" [nzCollapsible]="true" [nzCollapsedWidth]="64" [nzBreakpoint]="breakpoint"> -->
     <ul nz-menu [nzMode]="'inline'" class="sider-bar">
       <div class="logo" i18n>Malibu</div>
       <li nz-submenu *ngFor="let sub of menu" [nzOpen]="sub.opened">

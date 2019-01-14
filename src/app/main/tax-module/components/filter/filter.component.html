@@ -36,8 +36,12 @@
     </nz-form-item>
 
     <div nz-row nzType="flex" nzJustify="end">
-      <button nz-button nzType="default" style="margin-right: 12px" (click)="clearFilter()">Clear</button>
-      <button nz-button nzType="primary" type="submit">Apply</button>
+      <div nz-col nzOrder="2">
+        <button nz-button nzType="primary" type="submit">Apply</button>
+      </div>
+      <div nz-col nzOrder="1" style="margin-right: 12px" >
+        <button nz-button nzType="default" (click)="clearFilter()">Clear</button>
+      </div>
     </div>
   </form>
 </div>

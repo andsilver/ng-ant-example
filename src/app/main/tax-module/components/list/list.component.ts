@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import { forkJoin } from 'rxjs';
-import { formatDate } from '@angular/common';
-import { ApiService } from '../../api/api.service';
+import { forkJoin, Subscription } from 'rxjs';
+import { ApiService } from '../../services/api.service';
+import { FilterService } from '../../services/filter.service';
 import { download } from 'app/shared/helpers/utils';
 
 @Component({
@@ -11,7 +11,7 @@ import { download } from 'app/shared/helpers/utils';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
   taxModules = [];
 
@@ -41,14 +41,24 @@ export class ListComponent implements OnInit {
     sortOrder: ''
   };
 
+  subscription: Subscription;
+
   constructor(
     private api    : ApiService,
     private router : Router,
-    private message: NzMessageService
-  ) { }
+    private message: NzMessageService,
+    private ft     : FilterService
+  ) {}
 
   ngOnInit() {
-    this.firstPage();
+    this.subscription = this.ft.filterChanged.subscribe(filter => {
+      Object.assign(this.filter, filter);
+      this.firstPage();
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   buildPaginationParams(cursor, action) {
@@ -112,9 +122,9 @@ export class ListComponent implements OnInit {
   createTaxModule(taxModule) {
     this.addingTaxModule = false;
     this.api.createTaxModule(taxModule)
-      .subscribe(() => {
+      .subscribe((res: any) => {
         this.message.success('A new Tax Module is added.')
-        this.reloadPage();
+        this.toDetailsPage(res.code);
       });
   }
 
@@ -164,11 +174,6 @@ export class ListComponent implements OnInit {
     const allUnChecked = this.taxModules.every(value => !value['checked']);
     this.checkStatus.all = allChecked;
     this.checkStatus.indeterminate = (!allChecked) && (!allUnChecked);
-  }
-
-  filterChanged(filter) {
-    Object.assign(this.filter, filter);
-    this.firstPage();
   }
 
   sort(sort_by, status) {

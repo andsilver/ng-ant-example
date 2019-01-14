@@ -43,6 +43,15 @@ export class MainComponent implements OnInit {
     }
   ];
 
+  breakpoint = {
+    xs: '480px',
+    sm: '768px',
+    md: '992px',
+    lg: '1200px',
+    xl: '1600px',
+    xxl: '1600px'
+  };
+
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {

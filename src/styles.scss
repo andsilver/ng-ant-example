@@ -15,6 +15,29 @@ label {
   }
 }
 
+.filter-list {
+  width: 100%;
+  > div:first-of-type {
+    float: left;
+  }
+
+  >div:last-of-type {
+    width: auto;
+    overflow: hidden;
+  }
+}
+
+.filter-box {
+  opacity: 0;
+  width: 0;
+  transition: ease .2s;
+}
+
+.filter-opened {
+  opacity: 1;
+  width: 360px;
+}
+
 .form-display-data {
   color: rgba(0, 0, 0, 0.85);
   font-size: 15px;
@@ -23,4 +46,12 @@ label {
 
 .col-pagination {
   padding-top: 6px;
+}
+
+.approval-date-modal {
+  width: 350px !important;
+}
+
+.specification-modal {
+  width: 700px !important;
 }

@@ -9,11 +9,32 @@
       <div *ngIf="step == 0" nz-row nzType="flex" nzGutter="24">
         <div nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label>Select Tax Register</nz-form-label>
+            <nz-form-label nzRequired>Select Tax Register</nz-form-label>
             <nz-form-control>
               <app-autocomplete formControlName="register" [data]="taxRegisters" valueField="code" labelField="name"></app-autocomplete>
               <nz-form-explain *ngIf="register.dirty && register.errors">Please select the tax register!</nz-form-explain>
             </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div *ngIf="step == 1" nz-row nzType="flex" nzGutter="24">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Select Tax Payer</nz-form-label>
+            <app-autocomplete formControlName="taxPayerId" [data]="naturalPersons" valueField="value" labelField="label"></app-autocomplete>
+            <nz-form-explain *ngIf="taxPayerId.dirty && taxPayerId.errors">Please select the tax payer!</nz-form-explain>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Select Tax Payer Type</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="taxPayerType" nzShowSearch>
+                <nz-option *ngFor="let type of taxPayerTypes" [nzLabel]="type.label" [nzValue]="type.value"></nz-option>
+              </nz-select>
+            </nz-form-control>
+            <nz-form-explain *ngIf="taxPayerType.dirty && taxPayerType.errors">Please select the tax payer type!</nz-form-explain>
           </nz-form-item>
         </div>
       </div>

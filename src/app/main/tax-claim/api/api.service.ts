@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApiService as TaxRegisterApi } from '../../tax-register/api/api.service'
-import { ApiService as TaxModuleApi   } from '../../tax-module/services/api.service';
+import { ApiService as TaxRegisterApi   } from '../../tax-register/api/api.service'
+import { ApiService as TaxModuleApi     } from '../../tax-module/services/api.service';
+import { ApiService as NaturalPersonApi } from '../../natural-person/api/api.service';
 
 @Injectable()
 export class ApiService {
@@ -23,7 +24,11 @@ export class ApiService {
     }
   ];
 
-  constructor(private http: HttpClient, private trApi: TaxRegisterApi, private tmApi: TaxModuleApi) { }
+  constructor(
+    private http: HttpClient,
+    private trApi: TaxRegisterApi,
+    private tmApi: TaxModuleApi,
+    private npApi: NaturalPersonApi) { }
 
   protected setHttpParams(params: Object) {
     let httpParams = new HttpParams();
@@ -44,10 +49,22 @@ export class ApiService {
   getActiveTaxRegisters() {
     const params = {
       view        : 'reference',
-      filterStatus: 'ENFORCEABLE',
+      filterStatus: 'DRAFT',
       action      : 'next'
     }
     return this.trApi.fetch(params);
+  }
+
+  getNaturalPersons () {
+    const params = {
+      view     : 'list',
+      action   : 'next'
+    };
+    return this.npApi.getNaturalPersons(params);
+  }
+
+  get taxPayerTypes () {
+    return this.tmApi.taxPayers;
   }
 
   loadFormData(code: string) {

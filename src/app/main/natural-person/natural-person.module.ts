@@ -9,8 +9,6 @@ import { PropertiesModalComponent } from './components/properties-modal/properti
 import { AddressModalComponent } from './components/address-modal/address-modal.component';
 import { CreatePersonModalComponent } from './components/create-person-modal/create-person-modal.component';
 
-import { ApiService } from './api/api.service';
-
 const routes: Route[] = [
   {
     path: '',
@@ -34,9 +32,6 @@ const routes: Route[] = [
   imports: [
     RouterModule.forChild(routes),
     SharedModule
-  ],
-  providers: [
-    ApiService
   ]
 })
 export class NaturalPersonModule { }

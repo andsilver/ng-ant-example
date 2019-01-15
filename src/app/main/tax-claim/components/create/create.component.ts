@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { ApiService } from '../../api/api.service';
 import { ApiService as TaxRegisterApi } from '../../../tax-register/api/api.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
@@ -12,8 +13,10 @@ import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 })
 export class CreateComponent implements OnInit {
 
-  isVisible = false;
-  taxRegisters = [];
+  isVisible      = false;
+  taxRegisters   = [];
+  taxPayerTypes  = [];
+  naturalPersons = [];
   selectedTaxRegister: any;
   step   = 0;
   fields = [];
@@ -38,10 +41,11 @@ export class CreateComponent implements OnInit {
   constructor(
     private api: ApiService,
     private fb: FormBuilder,
-    private taxRegisterApi: TaxRegisterApi,
+    private trApi: TaxRegisterApi,
     private format: CustomDatePipe) { }
 
   ngOnInit() {
+    this.taxPayerTypes = this.api.taxPayerTypes;
     this.api.getActiveTaxRegisters()
       .subscribe((res: any) => {
         this.taxRegisters = res.items;
@@ -52,8 +56,8 @@ export class CreateComponent implements OnInit {
     this.step = 0;
     this.form = this.fb.group({
       register    : this.fb.control('', [Validators.required]),
-      taxPayerType: this.fb.control('NATURAL_PERSON'),
-      taxPayerId  : this.fb.control(1),
+      taxPayerType: this.fb.control('', [Validators.required]),
+      taxPayerId  : this.fb.control('', [Validators.required]),
       statement   : this.fb.control('ASSESSMENT')
     });
   }
@@ -132,6 +136,14 @@ export class CreateComponent implements OnInit {
     return this.form.get('register');
   }
 
+  get taxPayerId() {
+    return this.form.get('taxPayerId');
+  }
+
+  get taxPayerType() {
+    return this.form.get('taxPayerType');
+  }
+
   closeModal() {
     this.onCancel.emit();
     this.isVisible = false;
@@ -140,36 +152,55 @@ export class CreateComponent implements OnInit {
 
   nextStep() {
 
-    if (!this.form.valid) {
-      this.validation(this.form);
-      return;
-    }
+    switch (this.step) {
 
-    if (this.step === 0) {
-      this.step = 1;
-      this.taxRegisterApi.getTaxRegisterDetails(this.form.value.register)
-        .subscribe(res => {
-          this.selectedTaxRegister = res;
+      case 0:
+        if (this.register.invalid) {
+          this.validation(this.form);
+          return;
+        }
+        this.step = 1;
+        forkJoin([
+          this.trApi.getTaxRegisterDetails(this.form.value.register),
+          this.api.getNaturalPersons()
+        ])
+        .subscribe((ress: any) => {
+          this.selectedTaxRegister = ress[0];
+          this.naturalPersons = ress[1].items.map(item => {
+            return {
+              value: item['id'],
+              label: item['firstName'] + ' ' + item['lastName']
+            };
+          });
         });
-    } else if (this.step === 1) {
-      this.step = 2;
-      this.api.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
-        this.fields = res['fields'];
-        this.dynamicForm = this.setDynamicForm(res['fields'], res['object']);
-      });
-    } else if (this.step === 2) {
-      if (!this.dynamicForm.valid) {
-        this.validation(this.dynamicForm);
-        return;
-      } else {
-        const dates = this.fields.filter(f => f.value.type === 'date');
-        const v = this.dynamicForm.value;
-        dates.forEach(date => v[date.name] = this.format.transform(v[date.name]));
-        this.optionalFields.forEach(f => delete v[f]);
-        const taxClaim = this.form.value;
-        taxClaim['content'] = v;
-        this.onConfirm.emit(taxClaim);
-      }
+      break;
+
+      case 1:
+        if (this.taxPayerId.invalid || this.taxPayerType.invalid) {
+          this.validation(this.form);
+          return;
+        }
+        this.step = 2;
+        this.api.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
+          this.fields = res['fields'];
+          this.dynamicForm = this.setDynamicForm(res['fields'], res['object']);
+        });
+      break;
+
+      case 2:
+        if (!this.dynamicForm.valid) {
+          this.validation(this.dynamicForm);
+          return;
+        } else {
+          const dates = this.fields.filter(f => f.value.type === 'date');
+          const v = this.dynamicForm.value;
+          dates.forEach(date => v[date.name] = this.format.transform(v[date.name]));
+          this.optionalFields.forEach(f => delete v[f]);
+          const taxClaim = this.form.value;
+          taxClaim['content'] = v;
+          this.onConfirm.emit(taxClaim);
+        }
+      break;
     }
   }
 

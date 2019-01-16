@@ -31,7 +31,7 @@
               <nz-form-label nzRequired>Declaration Mode</nz-form-label>
               <nz-form-control>
                 <nz-select formControlName="declarationMode" nzShowSearch nzRequired>
-                    <nz-option *ngFor="let mode of dModes" [nzLabel]="mode.label" [nzValue]="mode.value"></nz-option>
+                  <nz-option *ngFor="let mode of dModes" [nzLabel]="mode.label" [nzValue]="mode.value"></nz-option>
                 </nz-select>
                 <nz-form-explain *ngIf="declarationMode.dirty && declarationMode.errors">Please select a declaration mode!</nz-form-explain>
               </nz-form-control>

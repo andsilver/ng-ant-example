@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ApiService } from '../../api/api.service';
-import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
+import { forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss'],
-  providers: [CustomDatePipe]
+  styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
 
   taxRegister: any;
-  code     : string;
+  taxModules : any = [];
+  code       : string;
 
   editingStatus = {
     adding           : false,
@@ -26,20 +27,32 @@ export class DetailsComponent implements OnInit {
 
   constructor(
     private route     : ActivatedRoute,
-    private apiService: ApiService,
+    private api       : ApiService,
     private message   : NzMessageService,
-    private router    : Router,
-    private formatDate: CustomDatePipe
+    private router    : Router
   ) { }
 
   ngOnInit() {
-    this.statuses  = this.apiService.statuses;
-    this.route.params.subscribe(res => {
-      this.apiService.getTaxRegisterDetails(res['code'])
+    this.statuses  = this.api.statuses;
+    this.route.params
+      .pipe(
+        switchMap(params => {
+          const code = params['code'];
+          return forkJoin([
+            this.api.get(code),
+            this.api.getActiveTaxModules()
+          ])
+        })
+      )
       .subscribe(res => {
-        this.taxRegister = res;
-      });
-    })
+        this.taxRegister = res[0];
+        if (!this.taxRegister) {
+          this.message.error('Tax Register not exist.');
+          this.router.navigate(['/taxes/registers']);
+          return;
+        }
+        this.taxModules = res[1]['items'] || [];
+      })
   }
 
   showModal(type: string) {
@@ -48,7 +61,7 @@ export class DetailsComponent implements OnInit {
 
   createTaxRegister(taxRegister) {
     this.editingStatus.adding = false;
-    this.apiService.createTaxRegister(taxRegister)
+    this.api.create(taxRegister)
       .subscribe(res => {
         this.message.success('A new Tax Register is added.')
         this.router.navigate(['/taxes/registers', res['code']]);
@@ -56,8 +69,8 @@ export class DetailsComponent implements OnInit {
   }
 
   removeTaxRegister() {
-    this.apiService.removeTaxRegister(this.taxRegister.code)
-      .subscribe(res => {
+    this.api.remove(this.taxRegister.code)
+      .subscribe(() => {
         this.message.success('The Tax Register is removed.');
         this.router.navigate(['/taxes/registers']);
       });
@@ -65,7 +78,7 @@ export class DetailsComponent implements OnInit {
 
   updateProperties(params: any) {
     this.editingStatus.properties = false;
-    this.apiService.updateTaxRegister(this.taxRegister.code, params)
+    this.api.update(this.taxRegister.code, params)
       .subscribe(res => {
         this.message.success('The Tax Register is updated.');
         this.taxRegister = res;
@@ -74,7 +87,7 @@ export class DetailsComponent implements OnInit {
 
   performEnforce(params: any) {
     this.editingStatus.enforce = false;
-    this.apiService.enforceTaxRegister(this.taxRegister.code, params)
+    this.api.enforce(this.taxRegister.code, params)
       .subscribe(res => {
         this.message.success('Tax Register is enforced.');
         this.taxRegister = res;
@@ -82,7 +95,7 @@ export class DetailsComponent implements OnInit {
   }
 
   lookUp() {
-    this.apiService.getTaxRegisterDetails(this.code)
+    this.api.get(this.code)
       .subscribe((res: any) => {
         if (res) {
           this.router.navigate(['/taxes/registers', res.code]);

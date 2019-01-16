@@ -1,0 +1,47 @@
+<div style="padding: 24px">
+  <form nz-form [formGroup]="form" (ngSubmit)="applyFilter()">
+
+    <nz-form-item>
+      <nz-form-label>Register</nz-form-label>
+      <nz-form-control>
+        <app-autocomplete formControlName="filterRegister" valueField="code" labelField="name" [data]="registers"></app-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>Status</nz-form-label>
+      <nz-form-control>
+        <nz-checkbox-group formControlName="filterStatus" [ngModel]="statuses"></nz-checkbox-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <div nz-row nzType="flex" nzGutter="12">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Amount From</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="filterAmountFrom"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Amount To</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="filterAmountTo"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="end">
+      <div nz-col nzOrder="2">
+        <button nz-button nzType="primary" type="submit">Apply</button>
+      </div>
+      <div nz-col nzOrder="1" style="margin-right: 12px" >
+        <button nz-button nzType="default" (click)="clearFilter()">Clear</button>
+      </div>
+    </div>
+  </form>
+</div>

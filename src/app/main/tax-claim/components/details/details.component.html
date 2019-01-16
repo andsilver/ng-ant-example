@@ -258,24 +258,31 @@
               </nz-form-item>
             </div>
             <div nz-col nzSpan="12">
-              <nz-form-item  *ngFor="let item of statement.content | keyvalue">
-                <nz-form-label>{{item.key | label}}</nz-form-label>
-                <div class="form-display-data">
-                  <ng-container *ngIf="typeOf(item.value) == 'STATIC'">
-                    {{item.value || '-'}}
-                  </ng-container>
-                  <ng-container *ngIf="typeOf(item.value) == 'ARRAY'">
-                    <div *ngFor="let it of item.value">
-                      {{it || '-'}}
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="typeOf(item.value) == 'JSON'">
-                    <div *ngFor="let it of item.value | keyvalue">
-                      {{it.key | label}}: {{it.value}}
-                    </div>
-                  </ng-container>
-                </div>
-              </nz-form-item>
+              <ng-container  *ngFor="let item of statement.content | keyvalue">
+                <nz-form-item *ngIf="typeOf(item.value) == 'STATIC'">
+                  <nz-form-label>{{item.key | label}}</nz-form-label>
+                  <div class="form-display-data">{{item.value || '-'}}</div>
+                </nz-form-item>
+                <nz-form-item *ngIf="typeOf(item.value) == 'ARRAY'">
+                  <nz-form-label>{{item.key | label}}</nz-form-label>
+                  <div *ngFor="let it of item.value" class="form-display-data">{{it || '-'}}</div>
+                </nz-form-item>
+                <ng-container *ngIf="typeOf(item.value) == 'JSON'">
+                  <nz-form-item *ngFor="let it of item.value | keyvalue">
+                    <nz-form-label>{{it.key | label}}</nz-form-label>
+                    <div class="form-display-data">{{it.value}}</div>
+                  </nz-form-item>
+                </ng-container>
+                <nz-form-item *ngIf="typeOf(item.value) == 'BOOL'">
+                  <nz-form-label>
+                    {{item.key | label}}
+                  </nz-form-label>
+                  <span style="margin-left: 12px">
+                    <i nz-icon *ngIf="item.value" type="check-circle" theme="twotone" twoToneColor="#52c41a"></i>
+                    <i nz-icon *ngIf="!item.value" type="close-circle" theme="twotone" twoToneColor="#f4521a"></i>
+                  </span>
+                </nz-form-item>
+              </ng-container>
             </div>
           </div>
         </form>

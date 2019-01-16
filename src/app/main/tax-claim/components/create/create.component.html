@@ -11,30 +11,35 @@
           <nz-form-item>
             <nz-form-label nzRequired>Select Tax Register</nz-form-label>
             <nz-form-control>
-              <app-autocomplete formControlName="register" [data]="taxRegisters" valueField="code" labelField="name"></app-autocomplete>
+              <app-autocomplete formControlName="register"  valueField="code" labelField="name" [data]="taxRegisters"></app-autocomplete>
               <nz-form-explain *ngIf="register.dirty && register.errors">Please select the tax register!</nz-form-explain>
             </nz-form-control>
           </nz-form-item>
         </div>
       </div>
 
-      <div *ngIf="step == 1" nz-row nzType="flex" nzGutter="24">
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzRequired>Select Tax Payer</nz-form-label>
-            <app-autocomplete formControlName="taxPayerId" [data]="naturalPersons" valueField="value" labelField="label"></app-autocomplete>
-            <nz-form-explain *ngIf="taxPayerId.dirty && taxPayerId.errors">Please select the tax payer!</nz-form-explain>
-          </nz-form-item>
-        </div>
-        <div nz-col nzSpan="12">
+      <div *ngIf="step == 1" nz-row>
+        <div nz-col nzSpan="24">
           <nz-form-item>
             <nz-form-label nzRequired>Select Tax Payer Type</nz-form-label>
             <nz-form-control>
-              <nz-select formControlName="taxPayerType" nzShowSearch>
-                <nz-option *ngFor="let type of taxPayerTypes" [nzLabel]="type.label" [nzValue]="type.value"></nz-option>
-              </nz-select>
+              <nz-radio-group formControlName="taxPayerType">
+                <label *ngFor="let payer of taxPayerTypes" nz-radio [nzValue]="payer.value">{{payer.label}}</label>
+              </nz-radio-group>
             </nz-form-control>
             <nz-form-explain *ngIf="taxPayerType.dirty && taxPayerType.errors">Please select the tax payer type!</nz-form-explain>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired>Select Tax Payer</nz-form-label>
+            <app-autocomplete
+              formControlName="taxPayerId"
+              [data]="taxPayerType.value == 'NATURAL_PERSON' ? naturalPersons : legalEntities"
+              valueField="value"
+              labelField="label">
+            </app-autocomplete>
+            <nz-form-explain *ngIf="taxPayerId.dirty && taxPayerId.errors">Please select the tax payer!</nz-form-explain>
           </nz-form-item>
         </div>
       </div>
@@ -78,12 +83,12 @@
               <input nz-input [formControlName]="field.name">
             </ng-container>
 
-            <div style="margin-left: 12px" *ngIf="field.value.type == 'composite'">
+            <div *ngIf="field.value.type == 'composite'">
               <ng-container *ngTemplateOutlet="dynamic; context: {$implicit: form.get(field.name), fields: field.value.fields}">
               </ng-container>
             </div>
 
-            <div style="margin-left: 12px" *ngIf="field.value.type == 'list'">
+            <div *ngIf="field.value.type == 'list'">
               <form [formArrayName]="field.name">
                 <nz-form-item>
                   <nz-form-control *ngFor="let item of formArrayControls(form.get(field.name)); let i=index;">

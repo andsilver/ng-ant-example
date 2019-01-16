@@ -9,31 +9,32 @@ export class FilterService {
 
   filter = {};
   statuses = [];
-  taxPayers = [];
   filterChanged: BehaviorSubject<any>;
 
   constructor(private api: ApiService, private date: CustomDatePipe) {
-    this.taxPayers = this.api.taxPayers;
     this.statuses  = this.api.statuses;
     this.statuses.forEach(s => {
       s['checked'] = true;
     });
-    this.taxPayers.forEach(t => {
-      t['checked'] = true;
-    });
-
     this.initFilter();
     this.filterChanged = new BehaviorSubject(this.transformFilter(this.filter));
   }
 
-  private transformFilter(filter: any) {
-    const f = {};
-    Object.assign(f, filter);
-    f['filterApprovalDateFrom'] = this.date.transform(f['filterApprovalDateFrom'], null);
-    f['filterApprovalDateTo']   = this.date.transform(f['filterApprovalDateTo'], null);
-    f['filterStatus']           = f['filterStatus'].filter(s => s.checked).map(s => s.value);
-    f['filterTaxPayers']        = f['filterTaxPayers'].filter(t => t.checked).map(t => t.value);
-    return f;
+  public initFilter() {
+    this.filter = {
+      filterName              : null,
+      filterStatus            : this.statuses,
+      filterTaxModule         : null,
+      filterTaxYearFrom       : null,
+      filterTaxYearTo         : null,
+      filterAccountingYearFrom: null,
+      filterAccountingYearTo  : null
+    };
+  }
+
+  public initFilterForm() {
+    this.initFilter();
+    return this.form;
   }
 
   public saveFilter(filter: any) {
@@ -41,19 +42,15 @@ export class FilterService {
     this.filterChanged.next(this.transformFilter(this.filter));
   }
 
-  public initFilter() {
-    this.filter = {
-      filterName            : null,
-      filterStatus          : this.statuses,
-      filterApprovalDateFrom: null,
-      filterApprovalDateTo  : null,
-      filterTaxPayers       : this.taxPayers
-    };
-  }
-
-  public initFilterForm() {
-    this.initFilter();
-    return this.form;
+  private transformFilter(filter: any) {
+    const f = {};
+    Object.assign(f, filter);
+    f['filterTaxYearFrom']        = this.date.transform(f['filterTaxYearFrom'], null, 'yyyy');
+    f['filterTaxYearTo']          = this.date.transform(f['filterTaxYearTo'],   null, 'yyyy');
+    f['filterAccountingYearFrom'] = this.date.transform(f['filterAccountingYearFrom'], null, 'yyyy');
+    f['filterAccountingYearTo']   = this.date.transform(f['filterAccountingYearTo'],   null, 'yyyy');
+    f['filterStatus']             = f['filterStatus'].filter(s => s.checked).map(s => s.value);
+    return f;
   }
 
   get form() {

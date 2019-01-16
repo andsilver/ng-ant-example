@@ -14,24 +14,30 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class AutocompleteComponent implements ControlValueAccessor {
 
   @Input()
-  set data(data) {
-    if (!this.valueField && !this.labelField) {
-      this.options = data.map(d => {
-        return {value: d, label: d};
-      });
-    } else {
-      this.options = data.map(d => {
-        return {value: d[this.valueField], label: d[this.labelField]};
-      });
-    }
-    this.filteredOptions = this.options;
-  }
-
-  @Input()
   valueField: string;
 
   @Input()
   labelField: string;
+
+  @Input()
+  set data(data) {
+    let options;
+    if (!this.valueField && !this.labelField) {
+      options = data.map(d => {
+        return {value: d, label: d};
+      });
+    } else {
+      options = data.map(d => {
+        return {value: d[this.valueField], label: d[this.labelField]};
+      });
+    }
+    if (this.options.length) {
+      this.propagateChange(null);
+      this.writeValue(null);
+    }
+    this.options = options;
+    this.filteredOptions = this.options;
+  }
 
   value: string;
   label: string;
@@ -55,14 +61,18 @@ export class AutocompleteComponent implements ControlValueAccessor {
 
   registerOnTouched() {}
 
-  ngModelChanged(value) {
-    this.writeValue(value);
-    if (this.label) {
-      this.propagateChange(this.value);
+  ngModelChanged(value: string) {
+    const option = this.filteredOptions.find(op => op.value === value);
+    if (!option) {
+      this.propagateChange(null);
+      this.writeValue(null);
+    } else {
+      this.propagateChange(value);
+      this.writeValue(value)
     }
   }
 
-  onInput(label) {
+  onInput(label: string) {
     this.filteredOptions = this.options.filter(option => option.label.toLowerCase().indexOf(label.toLowerCase()) === 0);
   }
 

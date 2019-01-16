@@ -7,7 +7,7 @@
         </div>
         <div nz-col class="operation-btns">
           <button nz-button (click)="showFilter = !showFilter" [ngClass]="{'selected': showFilter}"><i nz-icon type="filter"></i></button>
-          <button nz-button (click)="addingTaxRegister = true"><i nz-icon type="plus"></i></button>
+          <button nz-button (click)="isAdding = true"><i nz-icon type="plus"></i></button>
           <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
@@ -32,15 +32,22 @@
       </div>
     </div>
     <div nz-col class="col-pagination">
-      <nz-pagination [nzSize]="'small'" [nzPageIndex]="page" [nzTotal]="total" (nzPageIndexChange)="pageChanged($event)"></nz-pagination>
+      <app-pagination
+        [previous]="previous"
+        [next]="next"
+        (firstPage)="firstPage()"
+        (previousPage)="previousPage()"
+        (nextPage)="nextPage()"
+        (lastPage)="lastPage()">
+      </app-pagination>
     </div>
   </div>
   <div class="filter-list">
     <div class="filter-box" [ngClass]="{'filter-opened': showFilter}">
-      <app-filter (filterChanged)="filterChanged($event)"></app-filter>
+      <app-filter></app-filter>
     </div>
     <div style="padding: 0 24px">
-      <nz-table #filterTable nzSize="middle" [nzData]="taxRegisters" [nzPageSize]="limit" nzShowPagination="false">
+      <nz-table #filterTable nzSize="middle" [nzData]="items" [nzPageSize]="limit" nzShowPagination="false">
         <thead>
           <tr>
             <th
@@ -75,8 +82,9 @@
   </div>
 
   <app-create
-    [visible]="addingTaxRegister"
-    (onCancel)="addingTaxRegister = false"
+    [taxModules]="taxModules"
+    [visible]="isAdding"
+    (onCancel)="isAdding = false"
     (onConfirm)="createTaxRegister($event)">
   </app-create>
 </div>

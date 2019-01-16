@@ -147,6 +147,7 @@
   </div>
 
   <app-create
+    [taxModules]="taxModules"
     [visible]="editingStatus.adding"
     (onCancel)="editingStatus.adding = false"
     (onConfirm)="createTaxRegister($event)">

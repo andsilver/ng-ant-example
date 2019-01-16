@@ -2,17 +2,6 @@
   margin-left: 12px;
 }
 
-.natural-persons-filter {
-  opacity: 0;
-  overflow: hidden;
-  transition: width .3s;
-  border-right: 1px solid #ececec;
-}
-
-.collapsed {
-  opacity: 1;
-}
-
 .selected {
   border: 1px solid #1890ff;
   color: #1890ff;

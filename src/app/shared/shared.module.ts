@@ -15,6 +15,7 @@ import { LabelPipe } from './pipes/label.pipe';
 import { CodeEditorComponent } from './components/code-editor/code-editor.component';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     LabelPipe,
     CodeEditorComponent,
     FileSizePipe,
-    AutocompleteComponent
+    AutocompleteComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     LabelPipe,
     FileSizePipe,
     CodeEditorComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    PaginationComponent
   ]
 })
 export class SharedModule { }

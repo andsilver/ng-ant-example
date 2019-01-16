@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {formatDate} from '@angular/common';
-import { ApiService } from '../../api/api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-create',
@@ -10,16 +10,14 @@ import { ApiService } from '../../api/api.service';
 })
 export class CreateComponent implements OnInit {
 
-  isVisible = false;
-  taxModules: any = [];
-
-  form: FormGroup;
-
   @Input()
   set visible(visible: boolean) {
     this.isVisible = visible;
     this.reset();
   }
+
+  @Input()
+  taxModules: any = [];
 
   @Output()
   onCancel = new EventEmitter();
@@ -27,14 +25,13 @@ export class CreateComponent implements OnInit {
   @Output()
   onConfirm = new EventEmitter();
 
+  isVisible = false;
+
+  form: FormGroup;
+
   constructor(private api: ApiService, private fb: FormBuilder) { }
 
-  ngOnInit() {
-    this.api.getActiveTaxModules()
-      .subscribe((res: any) => {
-        this.taxModules = res.items;
-      });
-  }
+  ngOnInit() {}
 
   reset() {
 

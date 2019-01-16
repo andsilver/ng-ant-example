@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FilterService } from '../../services/filter.service';
 
@@ -8,6 +8,9 @@ import { FilterService } from '../../services/filter.service';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+
+  @Input()
+  registers = [];
 
   form: FormGroup;
   statuses  = [];

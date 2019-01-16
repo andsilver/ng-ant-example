@@ -2,13 +2,11 @@
   margin-left: 12px;
 }
 
-.tax-claim-filter {
-  opacity: 0;
-  overflow: hidden;
-  transition: width .3s;
-  border-right: 1px solid #ececec;
+.selected {
+  border: 1px solid #1890ff;
+  color: #1890ff;
 }
 
-.collapsed {
-  opacity: 1;
+.filter-opened {
+  width: 280px;
 }

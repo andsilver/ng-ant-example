@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
-import { ApiService } from '../../api/api.service';
-import { format } from 'url';
 
 @Component({
   selector: 'app-enforce',
@@ -28,7 +26,7 @@ export class EnforceComponent implements OnInit {
   @Output()
   onConfirm = new EventEmitter();
 
-  constructor(private api: ApiService, private fb: FormBuilder, private format: CustomDatePipe) { }
+  constructor(private fb: FormBuilder, private format: CustomDatePipe) { }
 
   ngOnInit() {}
 

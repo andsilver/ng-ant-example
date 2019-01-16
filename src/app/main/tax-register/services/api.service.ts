@@ -57,27 +57,27 @@ export class ApiService {
     return this.http.get(url, params);
   }
 
-  getTaxRegisterDetails(code: string) {
+  get(code: string) {
     const url = `${this.url}/${code}`;
     return this.http.get(url);
   }
 
-  createTaxRegister(register: any) {
+  create(register: any) {
     const url = `${this.url}`;
     return this.http.post(url, register);
   }
 
-  removeTaxRegister(code: string) {
+  remove(code: string) {
     const url = `${this.url}/${code}`;
     return this.http.delete(url);
   }
 
-  updateTaxRegister(code: string, register: any) {
+  update(code: string, register: any) {
     const url = `${this.url}/${code}`;
     return this.http.put(url, register);
   }
 
-  enforceTaxRegister(code: string, params: any) {
+  enforce(code: string, params: any) {
     const url = `${this.url}/${code}/enforceability`;
     return this.http.post(url, params);
   }

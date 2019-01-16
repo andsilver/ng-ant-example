@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ApiService } from '../../api/api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-details',
@@ -28,10 +28,10 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
-    this.api.getDetails(id)
-    .subscribe(res => {
-      this.taxClaim = res;
-    });
+    this.api.get(id)
+      .subscribe(res => {
+        this.taxClaim = res;
+      });
   }
 
   createTaxClaim(taxClaim) {
@@ -39,7 +39,7 @@ export class DetailsComponent implements OnInit {
     this.api.create(taxClaim)
       .subscribe((res) => {
         this.message.success('A new Tax Claim is added.');
-        this.router.navigate(['/taxes/claim', res['id']]);
+        this.router.navigate(['/taxes/claims', res['id']]);
       });
   }
 
@@ -50,6 +50,8 @@ export class DetailsComponent implements OnInit {
       return 'ARRAY';
     } else if (value instanceof Object) {
       return 'JSON';
+    } else if (value === false || value === true) {
+      return 'BOOL';
     } else {
       return 'STATIC';
     }

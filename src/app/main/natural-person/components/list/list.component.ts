@@ -4,129 +4,63 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs';
 import {formatDate} from '@angular/common';
 import { AppService } from 'app/app.service';
-import { ApiService } from '../../api/api.service';
-import { Filter } from 'app/app.models';
+import { ApiService } from '../../services/api.service';
+import { FilterService } from '../../services/filter.service';
 import { download } from 'app/shared/helpers/utils';
+import { AbstractList } from 'app/main/list-page';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent extends AbstractList implements OnInit {
 
   @ViewChild('file')
   file: any;
 
-  naturalPersons = [];
   countries      = [];
   civilStatuses  = [];
-
-  limit      = 10;
-  next       = false;
-  previous   = false;
-  showFilter = false;
   registrationNumber: string;
-
-  addingPerson = false;
-
-  sortMap = {
-    lastName : null,
-    firstName: null,
-    address   : null
-  };
-
-  checkStatus = {
-    all          : false,
-    indeterminate: false
-  }
-
-  filter = {
-    limit    : this.limit,
-    view     : 'list',
-    sortBy   : '',
-    sortOrder: ''
-  }
-
   fileContent: any;
 
   constructor(
+    api       : ApiService,
+    private ft        : FilterService,
     private appService: AppService,
-    private api       : ApiService,
     private router    : Router,
     private message   : NzMessageService
-  ) { }
+  ) {
+    super(api);
+  }
 
   ngOnInit() {
-
     this.countries     = this.appService.countries;
     this.civilStatuses = this.appService.civilStatuses;
 
-    this.firstPage();
-  }
-
-  buildPaginationParams(cursor: any, action: string) {
-    cursor = cursor || {};
-    const pagination = {
-      view           : 'list',
-      action         : action,
-      cursorId       : cursor['id'],
-      cursorLastName : cursor['lastName'],
-      cursorFirstName: cursor['firstName'],
-      cursorAddress  : cursor['address']
+    this.sortMap = {
+      lastName : null,
+      firstName: null,
+      address   : null
     };
-    Object.assign(pagination, this.filter);
-    return pagination;
-  }
 
-  setPage(pagination) {
-    this.api.getNaturalPersons(pagination)
-      .subscribe((res: any) => {
-        this.naturalPersons = res.items.map(p => {
-          p['checked'] = false;
-          return p;
-        });
-        this.previous = res.previous;
-        this.next     = res.next;
-        this.refreshStatus();
-      });
-  }
+    this.cursorMap = {
+      cursorId       : 'id',
+      cursorLastName : 'lastName',
+      cursorFirstName: 'firstName',
+      cursorAddress  : 'address'
+    };
 
-  firstPage() {
-    const pagination = this.buildPaginationParams(null, 'next');
-    this.setPage(pagination);
-  }
-
-  lastPage() {
-    const pagination = this.buildPaginationParams(null, 'previous');
-    this.setPage(pagination);
-  }
-
-  previousPage() {
-    const cursor = this.naturalPersons[0];
-    const pagination = this.buildPaginationParams(cursor, 'previous');
-    this.setPage(pagination);
-  }
-
-  nextPage() {
-    const cursor = this.naturalPersons[this.naturalPersons.length - 1];
-    const pagination = this.buildPaginationParams(cursor, 'next');
-    this.setPage(pagination);
-  }
-
-  reloadPage() {
-    if (!this.naturalPersons.length) {
-      this.firstPage();
-      return;
-    }
-    const cursor = this.naturalPersons[0];
-    const pagination = this.buildPaginationParams(cursor, 'current');
-    this.setPage(pagination);
+    this.subscriptions = [
+      this.ft.filterChanged.subscribe(filter => {
+        Object.assign(this.filter, filter);
+        this.firstPage();
+      })];
   }
 
   createPerson(person: any) {
-    this.addingPerson = false;
-    this.api.createNaturalPerson(person)
+    this.isAdding = false;
+    this.api.create(person)
       .subscribe(() => {
         this.message.success('A new person is added.')
         this.reloadPage();
@@ -134,7 +68,7 @@ export class ListComponent implements OnInit {
   }
 
   lookUp() {
-    this.api.lookUpNaturalPerson(this.registrationNumber)
+    this.api.lookUp(this.registrationNumber)
       .subscribe(res => {
         this.toDetailsPage(res);
       });
@@ -142,9 +76,9 @@ export class ListComponent implements OnInit {
 
   removeSelected() {
     const requests = [];
-    this.naturalPersons.forEach(p => {
+    this.items.forEach(p => {
       if (p.checked) {
-        requests.push(this.api.removeNaturalPerson(p.id));
+        requests.push(this.api.remove(p.id));
       }
     });
 
@@ -156,7 +90,7 @@ export class ListComponent implements OnInit {
   }
 
   exportList () {
-    this.api.exportNaturalPersons()
+    this.api.exports()
       .subscribe(res => {
         const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
         const content   = res.body;
@@ -164,23 +98,6 @@ export class ListComponent implements OnInit {
         const extension = 'csv';
         download(filename, content, type, extension);
       });
-  }
-
-  checkAll(value: boolean) {
-    this.naturalPersons.forEach(person => person['checked'] = value);
-    this.refreshStatus();
-  }
-
-  refreshStatus(): void {
-    const allChecked =   !this.naturalPersons.length ? false : this.naturalPersons.every(value =>  value['checked'] === true);
-    const allUnChecked = this.naturalPersons.every(value => !value['checked']);
-    this.checkStatus.all = allChecked;
-    this.checkStatus.indeterminate = (!allChecked) && (!allUnChecked);
-  }
-
-  filterChanged(filter: any) {
-    Object.assign(this.filter, filter);
-    this.firstPage();
   }
 
   importList() {
@@ -193,31 +110,11 @@ export class ListComponent implements OnInit {
       return;
     }
     const fileToRead = files[0];
-    this.api.importNaturalPersons(fileToRead)
+    this.api.imports(fileToRead)
       .subscribe(res => {
         this.message.success('Natural Persons are imported.');
         this.reloadPage();
       });
-  }
-
-  sort(sortBy: string, status: string) {
-    if (status) {
-      this.filter.sortBy    = sortBy;
-      this.filter.sortOrder = status === 'ascend' ? 'asc' : 'desc';
-    } else {
-      this.filter.sortBy    = null;
-      this.filter.sortOrder = null;
-    }
-
-    Object.keys(this.sortMap).forEach(key => {
-      if (key === sortBy) {
-        this.sortMap[key] = status;
-      } else {
-        this.sortMap[key] = null;
-      }
-    });
-
-    this.reloadPage();
   }
 
   toDetailsPage(person) {

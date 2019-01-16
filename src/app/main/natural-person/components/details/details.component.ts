@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
+import { switchMap } from 'rxjs/operators';
 import { AppService } from 'app/app.service';
-import { ApiService } from '../../api/api.service';
+import { ApiService } from '../../services/api.service';
 import { download } from 'app/shared/helpers/utils';
 
 @Component({
@@ -37,17 +38,26 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.civilStatuses = this.appService.civilStatuses;
     this.countries     = this.appService.countries;
-    this.route.params.subscribe(res => {
-      this.api.getNaturalPerson(res['id'])
+    this.route.params
+      .pipe(
+        switchMap(params => {
+          const id = params['id'];
+          return this.api.get(id);
+        })
+      )
       .subscribe(res => {
         this.person = res;
+        if (!this.person) {
+          this.message.error('Natural Person not exist.');
+          this.router.navigate(['/natural-person']);
+          return;
+        }
       });
-    })
   }
 
   createPerson(person) {
     this.addingPerson = false;
-    this.api.createNaturalPerson(person)
+    this.api.create(person)
       .subscribe(res => {
         this.message.success('A new person is added.')
         this.router.navigate(['/natural-person', res['id']]);
@@ -55,8 +65,8 @@ export class DetailsComponent implements OnInit {
   }
 
   removePerson() {
-    this.api.removeNaturalPerson(this.person.id)
-      .subscribe(res => {
+    this.api.remove(this.person.id)
+      .subscribe(() => {
         this.message.success('The person is removed.');
         this.router.navigate(['/natural-person']);
       });
@@ -68,7 +78,7 @@ export class DetailsComponent implements OnInit {
 
   updateProperties(properties) {
     this.editingStatus.properties = false;
-    this.api.updateNaturalPersonProperties(this.person.id, properties)
+    this.api.update(this.person.id, properties)
       .subscribe(res => {
         this.person = res;
         this.message.success('Properties are updated.');
@@ -83,7 +93,7 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
-    this.api.updateNaturalPersonResidentialAddress(this.person.id, address)
+    this.api.updateResidentialAddress(this.person.id, address)
       .subscribe(res => {
         this.person = res;
         this.message.success('Residential Address is updated.')
@@ -91,7 +101,7 @@ export class DetailsComponent implements OnInit {
   }
 
   deleteResidentialAddress() {
-    this.api.eraseNaturalPersonResidentialAddress(this.person.id)
+    this.api.eraseResidentialAddress(this.person.id)
       .subscribe(res => {
         this.person = res;
         this.message.success('Residential Address is deleted.');
@@ -106,14 +116,14 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
-    this.api.updateNaturalPersonCorrespondenceAddress(this.person.id, address)
+    this.api.updateCorrespondenceAddress(this.person.id, address)
       .subscribe(() => {
         this.message.success('Correspondence Address is updated.')
       });
   }
 
   deleteCorrespondenceAddress() {
-    this.api.eraseNaturalPersonCorrespondenceAddress(this.person.id)
+    this.api.eraseCorrespondenceAddress(this.person.id)
       .subscribe(res => {
         this.person = res;
         this.message.success('Correspondence Address is deleted.');
@@ -121,7 +131,7 @@ export class DetailsComponent implements OnInit {
   }
 
   lookUp() {
-    this.api.lookUpNaturalPerson(this.registrationNumber)
+    this.api.lookUp(this.registrationNumber)
       .subscribe(res => {
         if (!res) {
           this.message.success('Not found.');
@@ -131,7 +141,7 @@ export class DetailsComponent implements OnInit {
   }
 
   exportList () {
-    this.api.exportNaturalPersons()
+    this.api.exports()
       .subscribe(res => {
         const filename  = `NaturalPersons_${formatDate(new Date(), 'yyyy_MM_dd', 'en')}`;
         const content   = res.body;

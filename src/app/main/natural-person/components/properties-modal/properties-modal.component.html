@@ -3,7 +3,7 @@
         <div nz-row nzType="flex" nzJustify="space-between">
             <div nz-col nzSpan="11">
                 <nz-form-item>
-                    <nz-form-label>Last Name</nz-form-label>
+                    <nz-form-label nzRequired>Last Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input formControlName="lastName" nzRequired>
                         <nz-form-explain *ngIf="form.get('lastName').dirty && form.get('lastName').errors">Please input your last name!</nz-form-explain>
@@ -13,7 +13,7 @@
 
             <div nz-col nzSpan="11">
                 <nz-form-item>
-                    <nz-form-label>First Name</nz-form-label>
+                    <nz-form-label nzRequired>First Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input formControlName="firstName" nzRequired>
                         <nz-form-explain *ngIf="form.get('firstName').dirty && form.get('firstName').errors">Please input your first name!</nz-form-explain>
@@ -36,7 +36,7 @@
         <div nz-row nzType="flex" nzJustify="space-between">
             <div nz-col nzSpan="11">
                 <nz-form-item>
-                    <nz-form-label>Gender</nz-form-label>
+                    <nz-form-label nzRequired>Gender</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="gender" nzShowSearch nzRequired>
                             <nz-option *ngFor="let gender of genders" [nzLabel]="gender | gender" [nzValue]="gender"></nz-option>
@@ -47,7 +47,7 @@
             </div>
             <div nz-col nzSpan="11">
                 <nz-form-item>
-                    <nz-form-label>Civil status</nz-form-label>
+                    <nz-form-label nzRequired>Civil status</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="civilStatus" nzShowSearch nzRequired>
                             <nz-option *ngFor="let civilStatus of civilStatuses" [nzLabel]="civilStatus.label" [nzValue]="civilStatus.value"></nz-option>

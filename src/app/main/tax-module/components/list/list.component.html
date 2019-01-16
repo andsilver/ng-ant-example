@@ -32,12 +32,14 @@
       </div>
     </div>
     <div nz-col class="col-pagination">
-      <nz-button-group nzSize="small">
-        <button nz-button (click)="firstPage()" [disabled]="!previous"><i nz-icon type="vertical-right" theme="outline"></i></button>
-        <button nz-button (click)="previousPage()" [disabled]="!previous"><i nz-icon type="left" theme="outline"></i></button>
-        <button nz-button (click)="nextPage()" [disabled]="!next"><i nz-icon type="right" theme="outline"></i></button>
-        <button nz-button (click)="lastPage()" [disabled]="!next"><i nz-icon type="vertical-left" theme="outline"></i></button>
-      </nz-button-group>
+      <app-pagination
+        [previous]="previous"
+        [next]="next"
+        (firstPage)="firstPage()"
+        (previousPage)="previousPage()"
+        (nextPage)="nextPage()"
+        (lastPage)="lastPage()">
+      </app-pagination>
     </div>
   </div>
   <div class="filter-list">

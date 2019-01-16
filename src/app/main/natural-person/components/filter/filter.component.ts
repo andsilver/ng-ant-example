@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { AppService } from 'app/app.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FilterService } from '../../services/filter.service';
 
 @Component({
   selector: 'app-filter',
@@ -9,31 +9,31 @@ import { AppService } from 'app/app.service';
 })
 export class FilterComponent implements OnInit {
 
-  @Output()
-  filterChanged = new EventEmitter();
-
-  filterForm: FormGroup;
+  @Input()
   countries = [];
 
-  constructor(private app: AppService) {}
+  form: FormGroup;
+  statuses  = [];
+
+  constructor(private filter: FilterService) { }
 
   ngOnInit() {
-    this.countries = this.app.countries;
-    this.filterForm = new FormGroup({
-      filterFirstName: new FormControl(''),
-      filterLastName : new FormControl(''),
-      filterCountry  : new FormControl(''),
-      filterAddress  : new FormControl('')
-    });
+    this.form = this.filter.form;
+  }
+
+  reset() {
+    this.form = this.filter.initFilterForm();
   }
 
   applyFilter() {
-    this.filterChanged.emit(this.filterForm.value);
+    const filter = this.form.value;
+    this.filter.saveFilter(filter);
   }
 
   clearFilter() {
-    this.filterForm.reset();
-    this.applyFilter();
+    this.reset();
+    const filter = this.form.value;
+    this.filter.saveFilter(filter);
   }
 
 }

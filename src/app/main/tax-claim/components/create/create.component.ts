@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { ApiService } from '../../api/api.service';
-import { ApiService as TaxRegisterApi } from '../../../tax-register/api/api.service';
+import { ApiService } from '../../services/api.service';
+import { ApiService as TaxRegisterApi } from '../../../tax-register/services/api.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 
 @Component({
@@ -17,6 +17,7 @@ export class CreateComponent implements OnInit {
   taxRegisters   = [];
   taxPayerTypes  = [];
   naturalPersons = [];
+  legalEntities  = [];
   selectedTaxRegister: any;
   step   = 0;
   fields = [];
@@ -46,6 +47,7 @@ export class CreateComponent implements OnInit {
 
   ngOnInit() {
     this.taxPayerTypes = this.api.taxPayerTypes;
+    this.taxPayerTypes.pop();
     this.api.getActiveTaxRegisters()
       .subscribe((res: any) => {
         this.taxRegisters = res.items;
@@ -55,9 +57,9 @@ export class CreateComponent implements OnInit {
   reset() {
     this.step = 0;
     this.form = this.fb.group({
-      register    : this.fb.control('', [Validators.required]),
-      taxPayerType: this.fb.control('', [Validators.required]),
-      taxPayerId  : this.fb.control('', [Validators.required]),
+      register    : this.fb.control(null, [Validators.required]),
+      taxPayerType: this.fb.control(null, [Validators.required]),
+      taxPayerId  : this.fb.control(null, [Validators.required]),
       statement   : this.fb.control('ASSESSMENT')
     });
   }
@@ -85,7 +87,7 @@ export class CreateComponent implements OnInit {
           break;
 
         case 'list':
-          const array = this.fb.array([this.fb.control('', [Validators.required])]);
+          const array = this.fb.array([this.fb.control(null, [Validators.required])]);
           structure[field.name] = this.setOptionControl(structure, field, array);
           break;
 
@@ -104,7 +106,7 @@ export class CreateComponent implements OnInit {
   }
 
   addField(form: FormArray) {
-    form.push(this.fb.control('', [Validators.required]));
+    form.push(this.fb.control(null, [Validators.required]));
   }
 
   removeField(form: FormArray, index: number) {
@@ -156,12 +158,13 @@ export class CreateComponent implements OnInit {
 
       case 0:
         if (this.register.invalid) {
-          this.validation(this.form);
+          this.register.markAsDirty();
+          this.register.updateValueAndValidity();
           return;
         }
         this.step = 1;
         forkJoin([
-          this.trApi.getTaxRegisterDetails(this.form.value.register),
+          this.trApi.get(this.form.value.register),
           this.api.getNaturalPersons()
         ])
         .subscribe((ress: any) => {

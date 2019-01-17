@@ -11,12 +11,12 @@ export class ApiService {
 
   statuses = [
     {
-      label: 'Active',
-      value: 'ACTIVE'
+      label: 'Final',
+      value: 'FINAL' // 'CLOSED'
     },
     {
-      label: 'Inactive',
-      value: 'INACTIVE'
+      label: 'Suppressed',
+      value: 'SUPPRESSED'
     },
     {
       label: 'Draft',

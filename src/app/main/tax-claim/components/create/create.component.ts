@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { ApiService as TaxRegisterApi } from '../../../tax-register/services/api.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-create',
@@ -24,7 +25,7 @@ export class CreateComponent implements OnInit {
 
   optionalFields = [];
 
-  form       : FormGroup;
+  form: FormGroup;
   dynamicForm: FormGroup;
 
   @Input()
@@ -43,11 +44,11 @@ export class CreateComponent implements OnInit {
     private api: ApiService,
     private fb: FormBuilder,
     private trApi: TaxRegisterApi,
-    private format: CustomDatePipe) { }
+    private format: CustomDatePipe,
+    private message: NzMessageService) { }
 
   ngOnInit() {
-    this.taxPayerTypes = this.api.taxPayerTypes;
-    this.taxPayerTypes.pop();
+    this.taxPayerTypes = [this.api.taxPayerTypes[0], this.api.taxPayerTypes[1]];
     this.api.getActiveTaxRegisters()
       .subscribe((res: any) => {
         this.taxRegisters = res.items;
@@ -66,7 +67,7 @@ export class CreateComponent implements OnInit {
 
   setOptionControl(structure: any, field: any, control: FormGroup | FormArray | FormControl) {
     if (field.optional) {
-      const _name = `option_${field.name}`
+      const _name = `option_${field.name}`;
       this.optionalFields.push(_name);
       structure[_name] = this.fb.control(true);
     } else {
@@ -162,12 +163,16 @@ export class CreateComponent implements OnInit {
           this.register.updateValueAndValidity();
           return;
         }
-        this.step = 1;
         forkJoin([
           this.trApi.get(this.form.value.register),
           this.api.getNaturalPersons()
         ])
         .subscribe((ress: any) => {
+          if (!ress[0]) {
+            this.message.error('Selected Tax Register is not exist.');
+            return;
+          }
+          this.step = 1;
           this.selectedTaxRegister = ress[0];
           this.naturalPersons = ress[1].items.map(item => {
             return {
@@ -183,10 +188,10 @@ export class CreateComponent implements OnInit {
           this.validation(this.form);
           return;
         }
-        this.step = 2;
         this.api.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
           this.fields = res['fields'];
           this.dynamicForm = this.setDynamicForm(res['fields'], res['object']);
+          this.step = 2;
         });
       break;
 

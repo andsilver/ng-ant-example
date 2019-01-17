@@ -17,9 +17,9 @@ export class ListComponent extends AbstractList implements OnInit {
   registers = [];
 
   constructor(
-    api    : ApiService,
-    private ft     : FilterService,
-    private router : Router,
+    api: ApiService,
+    private ft: FilterService,
+    private router: Router,
     private message: NzMessageService
   ) {
     super(api);
@@ -56,7 +56,7 @@ export class ListComponent extends AbstractList implements OnInit {
     this.isAdding = false;
     this.api.create(taxClaim)
       .subscribe((res: any) => {
-        this.message.success('A new Tax Claim is added.')
+        this.message.success('A new Tax Claim is added.');
         this.toDetailsPage(res);
       });
   }

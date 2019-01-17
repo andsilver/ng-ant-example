@@ -4,7 +4,6 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { forkJoin, Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { FilterService } from '../../services/filter.service';
-import { download } from 'app/shared/helpers/utils';
 
 @Component({
   selector: 'app-list',

@@ -47,7 +47,7 @@ export class ApiService {
       view        : 'reference',
       filterStatus: 'ACTIVE',
       action      : 'next'
-    }
+    };
     return this.tmApi.fetch(params);
   }
 
@@ -73,7 +73,7 @@ export class ApiService {
   }
 
   update(code: string, register: any) {
-    const url = `${this.url}/${code}`;
+    const url = `${this.url}/${code}/properties`;
     return this.http.put(url, register);
   }
 

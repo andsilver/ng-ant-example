@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ApiService as TaxRegisterApi   } from '../../tax-register/services/api.service'
+import { ApiService as TaxRegisterApi   } from '../../tax-register/services/api.service';
 import { ApiService as TaxModuleApi     } from '../../tax-module/services/api.service';
 import { ApiService as NaturalPersonApi } from '../../natural-person/services/api.service';
 
 @Injectable({providedIn: 'root'})
 export class ApiService {
 
-  url = '/api/taxes/claims'
+  url = '/api/taxes/claims';
 
   statuses = [
     {
@@ -25,7 +25,7 @@ export class ApiService {
   ];
 
   constructor(
-    private http : HttpClient,
+    private http: HttpClient,
     private trApi: TaxRegisterApi,
     private tmApi: TaxModuleApi,
     private npApi: NaturalPersonApi) { }
@@ -51,7 +51,7 @@ export class ApiService {
       view        : 'reference',
       filterStatus: 'DRAFT',
       action      : 'next'
-    }
+    };
     return this.trApi.fetch(params);
   }
 

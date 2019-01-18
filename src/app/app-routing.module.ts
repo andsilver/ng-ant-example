@@ -9,11 +9,16 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {
-        path: 'natural-person',
-        loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule',
-        resolve: {
-          data: NaturalPersonResolverService
-        }
+        path: 'parties',
+        children: [
+          {
+            path: 'persons',
+            loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule',
+            resolve: {
+              data: NaturalPersonResolverService
+            }
+          }
+        ]
       },
       {
         path: 'taxes',

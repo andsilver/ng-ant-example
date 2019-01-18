@@ -48,8 +48,8 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.person = res;
         if (!this.person) {
-          this.message.error('Natural Person not exist.');
-          this.router.navigate(['/natural-person']);
+          this.message.error('Person does not exist.');
+          this.router.navigate(['/parties/persons']);
           return;
         }
       });
@@ -60,7 +60,7 @@ export class DetailsComponent implements OnInit {
     this.api.create(person)
       .subscribe(res => {
         this.message.success('A new person is added.')
-        this.router.navigate(['/natural-person', res['id']]);
+        this.router.navigate(['/parties/persons', res['id']]);
       });
   }
 
@@ -68,7 +68,7 @@ export class DetailsComponent implements OnInit {
     this.api.remove(this.person.id)
       .subscribe(() => {
         this.message.success('The person is removed.');
-        this.router.navigate(['/natural-person']);
+        this.router.navigate(['/parties/persons']);
       });
   }
 
@@ -96,7 +96,7 @@ export class DetailsComponent implements OnInit {
     this.api.updateResidentialAddress(this.person.id, address)
       .subscribe(res => {
         this.person = res;
-        this.message.success('Residential Address is updated.')
+        this.message.success('Residential address is updated.');
       });
   }
 
@@ -104,7 +104,7 @@ export class DetailsComponent implements OnInit {
     this.api.eraseResidentialAddress(this.person.id)
       .subscribe(res => {
         this.person = res;
-        this.message.success('Residential Address is deleted.');
+        this.message.success('Residential address is deleted.');
       });
   }
 
@@ -118,7 +118,7 @@ export class DetailsComponent implements OnInit {
 
     this.api.updateCorrespondenceAddress(this.person.id, address)
       .subscribe(() => {
-        this.message.success('Correspondence Address is updated.')
+        this.message.success('Correspondence address is updated.');
       });
   }
 
@@ -126,7 +126,7 @@ export class DetailsComponent implements OnInit {
     this.api.eraseCorrespondenceAddress(this.person.id)
       .subscribe(res => {
         this.person = res;
-        this.message.success('Correspondence Address is deleted.');
+        this.message.success('Correspondence address is deleted.');
       });
   }
 
@@ -136,7 +136,7 @@ export class DetailsComponent implements OnInit {
         if (!res) {
           this.message.success('Not found.');
         }
-        this.router.navigate(['/natural-person', res['id']]);
+        this.router.navigate(['/parties/persons', res['id']]);
       });
   }
 

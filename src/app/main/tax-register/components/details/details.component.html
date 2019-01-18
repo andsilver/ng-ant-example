@@ -7,7 +7,7 @@
         </div>
         <div nz-col class="operation-btns">
           <button nz-button (click)="editingStatus.adding = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeTaxRegister()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove this tax register?" (nzOnConfirm)="removeTaxRegister()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>
@@ -20,7 +20,7 @@
         <div nz-col>
           <form (ngSubmit)="lookUp()">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input name="code" style="min-width: 270px" nz-input placeholder="code" [(ngModel)]="code">
+              <input name="code" style="min-width: 270px" nz-input placeholder="Code" [(ngModel)]="code">
               <button type="submit" style="display: none;"></button>
             </nz-input-group>
             <ng-template #suffixIconSearch>

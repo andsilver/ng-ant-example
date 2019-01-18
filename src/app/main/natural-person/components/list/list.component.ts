@@ -84,7 +84,7 @@ export class ListComponent extends AbstractList implements OnInit {
 
     forkJoin(requests)
       .subscribe(() => {
-        this.message.success('Selected Persons are removed.');
+        this.message.success('Selected persons are removed.');
         this.firstPage();
       });
   }
@@ -112,13 +112,13 @@ export class ListComponent extends AbstractList implements OnInit {
     const fileToRead = files[0];
     this.api.imports(fileToRead)
       .subscribe(res => {
-        this.message.success('Natural Persons are imported.');
+        this.message.success('Natural persons are imported.');
         this.reloadPage();
       });
   }
 
   toDetailsPage(person) {
-    this.router.navigate(['natural-person', person.id])
+    this.router.navigate(['/parties/persons', person.id])
   }
 
 }

@@ -60,7 +60,7 @@ export class ListComponent extends AbstractList implements OnInit {
     this.isAdding = false;
     this.api.create(taxRegister)
       .subscribe((res) => {
-        this.message.success('A new Tax Register is added.')
+        this.message.success('A new tax register is added.')
         this.toDetailsPage(res);
       });
   }
@@ -71,7 +71,7 @@ export class ListComponent extends AbstractList implements OnInit {
         if (res) {
           this.toDetailsPage(res);
         } else {
-          this.message.warning('Tax Register not found!');
+          this.message.warning('Tax register not found.');
         }
       });
   }
@@ -85,7 +85,7 @@ export class ListComponent extends AbstractList implements OnInit {
 
     forkJoin(requests)
       .subscribe(() => {
-        this.message.success('Selected Tax Registers are removed.');
+        this.message.success('Selected tax registers are removed.');
         this.firstPage();
       });
   }

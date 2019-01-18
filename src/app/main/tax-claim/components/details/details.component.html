@@ -7,7 +7,7 @@
         </div>
         <div nz-col class="operation-btns">
           <button nz-button (click)="editingStatus.adding = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeTaxModule()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove this tax claim?" (nzOnConfirm)="removeTaxModule()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>
@@ -114,7 +114,7 @@
           </form>
 
           <ng-container *ngIf="!taxClaim.declaration">
-            No Data
+            No data
           </ng-container>
 
           <ng-template #editDeclaration>
@@ -143,7 +143,7 @@
           </form>
 
           <ng-container *ngIf="!taxClaim.assessment">
-            No Data
+            No data
           </ng-container>
 
           <ng-template #editAssessment>
@@ -177,7 +177,7 @@
           </form>
 
           <ng-container *ngIf="!taxClaim.taxAuthority">
-            No Data
+            No data
           </ng-container>
         </nz-card>
       </div>
@@ -215,7 +215,7 @@
           </form>
 
           <ng-container *ngIf="!taxClaim.taxPayer">
-            No Data
+            No data
           </ng-container>
 
           <ng-template #editTaxPayer>

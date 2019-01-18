@@ -10,12 +10,17 @@ export class MainComponent implements OnInit {
 
   menu = [
     {
-      title: 'People & Entities',
+      title: 'Parties',
       opened: false,
       subs: [
         {
-          title: 'Natural Person',
-          link: '/natural-person',
+          title: 'Persons',
+          link: '/parties/persons',
+          selected: false
+        },
+        {
+          title: 'Entities',
+          link: '/parties/entities',
           selected: false
         }
       ]
@@ -25,18 +30,18 @@ export class MainComponent implements OnInit {
       opened: false,
       subs: [
         {
-          title: 'Tax Module',
-          link: '/taxes/modules',
+          title: 'Claims',
+          link: '/taxes/claims',
           selected: false
         },
         {
-          title: 'Tax Register',
+          title: 'Registers',
           link: '/taxes/registers',
           selected: false
         },
         {
-          title: 'Tax Claim',
-          link: '/taxes/claims',
+          title: 'Modules',
+          link: '/taxes/modules',
           selected: false
         }
       ]

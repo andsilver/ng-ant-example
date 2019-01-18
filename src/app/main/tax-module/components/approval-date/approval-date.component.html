@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzClassName="approval-date-modal" [nzTitle]="title" (nzOnCancel)="closeModal(false)" (nzOnOk)="closeModal(true)">
   <div style="padding: 24px">
     <nz-form-item>
-      <nz-form-label>Select a date</nz-form-label>
+      <nz-form-label>Approval Date</nz-form-label>
       <nz-form-control>
         <nz-date-picker [(ngModel)]="approvalDate"></nz-date-picker>
       </nz-form-control>

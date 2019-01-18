@@ -47,7 +47,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.taxRegister = res[0];
         if (!this.taxRegister) {
-          this.message.error('Tax Register not exist.');
+          this.message.error('Tax register does not exist.');
           this.router.navigate(['/taxes/registers']);
           return;
         }
@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.adding = false;
     this.api.create(taxRegister)
       .subscribe(res => {
-        this.message.success('A new Tax Register is added.');
+        this.message.success('A new tax register is added.');
         this.router.navigate(['/taxes/registers', res['code']]);
       });
   }
@@ -71,7 +71,7 @@ export class DetailsComponent implements OnInit {
   removeTaxRegister() {
     this.api.remove(this.taxRegister.code)
       .subscribe(() => {
-        this.message.success('The Tax Register is removed.');
+        this.message.success('The tax register is removed.');
         this.router.navigate(['/taxes/registers']);
       });
   }
@@ -80,7 +80,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.properties = false;
     this.api.update(this.taxRegister.code, params)
       .subscribe(res => {
-        this.message.success('The Tax Register is updated.');
+        this.message.success('The tax register is updated.');
         this.taxRegister = res;
       });
   }
@@ -89,7 +89,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.enforce = false;
     this.api.enforce(this.taxRegister.code, params)
       .subscribe(res => {
-        this.message.success('Tax Register is enforced.');
+        this.message.success('Tax register is declared enforceable.');
         this.taxRegister = res;
       });
   }
@@ -100,7 +100,7 @@ export class DetailsComponent implements OnInit {
         if (res) {
           this.router.navigate(['/taxes/registers', res.code]);
         } else {
-          this.message.warning('Tax Register not found!');
+          this.message.warning('Tax register not found.');
         }
       });
   }

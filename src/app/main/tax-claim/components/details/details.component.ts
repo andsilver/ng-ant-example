@@ -38,7 +38,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.adding = false;
     this.api.create(taxClaim)
       .subscribe((res) => {
-        this.message.success('A new Tax Claim is added.');
+        this.message.success('A new tax claim is added.');
         this.router.navigate(['/taxes/claims', res['id']]);
       });
   }

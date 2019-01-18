@@ -56,7 +56,7 @@ export class ListComponent extends AbstractList implements OnInit {
     this.isAdding = false;
     this.api.create(taxClaim)
       .subscribe((res: any) => {
-        this.message.success('A new Tax Claim is added.');
+        this.message.success('A new tax claim is added.');
         this.toDetailsPage(res);
       });
   }
@@ -67,7 +67,7 @@ export class ListComponent extends AbstractList implements OnInit {
         if (res) {
           this.toDetailsPage(res);
         } else {
-          this.message.warning('Tax Claim not found!');
+          this.message.warning('Tax claim not found.');
         }
       });
   }
@@ -81,7 +81,7 @@ export class ListComponent extends AbstractList implements OnInit {
 
     forkJoin(requests)
       .subscribe(() => {
-        this.message.success('Selected Tax Claims are removed.');
+        this.message.success('Selected tax claims are removed.');
         this.firstPage();
       });
   }

@@ -64,7 +64,7 @@ export class MainComponent implements OnInit {
           } else {
             sub.selected = false;
           }
-        })
+        });
       });
     });
   }

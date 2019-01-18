@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { MonacoEditorModule } from 'ngx-monaco';
-import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { DynamicFormModule } from './modules/dynamic-form/dynamic-form.module';
 
 import { CountryPipe } from './pipes/country.pipe';
 import { GenderPipe } from './pipes/gender.pipe';
@@ -35,7 +35,6 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     FormsModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    // MonacoEditorModule,
     MonacoEditorModule
   ],
   providers: [
@@ -55,7 +54,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     FileSizePipe,
     CodeEditorComponent,
     AutocompleteComponent,
-    PaginationComponent
+    PaginationComponent,
+    DynamicFormModule
   ]
 })
 export class SharedModule { }

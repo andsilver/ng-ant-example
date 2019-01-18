@@ -24,22 +24,22 @@ export class ApprovalDateComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   ngOnInit() {}
 
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
 
-    this.onConfirm.emit(this.approvalDate);
+    this.confirm.emit(this.approvalDate);
     this.isVisible = false;
   }
 

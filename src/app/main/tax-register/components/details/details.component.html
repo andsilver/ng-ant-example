@@ -54,22 +54,18 @@
                 </div>
               </nz-form-item>
             </div>
-          </div>
-
-          <nz-form-item>
-            <nz-form-label>Name</nz-form-label>
-            <div class="form-display-data">{{taxRegister.name}}</div>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label>Tax Module</nz-form-label>
-            <div class="form-display-data">
-              <span style="margin-right: 12px">Code: {{taxRegister.taxModule.code}}</span>
-              <span>Name: {{taxRegister.taxModule.name}}</span>
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label>Name</nz-form-label>
+                <div class="form-display-data">{{taxRegister.name}}</div>
+              </nz-form-item>
             </div>
-          </nz-form-item>
-
-          <div nz-row>
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label>Tax Module</nz-form-label>
+                <div class="form-display-data">{{taxRegister.taxModule.code}} - {{taxRegister.taxModule.name}}</div>
+              </nz-form-item>
+            </div>
             <div nz-col nzSpan="12">
               <nz-form-item>
                 <nz-form-label>Tax Year</nz-form-label>
@@ -111,7 +107,7 @@
           </form>
           <div *ngIf="!taxRegister.declarationOfEnforceability">
             <div i18n style="margin-bottom: 12px">This register is not enforceable yet</div>
-            <button nz-button nzType="primary" (click)="showModal('enforce')">Perform</button>
+            <button nz-button (click)="showModal('enforce')">Perform</button>
           </div>
         </nz-card>
       </div>
@@ -139,7 +135,7 @@
           </form>
           <div *ngIf="!taxRegister.assessmentLetters">
             <div i18n style="margin-bottom: 12px">Assessment letters have not been generated yet</div>
-            <button nz-button nzType="primary" (click)="generateAssessmentLetters()">Generate</button>
+            <button nz-button [disabled]="taxRegister.status === 'DRAFT'" (click)="generateAssessmentLetters()">Generate</button>
           </div>
         </nz-card>
       </div>
@@ -149,21 +145,21 @@
   <app-create
     [taxModules]="taxModules"
     [visible]="editingStatus.adding"
-    (onCancel)="editingStatus.adding = false"
-    (onConfirm)="createTaxRegister($event)">
+    (cancel)="editingStatus.adding = false"
+    (confirm)="createTaxRegister($event)">
   </app-create>
 
   <app-enforce
     [visible]="editingStatus.enforce"
-    (onCancel)="editingStatus.enforce = false"
-    (onConfirm)="performEnforce($event)">
+    (cancel)="editingStatus.enforce = false"
+    (confirm)="performEnforce($event)">
   </app-enforce>
 
   <app-properties
     [taxRegister]="taxRegister"
     [visible]="editingStatus.properties"
-    (onCancel)="editingStatus.properties = false"
-    (onConfirm)="updateProperties($event)">
+    (cancel)="editingStatus.properties = false"
+    (confirm)="updateProperties($event)">
   </app-properties>
 
 

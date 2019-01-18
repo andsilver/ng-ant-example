@@ -10,16 +10,16 @@ import neon from '../../monaco-editor.config';
 export class CodeEditorComponent implements OnInit {
 
   @Input()
-  language: string = 'html';
+  language = 'html';
 
   @Input()
-  content: string = '';
+  content = '';
 
   @Input()
-  theme: string = 'vs';
+  theme = 'vs';
 
   @Input()
-  height: number = 500;
+  height = 500;
 
   @Output()
   contentChange = new EventEmitter();
@@ -32,7 +32,7 @@ export class CodeEditorComponent implements OnInit {
         enabled: false
       },
       autoIndent: true
-  }
+  };
 
   constructor() { }
 

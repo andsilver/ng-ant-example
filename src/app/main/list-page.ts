@@ -14,7 +14,7 @@ export class AbstractList implements OnDestroy {
   checkStatus = {
     all          : false,
     indeterminate: false
-  }
+  };
 
   filter = {
     view     : 'list',

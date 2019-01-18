@@ -138,32 +138,32 @@
       [visible]="addingPerson"
       [civilStatuses]="civilStatuses"
       [countries]="countries"
-      (onCancel)="addingPerson = false"
-      (onConfirm)="createPerson($event)">
+      (cancel)="addingPerson = false"
+      (confirm)="createPerson($event)">
     </app-create-person-modal>
 
     <app-properties-modal
       [properties]="person"
       [civilStatuses]="civilStatuses"
       [visible]="editingStatus.properties"
-      (onCancel)="editingStatus.properties = false"
-      (onConfirm)="updateProperties($event)">
+      (cancel)="editingStatus.properties = false"
+      (confirm)="updateProperties($event)">
     </app-properties-modal>
 
     <app-address-modal
       [address]="person.residentialAddress"
       [countries]="countries"
       [visible]="editingStatus.residentialAddress"
-      (onCancel)="editingStatus.residentialAddress = false"
-      (onConfirm)="updateResidentialAddress($event)">
+      (cancel)="editingStatus.residentialAddress = false"
+      (confirm)="updateResidentialAddress($event)">
     </app-address-modal>
 
     <app-address-modal
       [address]="person.correspondenceAddress"
       [countries]="countries"
       [visible]="editingStatus.correspondence"
-      (onCancel)="editingStatus.correspondence = false"
-      (onConfirm)="updateCorrespondenceAddress($event)">
+      (cancel)="editingStatus.correspondence = false"
+      (confirm)="updateCorrespondenceAddress($event)">
     </app-address-modal>
 
   </div>

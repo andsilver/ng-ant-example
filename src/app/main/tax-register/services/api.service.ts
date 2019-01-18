@@ -81,4 +81,9 @@ export class ApiService {
     const url = `${this.url}/${code}/enforceability`;
     return this.http.post(url, params);
   }
+
+  loadFormData(code: string) {
+    const url = `${this.url}/${code}/form`;
+    return this.http.get(url);
+  }
 }

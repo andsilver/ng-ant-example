@@ -1,0 +1,66 @@
+<ng-container *ngIf="form">
+  <h3>{{structure.name}}</h3>
+  <ng-container *ngTemplateOutlet="dynamic; context: {$implicit: form, fields: structure.fields}"></ng-container>
+</ng-container>
+
+<ng-template #dynamic let-form let-fields="fields">
+  <form nz-form [formGroup]="form">
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="12" *ngFor="let field of fields">
+        <nz-form-item>
+          <label style="margin-right: 8px" nz-checkbox *ngIf="field.value.type != 'logical' && field.optional" [formControlName]="'option_' + field.name" (ngModelChange)="toggleDisable(field, $event)"></label>
+          <nz-form-label [nzRequired]="!field.optional">{{field.label}}</nz-form-label>
+          <nz-form-control>
+            <ng-container *ngIf="field.value.type == 'enumeration'">
+              <nz-select [formControlName]="field.name">
+                <nz-option *ngFor="let choice of field.value.choices" [nzValue]="choice" [nzLabel]="choice"></nz-option>
+              </nz-select>
+            </ng-container>
+
+            <ng-container *ngIf="field.value.type == 'number'">
+              <nz-input-number [formControlName]="field.name" [nzPrecision]="field.value.decimals" [nzStep]="decimalStep(field.value.decimals)"></nz-input-number>
+            </ng-container>
+
+            <ng-container *ngIf="field.value.type == 'logical'">
+              <nz-radio-group [formControlName]="field.name">
+                <label nz-radio [nzValue]="TRUE">Yes</label>
+                <label nz-radio [nzValue]="FALSE">No</label>
+              </nz-radio-group>
+            </ng-container>
+
+            <ng-container *ngIf="field.value.type == 'date'">
+              <nz-date-picker [formControlName]="field.name"></nz-date-picker>
+            </ng-container>
+
+            <ng-container *ngIf="field.value.type == 'text'">
+              <input nz-input [formControlName]="field.name">
+            </ng-container>
+
+            <div *ngIf="field.value.type == 'composite'">
+              <ng-container *ngTemplateOutlet="dynamic; context: {$implicit: form.get(field.name), fields: field.value.fields}">
+              </ng-container>
+            </div>
+
+            <div *ngIf="field.value.type == 'list'">
+              <form [formArrayName]="field.name">
+                <nz-form-item>
+                  <nz-form-control *ngFor="let item of formArrayControls(form.get(field.name)); let i=index;">
+                    <input nz-input type="text" [formControlName]="i" class="removal-item">
+                    <i nz-icon type="minus-circle-o" class="dynamic-delete-button" (click)="removeField(form.get(field.name), i)"></i>
+                    <nz-form-explain *ngIf="item.dirty && item.errors">The field is required!</nz-form-explain>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <button nz-button nzType="dashed" style="width: 80%" (click)="addField(form.get(field.name))"><i nz-icon type="plus"></i> New</button>
+                </nz-form-item>
+              </form>
+            </div>
+
+            <nz-form-explain *ngIf="form.get(field.name).dirty && form.get(field.name).errors">Please input the {{field.label}}!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</ng-template>
+  

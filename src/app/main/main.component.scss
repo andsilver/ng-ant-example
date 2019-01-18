@@ -2,20 +2,11 @@
 
 :host ::ng-deep {
 
-  nz-sider {
-    background: $primary;
-  }
-
   .logo {
-    margin: 24px;
+    margin-right: 24px;
     font-weight: 500;
     font-size: 24px;
     color: #fff;
-  }
-
-  .sider-bar {
-    height: 100%;
-    background: $primary;
   }
 
   .main {

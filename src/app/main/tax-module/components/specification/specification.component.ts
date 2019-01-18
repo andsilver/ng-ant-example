@@ -18,10 +18,10 @@ export class SpecificationComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   constructor() { }
 
@@ -31,12 +31,12 @@ export class SpecificationComponent implements OnInit {
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
 
-    this.onConfirm.emit(this.specification);
+    this.confirm.emit(this.specification);
     this.isVisible = false;
   }
 

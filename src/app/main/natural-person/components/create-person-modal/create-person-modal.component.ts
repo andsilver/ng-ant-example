@@ -23,10 +23,10 @@ export class CreatePersonModalComponent {
   countries = [];
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   propertiesForm: FormGroup;
 
@@ -88,7 +88,7 @@ export class CreatePersonModalComponent {
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
@@ -96,10 +96,10 @@ export class CreatePersonModalComponent {
     this.submitted = true;
 
     if (!this.propertiesForm.valid && save) {
-      for (const i in this.propertiesForm.controls) {
-        this.propertiesForm.controls[ i ].markAsDirty();
-        this.propertiesForm.controls[ i ].updateValueAndValidity();
-      }
+      Object.keys(this.propertiesForm.controls).forEach(key => {
+        this.propertiesForm.controls[key].markAsDirty();
+        this.propertiesForm.controls[key].updateValueAndValidity();
+      });
       return;
     }
 
@@ -119,7 +119,7 @@ export class CreatePersonModalComponent {
       f.title === 'Residential Address' ? person['residentialAddress'] = value : person['correspondenceAddress'] = value;
     }
 
-    this.onConfirm.emit(person);
+    this.confirm.emit(person);
     this.isVisible = false;
   }
 

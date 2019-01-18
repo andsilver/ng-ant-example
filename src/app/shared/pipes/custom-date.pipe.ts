@@ -7,7 +7,7 @@ import { AppSettings } from 'app/app-settings';
 })
 export class CustomDatePipe implements PipeTransform {
 
-  constructor(private settings: AppSettings){}
+  constructor(private settings: AppSettings) {}
 
   transform(value: any, def = '-', format: string = null): any {
     return value ? formatDate(value, format || this.settings.date_format, this.settings.locale) : def;

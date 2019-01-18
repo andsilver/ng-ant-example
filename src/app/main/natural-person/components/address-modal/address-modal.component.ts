@@ -23,10 +23,10 @@ export class AddressModalComponent implements OnInit {
   }
 
   @Output()
-  onCancel  = new EventEmitter();
+  cancel  = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   form: FormGroup;
   isVisible = false;
@@ -52,6 +52,6 @@ export class AddressModalComponent implements OnInit {
     const address        = isAddressExist ? { country: value.country, lines: [value.firstLine, value.secondLine, value.thirdLine] }
                                           : null;
     this.isVisible = false;
-    save ? this.onConfirm.emit(address) : this.onCancel.emit()
+    save ? this.confirm.emit(address) : this.cancel.emit();
   }
 }

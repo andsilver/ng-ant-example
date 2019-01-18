@@ -13,7 +13,7 @@ export class CreateTaxModuleComponent implements OnInit {
   taxPayers = [];
   dModes    = [];
 
-  propertiesForm  : FormGroup;
+  propertiesForm:   FormGroup;
   taxAuthorityForm: FormGroup;
 
   @Input()
@@ -23,10 +23,10 @@ export class CreateTaxModuleComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   constructor(private api: ApiService, private fb: FormBuilder) { }
 
@@ -82,23 +82,23 @@ export class CreateTaxModuleComponent implements OnInit {
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
 
     if (!this.propertiesForm.valid && save) {
-      for (let i in this.propertiesForm.controls) {
+      Object.keys(this.propertiesForm.controls).forEach((i) => {
         this.propertiesForm.controls[i].markAsDirty();
         this.propertiesForm.controls[i].updateValueAndValidity();
-      }
+      });
       return;
     }
 
     const v = this.propertiesForm.value;
     v['taxAuthority'] = this.taxAuthorityForm.value;
 
-    this.onConfirm.emit(this.propertiesForm.value);
+    this.confirm.emit(this.propertiesForm.value);
     this.isVisible = false;
   }
 

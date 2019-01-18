@@ -1,16 +1,19 @@
 <nz-layout class="main">
-  <nz-sider [nzWidth]="200">
-  <!-- <nz-sider [nzWidth]="200" [nzCollapsible]="true" [nzCollapsedWidth]="64" [nzBreakpoint]="breakpoint"> -->
-    <ul nz-menu [nzMode]="'inline'" class="sider-bar">
-      <div class="logo" i18n>Malibu</div>
-      <li nz-submenu *ngFor="let sub of menu" [nzOpen]="sub.opened">
-        <span title>{{sub.title}}</span>
-        <ul>
-          <li *ngFor="let item of sub.subs" nz-menu-item [routerLink]="[item.link]" [nzSelected]="item.selected">{{item.title}}</li>
+  <nz-header>
+    <div nz-row nzType="flex" nzJustify="start" nzAlign="middle">
+      <div nz-col class="logo" i18n>Malibu</div>
+      <div nz-col>
+        <ul nz-menu nzTheme="dark" [nzMode]="'horizontal'" class="sider-bar">
+          <li nz-submenu *ngFor="let sub of menu">
+            <span title>{{sub.title}}</span>
+            <ul>
+              <li *ngFor="let item of sub.subs" nz-menu-item [routerLink]="[item.link]" [nzSelected]="item.selected">{{item.title}}</li>
+            </ul>
+          </li>
         </ul>
-      </li>
-    </ul>
-  </nz-sider>
+      </div>
+    </div>
+  </nz-header>
   <nz-layout>
     <nz-content>
       <router-outlet></router-outlet>

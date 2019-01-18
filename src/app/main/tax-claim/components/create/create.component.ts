@@ -1,10 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd';
 import { ApiService } from '../../services/api.service';
 import { ApiService as TaxRegisterApi } from '../../../tax-register/services/api.service';
+import { DynamicFormService } from 'app/shared/modules/dynamic-form/dynamic-form.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
-import { NzMessageService } from 'ng-zorro-antd';
+
+interface DynamicForm {
+  form: any;
+  object: any;
+}
 
 @Component({
   selector: 'app-create',
@@ -26,7 +32,8 @@ export class CreateComponent implements OnInit {
   optionalFields = [];
 
   form: FormGroup;
-  dynamicForm: FormGroup;
+  dynamicForm: DynamicForm;
+  dfControl: any;
 
   @Input()
   set visible(visible: boolean) {
@@ -45,7 +52,9 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private trApi: TaxRegisterApi,
     private format: CustomDatePipe,
-    private message: NzMessageService) { }
+    private message: NzMessageService,
+    private dfs: DynamicFormService
+  ) { }
 
   ngOnInit() {
     this.taxPayerTypes = [this.api.taxPayerTypes[0], this.api.taxPayerTypes[1]];
@@ -65,74 +74,12 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  setOptionControl(structure: any, field: any, control: FormGroup | FormArray | FormControl) {
-    if (field.optional) {
-      const _name = `option_${field.name}`;
-      this.optionalFields.push(_name);
-      structure[_name] = this.fb.control(true);
-    } else {
-      control.setValidators([Validators.required]);
-    }
-    return control;
-  }
-
-  setDynamicForm(fields, object) {
-    const structure = {};
-    fields.forEach(field => {
-
-      switch (field.value.type) {
-
-        case 'composite':
-          const group = this.setDynamicForm(field.value.fields, {});
-          structure[field.name] = this.setOptionControl(structure, field, group);
-          break;
-
-        case 'list':
-          const array = this.fb.array([this.fb.control(null, [Validators.required])]);
-          structure[field.name] = this.setOptionControl(structure, field, array);
-          break;
-
-        default:
-          const control = this.fb.control(object[field.name]);
-          structure[field.name] = this.setOptionControl(structure, field, control);
-          break;
-      }
-    });
-    return this.fb.group(structure);
-  }
-
-  formArrayControls(form) {
-    const array = form as FormArray;
-    return array.controls;
-  }
-
-  addField(form: FormArray) {
-    form.push(this.fb.control(null, [Validators.required]));
-  }
-
-  removeField(form: FormArray, index: number) {
-    form.removeAt(index);
-  }
-
-  validation(form: FormGroup | FormArray) {
+  validation(form: FormGroup) {
     Object.keys(form.controls).forEach(key => {
       const control = form.controls[key];
       control.markAsDirty();
       control.updateValueAndValidity();
-      if (control instanceof FormGroup) {
-       this.validation(control);
-      } else if (control instanceof FormArray) {
-        this.formArrayControls(control).forEach(c => {
-          c.markAsDirty();
-          c.updateValueAndValidity();
-        });
-      }
     });
-  }
-
-  toggleDisable(field, enable) {
-    const name = field.name;
-    enable ? this.dynamicForm.get(name).enable() : this.dynamicForm.get(name).disable();
   }
 
   get register() {
@@ -188,24 +135,21 @@ export class CreateComponent implements OnInit {
           this.validation(this.form);
           return;
         }
-        this.trApi.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
-          this.fields = res['fields'];
-          this.dynamicForm = this.setDynamicForm(res['fields'], res['object']);
+        this.trApi.loadFormData(this.selectedTaxRegister.code).subscribe((res: any) => {
+          this.dynamicForm = res;
+          this.dfControl = { value: '', validation: false };
           this.step = 2;
         });
       break;
 
       case 2:
-        if (!this.dynamicForm.valid) {
-          this.validation(this.dynamicForm);
+        console.log(this.dfControl);
+        if (!this.dfControl.valid) {
+          this.dfControl.validation = true;
           return;
         } else {
-          const dates = this.fields.filter(f => f.value.type === 'date');
-          const v = this.dynamicForm.value;
-          dates.forEach(date => v[date.name] = this.format.transform(v[date.name]));
-          this.optionalFields.forEach(f => delete v[f]);
           const taxClaim = this.form.value;
-          taxClaim['content'] = v;
+          taxClaim['content'] = this.dfControl.value;
           this.confirm.emit(taxClaim);
         }
       break;

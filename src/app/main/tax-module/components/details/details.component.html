@@ -87,7 +87,8 @@
             No Data
           </ng-container>
           <ng-container *ngIf="taxModule.specification">
-            {{taxModule.specification}}
+            <!-- {{taxModule.specification}} -->
+            <app-dynamic-form [structure]="taxModule.form"></app-dynamic-form>
           </ng-container>
         </nz-card>
         <ng-template #editSpecification>

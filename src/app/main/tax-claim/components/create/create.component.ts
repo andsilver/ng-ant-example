@@ -35,10 +35,10 @@ export class CreateComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   constructor(
     private api: ApiService,
@@ -148,7 +148,7 @@ export class CreateComponent implements OnInit {
   }
 
   closeModal() {
-    this.onCancel.emit();
+    this.cancel.emit();
     this.isVisible = false;
     return;
   }
@@ -188,7 +188,7 @@ export class CreateComponent implements OnInit {
           this.validation(this.form);
           return;
         }
-        this.api.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
+        this.trApi.loadFormData(this.selectedTaxRegister.code).subscribe(res => {
           this.fields = res['fields'];
           this.dynamicForm = this.setDynamicForm(res['fields'], res['object']);
           this.step = 2;
@@ -206,7 +206,7 @@ export class CreateComponent implements OnInit {
           this.optionalFields.forEach(f => delete v[f]);
           const taxClaim = this.form.value;
           taxClaim['content'] = v;
-          this.onConfirm.emit(taxClaim);
+          this.confirm.emit(taxClaim);
         }
       break;
     }

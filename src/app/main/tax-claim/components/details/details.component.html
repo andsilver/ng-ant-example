@@ -292,8 +292,8 @@
 
   <app-create
     [visible]="editingStatus.adding"
-    (onCancel)="editingStatus.adding = false"
-    (onConfirm)="createTaxClaim($event)">
+    (cancel)="editingStatus.adding = false"
+    (confirm)="createTaxClaim($event)">
   </app-create>
 
 </div>

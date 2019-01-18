@@ -68,7 +68,7 @@ export class ApiService {
   }
 
   loadFormData(code: string) {
-    return this.tmApi.loadFormData(code);
+    return this.trApi.loadFormData(code);
   }
 
   get(id: string) {

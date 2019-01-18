@@ -81,7 +81,7 @@
 
   <app-create
     [visible]="isAdding"
-    (onCancel)="isAdding = false"
-    (onConfirm)="createTaxClaim($event)">
+    (cancel)="isAdding = false"
+    (confirm)="createTaxClaim($event)">
   </app-create>
 </div>

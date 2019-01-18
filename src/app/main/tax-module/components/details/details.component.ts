@@ -5,6 +5,21 @@ import { ApiService } from '../../services/api.service';
 import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
 import { download } from 'app/shared/helpers/utils';
 
+interface DynamicFormField {
+  name: string;
+  label?: string;
+  optional?: boolean;
+  value?: any;
+  fields?: DynamicFormField[];
+}
+
+interface Node {
+  title: string;
+  key: string;
+  isLeaf?: boolean;
+  children?: Node[];
+}
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -21,6 +36,7 @@ export class DetailsComponent implements OnInit {
 
   taxModule: any;
   code = '';
+  metaForm: Node;
 
   editingStatus = {
     properties   : false,
@@ -54,6 +70,8 @@ export class DetailsComponent implements OnInit {
     this.api.getTaxModule(code)
       .subscribe(res => {
         this.taxModule = res;
+        this.metaForm = this.buildDynamicFormTree(this.taxModule.form);
+        console.log(this.metaForm);
       });
   }
 
@@ -225,7 +243,35 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.message.success('Specification is uploaded.');
         this.taxModule = res;
+        this.metaForm = this.buildDynamicFormTree(this.taxModule.form);
       });
+  }
+
+  buildDynamicFormTree(f: DynamicFormField) {
+    const node: Node = {title: '', key: ''};
+    node.title = f.name;
+
+    if (f.label && f.name !== f.label) {
+      node.title += ` (${f.label})`;
+    }
+
+    if (f.value) {
+      node.title += ` | ${f.value.type}`;
+      Object.keys(f.value).forEach(key => {
+        node.title += (key === 'type') ? '' : ` | ${key} ${f.value[key]}`;
+      });
+    }
+
+    node.key = node.title;
+
+    if (f.fields && f.fields.length) {
+      node.children = f.fields.map(field => this.buildDynamicFormTree(field));
+    } else {
+      node.isLeaf = true;
+    }
+
+    return node;
+    // fields.forEach()
   }
 
 }

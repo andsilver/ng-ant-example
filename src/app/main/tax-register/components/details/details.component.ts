@@ -13,8 +13,8 @@ import { ApiService } from '../../services/api.service';
 export class DetailsComponent implements OnInit {
 
   taxRegister: any;
-  taxModules : any = [];
-  code       : string;
+  taxModules: any = [];
+  code: string;
 
   editingStatus = {
     adding           : false,
@@ -26,10 +26,10 @@ export class DetailsComponent implements OnInit {
   statuses  = [];
 
   constructor(
-    private route     : ActivatedRoute,
-    private api       : ApiService,
-    private message   : NzMessageService,
-    private router    : Router
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private message: NzMessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class DetailsComponent implements OnInit {
           return forkJoin([
             this.api.get(code),
             this.api.getActiveTaxModules()
-          ])
+          ]);
         })
       )
       .subscribe(res => {
@@ -52,7 +52,7 @@ export class DetailsComponent implements OnInit {
           return;
         }
         this.taxModules = res[1]['items'] || [];
-      })
+      });
   }
 
   showModal(type: string) {
@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.adding = false;
     this.api.create(taxRegister)
       .subscribe(res => {
-        this.message.success('A new Tax Register is added.')
+        this.message.success('A new Tax Register is added.');
         this.router.navigate(['/taxes/registers', res['code']]);
       });
   }
@@ -82,7 +82,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.message.success('The Tax Register is updated.');
         this.taxRegister = res;
-      })
+      });
   }
 
   performEnforce(params: any) {

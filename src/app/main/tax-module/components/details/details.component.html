@@ -88,7 +88,8 @@
           </ng-container>
           <ng-container *ngIf="taxModule.specification">
             <!-- {{taxModule.specification}} -->
-            <app-dynamic-form [structure]="taxModule.form"></app-dynamic-form>
+            <!-- <app-dynamic-form [structure]="taxModule.form"></app-dynamic-form> -->
+            <nz-tree [nzData]="[metaForm]" [nzExpandAll]="true" [nzShowExpand]="false"></nz-tree>
           </ng-container>
         </nz-card>
         <ng-template #editSpecification>
@@ -147,7 +148,7 @@
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Timestamp</nz-form-label>
-                  <div class="form-display-data">{{taxModule.assessmentTemplate.timestamp | customDate}}</div>
+                  <div class="form-display-data">{{taxModule.assessmentTemplate.timestamp | customDate:'-':'yyyy-MM-dd hh:mm:ss'}}</div>
                 </nz-form-item>
               </div>
 
@@ -167,7 +168,7 @@
             </ng-container>
             <ng-container *ngIf="taxModule.assessmentTemplate">
               <button style="margin-right: 12px" nz-button (click)="downloadAssessmentTemplate()"><i nz-icon type="download"></i></button>
-              <button nz-button (click)="removeAssessmentTemplate()"  nzType="primary"><i nz-icon type="delete"></i></button>
+              <button nz-button (click)="removeAssessmentTemplate()"><i nz-icon type="delete"></i></button>
             </ng-container>
           </ng-template>
         </nz-card>
@@ -182,7 +183,7 @@
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Timestamp</nz-form-label>
-                  <div class="form-display-data">{{taxModule.declarationTemplate.timestamp | customDate}}</div>
+                  <div class="form-display-data">{{taxModule.declarationTemplate.timestamp | customDate:'-':'yyyy-MM-dd hh:mm:ss'}}</div>
                 </nz-form-item>
               </div>
 
@@ -202,7 +203,7 @@
           </ng-container>
           <ng-container *ngIf="taxModule.declarationTemplate">
             <button style="margin-right: 12px" nz-button (click)="downloadDeclarationTemplate()"><i nz-icon type="download"></i></button>
-            <button nz-button (click)="removeDeclarationTemplate()" nzType="primary"><i nz-icon type="delete"></i></button>
+            <button nz-button (click)="removeDeclarationTemplate()"><i nz-icon type="delete"></i></button>
           </ng-container>
         </ng-template>
       </div>

@@ -17,16 +17,16 @@ export class PropertiesModalComponent {
   @Input()
   set visible(visible: boolean) {
     this.isVisible = visible;
-    if (visible == true ) {
+    if (visible === true ) {
       this.setForm();
     }
   }
 
   @Output()
-  onCancel  = new EventEmitter();
+  cancel  = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   form: FormGroup;
   isVisible = false;
@@ -50,15 +50,15 @@ export class PropertiesModalComponent {
   closeModal(save) {
 
     if (!this.form.valid && save) {
-      for (const i in this.form.controls) {
-        this.form.controls[ i ].markAsDirty();
-        this.form.controls[ i ].updateValueAndValidity();
-      }
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.controls[key].markAsDirty();
+        this.form.controls[key].updateValueAndValidity();
+      });
       return;
     }
 
     this.isVisible = false;
-    save ? this.onConfirm.emit(this.form.value) : this.onCancel.emit()
+    save ? this.confirm.emit(this.form.value) : this.cancel.emit();
   }
 
 }

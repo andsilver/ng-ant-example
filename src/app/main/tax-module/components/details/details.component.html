@@ -210,35 +210,35 @@
 
   <app-create-tax-module
     [visible]="editingStatus.adding"
-    (onCancel)="editingStatus.adding = false"
-    (onConfirm)="createTaxModule($event)">
+    (cancel)="editingStatus.adding = false"
+    (confirm)="createTaxModule($event)">
   </app-create-tax-module>
 
   <app-properties-modal
     [taxModule]="taxModule"
     [visible]="editingStatus.properties"
-    (onCancel)="editingStatus.properties = false"
-    (onConfirm)="updateProperties($event)">
+    (cancel)="editingStatus.properties = false"
+    (confirm)="updateProperties($event)">
   </app-properties-modal>
 
   <app-approval-date
     [visible]="editingStatus.approve"
-    (onCancel)="editingStatus.approve = false"
-    (onConfirm)="approveTaxModule($event)">
+    (cancel)="editingStatus.approve = false"
+    (confirm)="approveTaxModule($event)">
   </app-approval-date>
 
   <app-approval-date
     [approvalDate]="taxModule.approvalDate"
     [visible]="editingStatus.aprDate"
-    (onCancel)="editingStatus.aprDate = false"
-    (onConfirm)="updateApprovalDate($event)">
+    (cancel)="editingStatus.aprDate = false"
+    (confirm)="updateApprovalDate($event)">
   </app-approval-date>
 
   <app-specification
     [specification]="taxModule.specification"
     [visible]="editingStatus.specification"
-    (onCancel)="editingStatus.specification = false"
-    (onConfirm)="updateSpecification($event)">
+    (cancel)="editingStatus.specification = false"
+    (confirm)="updateSpecification($event)">
   </app-specification>
 
 </div>

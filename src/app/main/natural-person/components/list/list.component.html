@@ -85,7 +85,7 @@
     [visible]="isAdding"
     [countries]="countries"
     [civilStatuses]="civilStatuses"
-    (onCancel)="isAdding = false"
-    (onConfirm)="createPerson($event)">
+    (cancel)="isAdding = false"
+    (confirm)="createPerson($event)">
   </app-create-person-modal>
 </div>

@@ -149,21 +149,21 @@
   <app-create
     [taxModules]="taxModules"
     [visible]="editingStatus.adding"
-    (onCancel)="editingStatus.adding = false"
-    (onConfirm)="createTaxRegister($event)">
+    (cancel)="editingStatus.adding = false"
+    (confirm)="createTaxRegister($event)">
   </app-create>
 
   <app-enforce
     [visible]="editingStatus.enforce"
-    (onCancel)="editingStatus.enforce = false"
-    (onConfirm)="performEnforce($event)">
+    (cancel)="editingStatus.enforce = false"
+    (confirm)="performEnforce($event)">
   </app-enforce>
 
   <app-properties
     [taxRegister]="taxRegister"
     [visible]="editingStatus.properties"
-    (onCancel)="editingStatus.properties = false"
-    (onConfirm)="updateProperties($event)">
+    (cancel)="editingStatus.properties = false"
+    (confirm)="updateProperties($event)">
   </app-properties>
 
 

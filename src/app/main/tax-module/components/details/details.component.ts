@@ -20,7 +20,7 @@ export class DetailsComponent implements OnInit {
   fileDT: any;
 
   taxModule: any;
-  code     : string;
+  code = '';
 
   editingStatus = {
     properties   : false,
@@ -35,10 +35,10 @@ export class DetailsComponent implements OnInit {
   taxPayers = [];
 
   constructor(
-    private route     : ActivatedRoute,
     private api: ApiService,
-    private message   : NzMessageService,
-    private router    : Router,
+    private route: ActivatedRoute,
+    private router: Router,
+    private message: NzMessageService,
     private formatDate: CustomDatePipe
   ) { }
 
@@ -47,7 +47,7 @@ export class DetailsComponent implements OnInit {
     this.taxPayers = this.api.taxPayers;
     this.route.params.subscribe(res => {
       this.getTaxModule(res['code']);
-    })
+    });
   }
 
   getTaxModule(code: string) {
@@ -61,7 +61,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.adding = false;
     this.api.createTaxModule(taxModule)
       .subscribe(res => {
-        this.message.success('A new Tax Module is added.')
+        this.message.success('A new Tax Module is added.');
         this.router.navigate(['/taxes/modules', res['code']]);
       });
   }
@@ -84,7 +84,7 @@ export class DetailsComponent implements OnInit {
       .subscribe((res) => {
         this.message.success('Properties are updated.');
         this.taxModule = res;
-      })
+      });
   }
 
   lookUp() {
@@ -143,7 +143,7 @@ export class DetailsComponent implements OnInit {
         this.taxModule = res;
         this.editingStatus.aprDate = false;
         this.message.success('Approval date of the Tax Module is changed.');
-      })
+      });
   }
 
   saveFile(res) {
@@ -171,7 +171,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.message.success('Assessment Template is removed.');
         this.taxModule = res;
-      })
+      });
   }
 
   onFileSelect() {
@@ -203,7 +203,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.message.success('Declaration Template is removed.');
         this.taxModule = res;
-      })
+      });
   }
 
   onFileDTSelect() {

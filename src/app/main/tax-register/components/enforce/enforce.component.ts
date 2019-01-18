@@ -21,10 +21,10 @@ export class EnforceComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   constructor(private fb: FormBuilder, private format: CustomDatePipe) { }
 
@@ -49,23 +49,23 @@ export class EnforceComponent implements OnInit {
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
 
     if (!this.form.valid && save) {
-      for (let i in this.form.controls) {
-        this.form.controls[i].markAsDirty();
-        this.form.controls[i].updateValueAndValidity();
-      }
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.controls[key].markAsDirty();
+        this.form.controls[key].updateValueAndValidity();
+      });
       return;
     }
 
-    let v = this.form.value;
+    const v = this.form.value;
     v.date = this.format.transform(v.date);
 
-    this.onConfirm.emit(v);
+    this.confirm.emit(v);
     this.isVisible = false;
   }
 

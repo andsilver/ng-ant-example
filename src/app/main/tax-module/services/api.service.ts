@@ -56,7 +56,7 @@ export class ApiService {
       label: 'Unprompted Declaration',
       value: 'UNPROMPTED_DECLARATION'
     }
-  ]
+  ];
 
   constructor(private http: HttpClient, private settings: AppSettings) { }
 

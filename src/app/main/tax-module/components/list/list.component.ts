@@ -43,10 +43,10 @@ export class ListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private api    : ApiService,
-    private router : Router,
-    private message: NzMessageService,
-    private ft     : FilterService
+    private router: Router,
+    private api: ApiService,
+    private ft: FilterService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit() {
@@ -122,7 +122,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.addingTaxModule = false;
     this.api.createTaxModule(taxModule)
       .subscribe((res: any) => {
-        this.message.success('A new Tax Module is added.')
+        this.message.success('A new Tax Module is added.');
         this.toDetailsPage(res);
       });
   }

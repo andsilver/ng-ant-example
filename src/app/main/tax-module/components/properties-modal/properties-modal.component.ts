@@ -16,7 +16,7 @@ export class PropertiesModalComponent implements OnInit {
   taxPayers = [];
   dModes    = [];
 
-  propertiesForm  : FormGroup;
+  propertiesForm:   FormGroup;
   taxAuthorityForm: FormGroup;
 
   @Input()
@@ -26,10 +26,10 @@ export class PropertiesModalComponent implements OnInit {
   }
 
   @Output()
-  onCancel = new EventEmitter();
+  cancel = new EventEmitter();
 
   @Output()
-  onConfirm = new EventEmitter();
+  confirm = new EventEmitter();
 
   constructor(private api: ApiService, private fb: FormBuilder) { }
 
@@ -85,23 +85,23 @@ export class PropertiesModalComponent implements OnInit {
   closeModal(save) {
 
     if (!save) {
-      this.onCancel.emit();
+      this.cancel.emit();
       this.isVisible = false;
       return;
     }
 
     if (!this.propertiesForm.valid && save) {
-      for (let i in this.propertiesForm.controls) {
-        this.propertiesForm.controls[i].markAsDirty();
-        this.propertiesForm.controls[i].updateValueAndValidity();
-      }
+      Object.keys(this.propertiesForm.controls).forEach((key) => {
+        this.propertiesForm.controls[key].markAsDirty();
+        this.propertiesForm.controls[key].updateValueAndValidity();
+      });
       return;
     }
 
     const v = this.propertiesForm.value;
     v['taxAuthority'] = this.taxAuthorityForm.value;
 
-    this.onConfirm.emit(this.propertiesForm.value);
+    this.confirm.emit(this.propertiesForm.value);
     this.isVisible = false;
   }
 

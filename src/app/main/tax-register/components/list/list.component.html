@@ -84,7 +84,7 @@
   <app-create
     [taxModules]="taxModules"
     [visible]="isAdding"
-    (onCancel)="isAdding = false"
-    (onConfirm)="createTaxRegister($event)">
+    (cancel)="isAdding = false"
+    (confirm)="createTaxRegister($event)">
   </app-create>
 </div>

@@ -49,16 +49,22 @@
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
-                  <nz-form-label>Register</nz-form-label>
-                  <div class="form-display-data">{{taxClaim.register}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="24">
-                <nz-form-item>
                   <nz-form-label>Status</nz-form-label>
                   <div class="form-display-data">
                     <nz-tag [nzColor]="taxClaim.status | color">{{taxClaim.status | status}}</nz-tag>
                   </div>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label>Tax Register</nz-form-label>
+                  <div class="form-display-data" *ngIf="taxClaim.taxRegister">{{taxClaim.taxRegister.code}} - {{taxClaim.taxRegister.name}}</div>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label>Tax Module</nz-form-label>
+                  <div class="form-display-data" *ngIf="taxClaim.taxModule">{{taxClaim.taxModule.code}} - {{taxClaim.taxModule.name}}</div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
@@ -89,10 +95,6 @@
           </form>
         </nz-card>
       </div>
-
-    </div>
-
-    <div nz-col nzSpan="24" nzMd="12">
       <div style="margin-bottom: 24px">
         <nz-card nzTitle="Declaration" [nzExtra]="editDeclaration">
           <form *ngIf="taxClaim.declaration" nz-form class="edit-properties-form">
@@ -153,32 +155,17 @@
       </div>
       <div style="margin-bottom: 24px">
         <nz-card nzTitle="Tax Authority">
-          <form *ngIf="taxClaim.taxAuthority" nz-form class="edit-properties-form">
-            <div nz-row>
-              <div nz-col nzSpan="12">
-                <nz-form-item>
-                  <nz-form-label>Code</nz-form-label>
-                  <div class="form-display-data">{{taxClaim.taxAuthority.code}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="12">
-                <nz-form-item>
-                  <nz-form-label>Name</nz-form-label>
-                  <div class="form-display-data">{{taxClaim.taxAuthority.name || '-'}}</div>
-                </nz-form-item>
-              </div>
-              <div nz-col nzSpan="24">
-                <nz-form-item>
-                  <nz-form-label>Address</nz-form-label>
-                  <div class="form-display-data" *ngFor="let address of taxClaim.taxAuthority.address">{{address}}</div>
-                </nz-form-item>
-              </div>
-            </div>
+          <form *ngIf="taxClaim.taxAuthority | jsonValid; else authority" nz-form class="edit-properties-form">
+            <nz-form-item>
+              <div class="form-display-data">{{taxClaim.taxAuthority.code}}</div>
+              <div class="form-display-data">{{taxClaim.taxAuthority.name}}</div>
+              <div class="form-display-data" *ngFor="let address of taxClaim.taxAuthority.address">{{address}}</div>
+            </nz-form-item>
           </form>
 
-          <ng-container *ngIf="!taxClaim.taxAuthority">
+          <ng-template #authority>
             No data
-          </ng-container>
+          </ng-template>
         </nz-card>
       </div>
 
@@ -224,9 +211,6 @@
         </nz-card>
       </div>
     </div>
-  </div>
-
-  <div nz-row nzType="flex" nzGutter="24">
     <div style="margin-bottom: 24px" nz-col nzSpan="24" nzMd="12" *ngFor="let statement of taxClaim.statements; let i=index;">
       <nz-card [nzTitle]="'Statement'">
         <form nz-form class="edit-properties-form">

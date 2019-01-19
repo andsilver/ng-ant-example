@@ -59,20 +59,20 @@
             <th nzShowSort [(nzSort)]="sortMap.id"   (nzSortChange)="sort('id', $event)" i18n>#</th>
             <th nzShowSort [(nzSort)]="sortMap.reference" (nzSortChange)="sort('reference', $event)" i18n>Reference</th>
             <th nzShowSort [(nzSort)]="sortMap.register" (nzSortChange)="sort('register', $event)" i18n>Register</th>
-            <th nzShowSort [(nzSort)]="sortMap.status" (nzSortChange)="sort('status', $event)" i18n>Status</th>
-            <th nzShowSort [(nzSort)]="sortMap.netAmount" (nzSortChange)="sort('netAmount', $event)" i18n>Amount</th>
+            <th i18n>Status</th>
+            <th nzShowSort [(nzSort)]="sortMap.amount" (nzSortChange)="sort('amount', $event)" i18n>Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of filterTable.data">
             <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
             <td (click)="toDetailsPage(data)">{{data.id}}</td>
-            <td (click)="toDetailsPage(data)">{{data.reference || '-'}}</td>
+            <td (click)="toDetailsPage(data)">{{data.reference}}</td>
             <td (click)="toDetailsPage(data)">{{data.register}}</td>
             <td (click)="toDetailsPage(data)">
               <nz-tag [nzColor]="data.status | color">{{data.status | status}}</nz-tag>
             </td>
-            <td (click)="toDetailsPage(data)">{{data.netAmount | number:'1.2-2'}}</td>
+            <td (click)="toDetailsPage(data)">{{data.amount | number:'1.2-2'}}</td>
           </tr>
         </tbody>
       </nz-table>

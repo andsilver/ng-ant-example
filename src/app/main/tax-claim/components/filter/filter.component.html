@@ -15,25 +15,23 @@
       </nz-form-control>
     </nz-form-item>
 
-    <div nz-row nzType="flex" nzGutter="12">
-      <div nz-col nzSpan="12">
-        <nz-form-item>
-          <nz-form-label>Amount From</nz-form-label>
-          <nz-form-control>
-            <nz-input-number formControlName="filterAmountFrom"></nz-input-number>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
 
-      <div nz-col nzSpan="12">
-        <nz-form-item>
-          <nz-form-label>Amount To</nz-form-label>
+    <nz-form-item>
+      <nz-form-label>Amount</nz-form-label>
+      <div nz-row nzType="flex" nzGutter="12">
+        <div nz-col nzSpan="12">
           <nz-form-control>
-            <nz-input-number formControlName="filterAmountTo"></nz-input-number>
+            <nz-input-number formControlName="filterAmountFrom" nzPlaceHolder="From"></nz-input-number>
           </nz-form-control>
-        </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-control>
+            <nz-input-number formControlName="filterAmountTo" nzPlaceHolder="To"></nz-input-number>
+          </nz-form-control>
+        </div>
       </div>
-    </div>
+    </nz-form-item>
 
     <div nz-row nzType="flex" nzJustify="end">
       <div nz-col nzOrder="2">

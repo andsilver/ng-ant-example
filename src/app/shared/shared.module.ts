@@ -16,6 +16,8 @@ import { CodeEditorComponent } from './components/code-editor/code-editor.compon
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { ArrayValidPipe } from './pipes/array-valid.pipe';
+import { JsonValidPipe } from './pipes/json-valid.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     CodeEditorComponent,
     FileSizePipe,
     AutocompleteComponent,
-    PaginationComponent
+    PaginationComponent,
+    ArrayValidPipe,
+    JsonValidPipe
   ],
   imports: [
     CommonModule,
@@ -55,7 +59,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     CodeEditorComponent,
     AutocompleteComponent,
     PaginationComponent,
-    DynamicFormModule
+    DynamicFormModule,
+    ArrayValidPipe,
+    JsonValidPipe
   ]
 })
 export class SharedModule { }

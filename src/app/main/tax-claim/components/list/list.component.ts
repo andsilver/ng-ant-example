@@ -38,7 +38,7 @@ export class ListComponent extends AbstractList implements OnInit {
       cursorReference: 'reference',
       cursorRegister : 'register',
       cursorStatus   : 'status',
-      curosrAmount   : 'netAmount'
+      curosrAmount   : 'amount'
     };
 
     this.subscriptions = [

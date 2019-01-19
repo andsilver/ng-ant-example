@@ -14,7 +14,7 @@ import { download } from 'app/shared/helpers/utils';
 })
 export class DetailsComponent implements OnInit {
 
-  person            : any;
+  person: any;
   registrationNumber: string;
 
   editingStatus = {
@@ -28,11 +28,11 @@ export class DetailsComponent implements OnInit {
   addingPerson  = false;
 
   constructor(
-    private route     : ActivatedRoute,
+    private route: ActivatedRoute,
     private appService: AppService,
-    private api       : ApiService,
-    private message   : NzMessageService,
-    private router    : Router
+    private api: ApiService,
+    private message: NzMessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class DetailsComponent implements OnInit {
     this.addingPerson = false;
     this.api.create(person)
       .subscribe(res => {
-        this.message.success('A new person is added.')
+        this.message.success('A new person is added.');
         this.router.navigate(['/parties/persons', res['id']]);
       });
   }
@@ -82,7 +82,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.person = res;
         this.message.success('Properties are updated.');
-      })
+      });
   }
 
   updateResidentialAddress (address) {

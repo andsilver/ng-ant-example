@@ -10,7 +10,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class DetailsComponent implements OnInit {
 
-  taxClaim : any;
+  taxClaim: any;
   reference: string;
 
   editingStatus = {
@@ -20,10 +20,10 @@ export class DetailsComponent implements OnInit {
   };
 
   constructor(
-    private route     : ActivatedRoute,
+    private route: ActivatedRoute,
     private api: ApiService,
-    private message   : NzMessageService,
-    private router    : Router
+    private message: NzMessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  typeOf(value) {
+  typeOf(value: any) {
     if (value === null) {
       return 'STATIC';
     } else if (value instanceof Array) {

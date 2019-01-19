@@ -14,6 +14,7 @@ import { StatusPipe } from './pipes/status.pipe';
 import { ColorPipe } from './pipes/color.pipe';
 import { DeclarationModePipe } from './pipes/declaration-mode.pipe';
 import { SpecificationComponent } from './components/specification/specification.component';
+import { DynamicFormTableComponent } from './components/dynamic-form-table/dynamic-form-table.component';
 
 const routes: Route[] = [
   {
@@ -37,7 +38,8 @@ const routes: Route[] = [
     ColorPipe,
     ApprovalDateComponent,
     DeclarationModePipe,
-    SpecificationComponent
+    SpecificationComponent,
+    DynamicFormTableComponent
   ],
   imports: [
     CommonModule,

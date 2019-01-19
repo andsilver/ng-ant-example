@@ -3,7 +3,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 const COLORS = {
   ACTIVE: 'green',
   DRAFT: 'gold',
-  INACTIVE: 'red'
+  INACTIVE: 'red',
+  number: 'blue',
+  text: 'blue',
+  date: 'blue',
+  logical: 'blue'
 };
 
 @Pipe({

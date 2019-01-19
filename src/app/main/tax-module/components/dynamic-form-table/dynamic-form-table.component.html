@@ -1,0 +1,24 @@
+<nz-table #nzTable [nzData]="data" nzShowPagination="false" nzBordered="true">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Label</th>
+      <th>Type</th>
+      <th>Validation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      <ng-template ngFor let-item [ngForOf]="expandDataCache[data.key]">
+        <tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+          <td [nzIndentSize]="item.level*20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand" (nzExpandChange)="collapse(expandDataCache[data.key],item,$event)">
+            {{item.name}}
+          </td>
+          <td>{{item.label}}</td>
+          <td style="text-align: center"><nz-tag *ngIf="item.type" [nzColor]="item.type | color">{{item.type | titlecase}}</nz-tag></td>
+          <td>{{item.value}}</td>
+        </tr>
+      </ng-template>
+    </ng-template>
+  </tbody>
+</nz-table>

@@ -89,7 +89,7 @@
           <ng-container *ngIf="taxModule.specification">
             <!-- {{taxModule.specification}} -->
             <!-- <app-dynamic-form [structure]="taxModule.form"></app-dynamic-form> -->
-            <nz-tree [nzData]="[metaForm]" [nzExpandAll]="true" [nzShowExpand]="false"></nz-tree>
+            <app-dynamic-form-table [form]="taxModule.form"></app-dynamic-form-table>
           </ng-container>
         </nz-card>
         <ng-template #editSpecification>

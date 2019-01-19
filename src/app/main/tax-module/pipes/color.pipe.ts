@@ -5,9 +5,9 @@ const COLORS = {
   DRAFT: 'gold',
   INACTIVE: 'red',
   number: 'blue',
-  text: 'blue',
-  date: 'blue',
-  logical: 'blue'
+  text: 'orange',
+  date: 'pink',
+  logical: 'yellow'
 };
 
 @Pipe({

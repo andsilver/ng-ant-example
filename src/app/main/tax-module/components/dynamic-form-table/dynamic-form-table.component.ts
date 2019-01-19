@@ -95,7 +95,7 @@ export class DynamicFormTableComponent implements OnInit {
     if (f.value) {
       node.type = f.value.type;
       Object.keys(f.value).forEach(key => {
-        node.value += (key === 'type') ? '' : `${key} ${f.value[key]}`;
+        node.value += (key === 'type') ? '' : `${key}: ${f.value[key]}`;
       });
     }
 

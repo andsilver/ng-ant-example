@@ -15,7 +15,7 @@
             {{item.name}}
           </td>
           <td>{{item.label}}</td>
-          <td style="text-align: center"><nz-tag *ngIf="item.type" [nzColor]="'blue'">{{item.type | titlecase}}</nz-tag></td>
+          <td><nz-tag *ngIf="item.type" [nzColor]="'blue'">{{item.type | titlecase}}</nz-tag></td>
           <td>{{item.value}}</td>
         </tr>
       </ng-template>

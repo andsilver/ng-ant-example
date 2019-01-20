@@ -9,7 +9,7 @@
       <div *ngIf="step == 0" nz-row nzType="flex" nzGutter="24">
         <div nz-col nzSpan="12">
           <nz-form-item>
-            <nz-form-label nzRequired>Select Tax Register</nz-form-label>
+            <nz-form-label nzRequired>Tax Register</nz-form-label>
             <nz-form-control>
               <app-autocomplete formControlName="register"  valueField="code" labelField="name" [data]="taxRegisters"></app-autocomplete>
               <nz-form-explain *ngIf="register.dirty && register.errors">Please select the tax register!</nz-form-explain>
@@ -21,7 +21,7 @@
       <div *ngIf="step == 1" nz-row>
         <div nz-col nzSpan="24">
           <nz-form-item>
-            <nz-form-label nzRequired>Select Tax Payer Type</nz-form-label>
+            <nz-form-label nzRequired>Tax Payer Type</nz-form-label>
             <nz-form-control>
               <nz-radio-group formControlName="taxPayerType">
                 <label *ngFor="let payer of taxPayerTypes" nz-radio [nzValue]="payer.value">{{payer.label}}</label>
@@ -32,7 +32,7 @@
         </div>
         <div nz-col nzSpan="24">
           <nz-form-item>
-            <nz-form-label nzRequired>Select Tax Payer</nz-form-label>
+            <nz-form-label nzRequired>Tax Payer</nz-form-label>
             <app-autocomplete
               formControlName="taxPayerId"
               [data]="taxPayerType.value == 'NATURAL_PERSON' ? naturalPersons : legalEntities"

@@ -56,11 +56,11 @@
               [nzIndeterminate]="checkStatus.indeterminate"
               (nzCheckedChange)="checkAll($event)">
             </th>
-            <th nzWidth="10%" nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
-            <th nzShowSort [(nzSort)]="sortMap.name"   (nzSortChange)="sort('name', $event)" i18n>Name</th>
-            <th nzWidth="10%" i18n>Status</th>
-            <th nzWidth="15%" nzShowSort [(nzSort)]="sortMap.approvalDate" (nzSortChange)="sort('approvalDate', $event)" i18n>Approval Date</th>
-            <th nzWidth="15%" i18n>Tax Payers</th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="sortMap.code" (nzSortChange)="sort('code', $event)" i18n>Code</th>
+            <th nzShowSort [(nzSort)]="sortMap.name" (nzSortChange)="sort('name', $event)" i18n>Name</th>
+            <th nzWidth="100px" i18n>Status</th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="sortMap.approvalDate" (nzSortChange)="sort('approvalDate', $event)" i18n>Approval Date</th>
+            <th nzWidth="150px" i18n>Tax Payers</th>
           </tr>
         </thead>
         <tbody>

@@ -11,15 +11,15 @@ export class ApiService {
 
   taxPayers = [
     {
-      label: 'Natural Person',
+      label: 'Persons',
       value: 'NATURAL_PERSON'
     },
     {
-      label: 'Legal Entity',
+      label: 'Entities',
       value: 'LEGAL_ENTITY'
     },
     {
-      label: 'Both',
+      label: 'All',
       value: 'ANY'
     }
   ];

@@ -61,7 +61,7 @@ export class DetailsComponent implements OnInit {
     this.editingStatus.adding = false;
     this.api.createTaxModule(taxModule)
       .subscribe(res => {
-        this.message.success('A new Tax Module is added.');
+        this.message.success('A new tax module is added.');
         this.router.navigate(['/taxes/modules', res['code']]);
       });
   }
@@ -69,7 +69,7 @@ export class DetailsComponent implements OnInit {
   removeTaxModule() {
     this.api.removeTaxModule(this.taxModule.code)
       .subscribe(res => {
-        this.message.success('The Tax Module is removed.');
+        this.message.success('The tax module is removed.');
         this.router.navigate(['/taxes/modules']);
       });
   }
@@ -93,7 +93,7 @@ export class DetailsComponent implements OnInit {
         if (res) {
           this.router.navigate(['taxes/modules', res.code]);
         } else {
-          this.message.warning('Tax Module not found!');
+          this.message.warning('Tax module not found!');
         }
       });
   }
@@ -116,7 +116,7 @@ export class DetailsComponent implements OnInit {
     this.api.approveTaxModule(code, date)
       .subscribe(res => {
         this.taxModule = res;
-        this.message.success('The Tax Module is approved.');
+        this.message.success('The tax module is approved.');
       });
   }
 
@@ -124,7 +124,7 @@ export class DetailsComponent implements OnInit {
     this.api.reactivateTaxModule(this.taxModule.code)
       .subscribe(res => {
         this.taxModule = res;
-        this.message.success('The Tax Module is reactivated.');
+        this.message.success('The tax module is reactivated.');
       });
   }
 
@@ -132,7 +132,7 @@ export class DetailsComponent implements OnInit {
     this.api.deactivateTaxModule(this.taxModule.code)
       .subscribe(res => {
         this.taxModule = res;
-        this.message.success('The Tax Module is deactivated.');
+        this.message.success('The tax module is deactivated.');
       });
   }
 
@@ -142,7 +142,7 @@ export class DetailsComponent implements OnInit {
       .subscribe(res => {
         this.taxModule = res;
         this.editingStatus.aprDate = false;
-        this.message.success('Approval date of the Tax Module is changed.');
+        this.message.success('Approval date of the tax module is changed.');
       });
   }
 
@@ -169,7 +169,7 @@ export class DetailsComponent implements OnInit {
   removeAssessmentTemplate() {
     this.api.removeFile(this.taxModule.code)
       .subscribe(res => {
-        this.message.success('Assessment Template is removed.');
+        this.message.success('Assessment template is removed.');
         this.taxModule = res;
       });
   }
@@ -182,7 +182,7 @@ export class DetailsComponent implements OnInit {
     const fileToRead = files[0];
     this.api.uploadFile(fileToRead, this.taxModule.code)
       .subscribe(res => {
-        this.message.success('Assessment Template is uploaded.');
+        this.message.success('Assessment template is uploaded.');
         this.taxModule = res;
       });
   }
@@ -201,7 +201,7 @@ export class DetailsComponent implements OnInit {
   removeDeclarationTemplate() {
     this.api.removeFileDT(this.taxModule.code)
       .subscribe(res => {
-        this.message.success('Declaration Template is removed.');
+        this.message.success('Declaration template is removed.');
         this.taxModule = res;
       });
   }
@@ -214,7 +214,7 @@ export class DetailsComponent implements OnInit {
     const fileToRead = files[0];
     this.api.uploadFileDT(fileToRead, this.taxModule.code)
       .subscribe(res => {
-        this.message.success('Declaration Template is uploaded.');
+        this.message.success('Declaration template is uploaded.');
         this.taxModule = res;
       });
   }

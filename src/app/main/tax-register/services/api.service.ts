@@ -12,16 +12,16 @@ export class ApiService {
 
   statuses = [
     {
+      label: 'Draft',
+      value: 'DRAFT'
+    },
+    {
       label: 'Enforceable',
       value: 'ENFORCEABLE'
     },
     {
       label: 'Closed',
       value: 'CLOSED'
-    },
-    {
-      label: 'Draft',
-      value: 'DRAFT'
     }
   ];
 

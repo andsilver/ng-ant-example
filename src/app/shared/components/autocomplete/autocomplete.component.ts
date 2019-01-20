@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subscription, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-autocomplete',
@@ -11,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     multi: true
   }]
 })
-export class AutocompleteComponent implements ControlValueAccessor {
+export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   valueField: string;
@@ -39,20 +41,33 @@ export class AutocompleteComponent implements ControlValueAccessor {
     this.filteredOptions = this.options;
   }
 
+  @Output()
+  inputChange = new EventEmitter();
+
   value: string;
-  label: string;
+  searchTerm: Subject<string> = new Subject<string>();
 
   options         = [];
   filteredOptions = [];
+  subscription: Subscription;
 
   constructor() { }
+
+  ngOnInit() {
+    this.searchTerm
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe((key: string) => {
+        this.inputChange.emit(key);
+      });
+  }
 
   propagateChange = (_: any) => {};
 
   writeValue(value: string) {
     this.value = value;
-    const option = this.filteredOptions.find(op => op.value === value);
-    this.label = option ? option.label : null;
   }
 
   registerOnChange(fn) {
@@ -68,12 +83,12 @@ export class AutocompleteComponent implements ControlValueAccessor {
       this.writeValue(null);
     } else {
       this.propagateChange(value);
-      this.writeValue(value)
+      this.writeValue(value);
     }
   }
 
-  onInput(label: string) {
-    this.filteredOptions = this.options.filter(option => option.label.toLowerCase().indexOf(label.toLowerCase()) === 0);
-  }
+  // onInput(label: string) {
+    //  this.filteredOptions = this.options.filter(option => option.label.toLowerCase().indexOf(label.toLowerCase()) === 0);
+  // }
 
 }

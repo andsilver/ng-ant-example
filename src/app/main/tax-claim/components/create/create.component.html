@@ -37,7 +37,8 @@
               formControlName="taxPayerId"
               [data]="taxPayerType.value == 'NATURAL_PERSON' ? naturalPersons : legalEntities"
               valueField="value"
-              labelField="label">
+              labelField="label"
+              (inputChange)="getTaxPayers($event)">
             </app-autocomplete>
             <nz-form-explain *ngIf="taxPayerId.dirty && taxPayerId.errors">Please select the tax payer!</nz-form-explain>
           </nz-form-item>

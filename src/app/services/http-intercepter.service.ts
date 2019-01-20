@@ -16,8 +16,9 @@ export class HttpIntercepterService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    this.spinner.showLoading();
-    // Get the auth header from the service.
+    if (localStorage.getItem('showLoading') !== 'no') {
+      this.spinner.showLoading();
+    }
     const token = localStorage.getItem('token');
     const url = req.url.indexOf(environment.apiUrl) > -1
                 ? req.url
@@ -30,9 +31,7 @@ export class HttpIntercepterService implements HttpInterceptor {
       return this.handleRequest(next, apiReq);
 
     } else {
-      // Get the auth header from the service.
       const authHeader = 'Bearer ' + token;
-      // Clone the request to add the new header.
       const authReq = req.clone({
           setHeaders: {
             'Authorization': authHeader,
@@ -40,7 +39,6 @@ export class HttpIntercepterService implements HttpInterceptor {
           },
           url: url
       });
-      // Pass on the cloned request instead of the original request.
       return this.handleRequest(next, authReq);
     }
   }
@@ -57,6 +55,6 @@ export class HttpIntercepterService implements HttpInterceptor {
                 this.message.error(err.error.message || 'Something went wrong.' );
                 this.spinner.hideLoading();
               })
-            )
+            );
   }
 }

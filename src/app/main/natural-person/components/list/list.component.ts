@@ -25,11 +25,11 @@ export class ListComponent extends AbstractList implements OnInit {
   fileContent: any;
 
   constructor(
-    api       : ApiService,
-    private ft        : FilterService,
+    api: ApiService,
+    private ft: FilterService,
     private appService: AppService,
-    private router    : Router,
-    private message   : NzMessageService
+    private router: Router,
+    private message: NzMessageService
   ) {
     super(api);
   }
@@ -62,7 +62,7 @@ export class ListComponent extends AbstractList implements OnInit {
     this.isAdding = false;
     this.api.create(person)
       .subscribe(() => {
-        this.message.success('A new person is added.')
+        this.message.success('A new person is added.');
         this.reloadPage();
       });
   }
@@ -118,7 +118,7 @@ export class ListComponent extends AbstractList implements OnInit {
   }
 
   toDetailsPage(person) {
-    this.router.navigate(['/parties/persons', person.id])
+    this.router.navigate(['/parties/persons', person.id]);
   }
 
 }

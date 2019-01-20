@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ApiService } from '../../services/api.service';
 import { ApiService as TaxRegisterApi } from '../../../tax-register/services/api.service';
-import { DynamicFormService } from 'app/shared/modules/dynamic-form/dynamic-form.service';
-import { CustomDatePipe } from 'app/shared/pipes/custom-date.pipe';
+import { ApiService as NaturalPersonApi } from '../../../natural-person/services/api.service';
 
 interface DynamicForm {
   form: any;
@@ -15,8 +13,7 @@ interface DynamicForm {
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
-  providers: [CustomDatePipe]
+  styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
 
@@ -51,9 +48,8 @@ export class CreateComponent implements OnInit {
     private api: ApiService,
     private fb: FormBuilder,
     private trApi: TaxRegisterApi,
-    private format: CustomDatePipe,
+    private npApi: NaturalPersonApi,
     private message: NzMessageService,
-    private dfs: DynamicFormService
   ) { }
 
   ngOnInit() {
@@ -79,6 +75,33 @@ export class CreateComponent implements OnInit {
       const control = form.controls[key];
       control.markAsDirty();
       control.updateValueAndValidity();
+    });
+  }
+
+  getTaxPayers(searchTerm: string) {
+    if (!searchTerm) {
+      this.naturalPersons = [];
+      return;
+    }
+    const fullName = searchTerm.split(' ');
+    const firstName = fullName[0] || null;
+    const lastName = fullName.length > 1 ? fullName[1] : null;
+    localStorage.setItem('showLoading', 'no');
+    this.npApi.fetch({
+      action: 'next',
+      view: 'list',
+      limit: 50,
+      filterFirstName: firstName,
+      filterLastName : lastName
+    })
+    .subscribe((res: any) => {
+      localStorage.setItem('showLoading', null);
+      this.naturalPersons = res.items.map(item => {
+        return {
+          value: item['id'],
+          label: item['firstName'] + ' ' + item['lastName']
+        };
+      });
     });
   }
 
@@ -110,24 +133,16 @@ export class CreateComponent implements OnInit {
           this.register.updateValueAndValidity();
           return;
         }
-        forkJoin([
-          this.trApi.get(this.form.value.register),
-          this.api.getNaturalPersons()
-        ])
-        .subscribe((ress: any) => {
-          if (!ress[0]) {
-            this.message.error('Selected Tax Register is not exist.');
-            return;
-          }
-          this.step = 1;
-          this.selectedTaxRegister = ress[0];
-          this.naturalPersons = ress[1].items.map(item => {
-            return {
-              value: item['id'],
-              label: item['firstName'] + ' ' + item['lastName']
-            };
+        this.trApi.get(this.form.value.register)
+          .subscribe((res: any) => {
+            if (!res) {
+              this.message.error('Selected Tax Register is not exist.');
+              return;
+            }
+            this.step = 1;
+            this.selectedTaxRegister = res;
+            this.naturalPersons = [];
           });
-        });
       break;
 
       case 1:

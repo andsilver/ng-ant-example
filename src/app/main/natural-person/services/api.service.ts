@@ -75,12 +75,12 @@ export class ApiService {
   }
 
   exports () {
-    const url = `${this.url}/files`;
+    const url = `${this.url}/files/exports`;
     return this.http.get(url, { observe: 'response', responseType: 'blob' });
   }
 
   imports (file: any) {
-    const url = `${this.url}/files`;
+    const url = `${this.url}/files/imports`;
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http.post(url, formData);

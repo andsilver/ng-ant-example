@@ -81,6 +81,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     if (!option) {
       this.propagateChange(null);
       this.writeValue(null);
+      this.inputChange.emit(value);
     } else {
       this.propagateChange(value);
       this.writeValue(value);

@@ -117,7 +117,8 @@ export class DetailsComponent implements OnInit {
     }
 
     this.api.updateCorrespondenceAddress(this.person.id, address)
-      .subscribe(() => {
+      .subscribe(res => {
+        this.person = res;
         this.message.success('Correspondence address is updated.');
       });
   }

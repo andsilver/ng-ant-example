@@ -8,8 +8,8 @@ import { AppSettings } from './app-settings';
 })
 export class AppService {
 
-  locale       : string;
-  countries    : any;
+  locale: string;
+  countries: any;
   civilStatuses: any;
 
   constructor( private http: HttpClient, private settings: AppSettings ) {

@@ -19,8 +19,8 @@ export class ListComponent extends AbstractList implements OnInit {
 
   constructor(
     api: ApiService,
-    private ft     : FilterService,
-    private router : Router,
+    private ft: FilterService,
+    private router: Router,
     private message: NzMessageService
   ) {
     super(api);
@@ -60,7 +60,7 @@ export class ListComponent extends AbstractList implements OnInit {
     this.isAdding = false;
     this.api.create(taxRegister)
       .subscribe((res) => {
-        this.message.success('A new tax register is added.')
+        this.message.success('A new tax register is added.');
         this.toDetailsPage(res);
       });
   }
@@ -77,9 +77,10 @@ export class ListComponent extends AbstractList implements OnInit {
   }
 
   removeSelected() {
-    const requests = this.items.map(p => {
+    const requests = [];
+    this.items.forEach(p => {
       if (p.checked) {
-        return this.api.removeTaxRegister(p.code);
+        requests.push(this.api.remove(p.code));
       }
     });
 
@@ -103,6 +104,6 @@ export class ListComponent extends AbstractList implements OnInit {
 
 
   toDetailsPage(taxRegister) {
-    this.router.navigate(['/taxes/registers', taxRegister.code])
+    this.router.navigate(['/taxes/registers', taxRegister.code]);
   }
 }

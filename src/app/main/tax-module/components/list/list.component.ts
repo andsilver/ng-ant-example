@@ -139,16 +139,17 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   removeSelected() {
-    const requests = this.taxModules.map(p => {
+    const requests = [];
+    this.taxModules.forEach(p => {
       if (p.checked) {
-        return this.api.removeTaxModule(p.code);
+        requests.push(this.api.removeTaxModule(p.code));
       }
     });
 
     forkJoin(requests)
       .subscribe(() => {
         this.message.success('Selected Tax Modules are removed.');
-        this.reloadPage();
+        this.firstPage();
       });
   }
 

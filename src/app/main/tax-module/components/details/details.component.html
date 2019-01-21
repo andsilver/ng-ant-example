@@ -84,7 +84,7 @@
       <div style="margin-bottom: 24px">
         <nz-card nzTitle="Specification" [nzExtra]="editSpecification">
           <ng-container *ngIf="!taxModule.specification">
-            No Data
+            No data
           </ng-container>
           <ng-container *ngIf="taxModule.specification">
             <!-- {{taxModule.specification}} -->
@@ -141,7 +141,7 @@
       <div style="margin-bottom: 24px">
         <nz-card nzTitle="Assessment Template" [nzExtra]="assTemp">
           <ng-container *ngIf="!taxModule.assessmentTemplate">
-            No Data
+            No data
           </ng-container>
           <form *ngIf="taxModule.assessmentTemplate" nz-form class="edit-properties-form">
             <div nz-row nzType="flex" nzGutter="24">
@@ -176,7 +176,7 @@
       <div style="margin-bottom: 24px" *ngIf="taxModule.declarationMode == 'REQUEST_DECLARATION' || taxModule.declarationMode == 'PROPOSE_DECLARATION'">
         <nz-card nzTitle="Declaration Template" [nzExtra]="dclTemp">
           <ng-container *ngIf="!taxModule.declarationTemplate">
-            No Data
+            No data
           </ng-container>
           <form *ngIf="taxModule.declarationTemplate" nz-form class="edit-properties-form">
             <div nz-row nzType="flex" nzGutter="24">

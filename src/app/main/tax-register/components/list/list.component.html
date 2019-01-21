@@ -8,7 +8,7 @@
         <div nz-col class="operation-btns">
           <button nz-button (click)="showFilter = !showFilter" [ngClass]="{'selected': showFilter}"><i nz-icon type="filter"></i></button>
           <button nz-button (click)="isAdding = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove selected tax registers?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>
@@ -56,12 +56,12 @@
               [nzIndeterminate]="checkStatus.indeterminate"
               (nzCheckedChange)="checkAll($event)">
             </th>
-            <th nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="sortMap.code"   (nzSortChange)="sort('code', $event)" i18n>Code</th>
             <th nzShowSort [(nzSort)]="sortMap.name"   (nzSortChange)="sort('name', $event)" i18n>Name</th>
-            <th nzShowSort [(nzSort)]="sortMap.status" (nzSortChange)="sort('status', $event)" i18n>Status</th>
-            <th nzShowSort [(nzSort)]="sortMap.taxModule" (nzSortChange)="sort('taxModule', $event)" i18n>Tax Module</th>
-            <th nzShowSort [(nzSort)]="sortMap.taxYear" (nzSortChange)="sort('taxYear', $event)" i18n>Tax Year</th>
-            <th nzShowSort [(nzSort)]="sortMap.accountingYear" (nzSortChange)="sort('accountingYear', $event)" i18n>Accounting Year</th>
+            <th nzWidth="100px" i18n>Status</th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="sortMap.taxModule" (nzSortChange)="sort('taxModule', $event)" i18n>Tax Module</th>
+            <th nzWidth="120px" nzShowSort [(nzSort)]="sortMap.taxYear" (nzSortChange)="sort('taxYear', $event)" i18n>Tax Year</th>
+            <th nzWidth="150px" nzShowSort [(nzSort)]="sortMap.accountingYear" (nzSortChange)="sort('accountingYear', $event)" i18n>Accounting Year</th>
           </tr>
         </thead>
         <tbody>

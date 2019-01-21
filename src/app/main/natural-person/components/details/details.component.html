@@ -8,7 +8,7 @@
         </div>
         <div nz-col class="operation-btns">
           <button nz-button (click)="addingPerson = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removePerson()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove this person?" (nzOnConfirm)="removePerson()" nzPlacement="bottom"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>
@@ -103,7 +103,7 @@
         <ng-template #editResidential>
           <ng-container *ngIf="person.residentialAddress">
             <button nz-button style="margin-right: 12px" (click)="showEditModal('residentialAddress')"><i nz-icon type="edit"></i></button>
-            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteResidentialAddress()" nzPlacement="top" nz-button><i nz-icon type="delete"></i></button>
+            <button nz-popconfirm nzTitle="Remove residential address?" (nzOnConfirm)="deleteResidentialAddress()" nzPlacement="top" nz-button><i nz-icon type="delete"></i></button>
           </ng-container>
           <ng-container *ngIf="!person.residentialAddress">
             <button nz-button (click)="showEditModal('residentialAddress')"><i nz-icon type="plus"></i></button>
@@ -125,7 +125,7 @@
         <ng-template #editCorrespondence>
           <ng-container *ngIf="person.correspondenceAddress">
             <button nz-button style="margin-right: 12px" (click)="showEditModal('correspondence')"><i nz-icon type="edit"></i></button>
-            <button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="deleteCorrespondenceAddress()" nzPlacement="top" nz-button><i nz-icon type="delete"></i></button>
+            <button nz-popconfirm nzTitle="Remove correspondence address?" (nzOnConfirm)="deleteCorrespondenceAddress()" nzPlacement="top" nz-button><i nz-icon type="delete"></i></button>
           </ng-container>
           <ng-container *ngIf="!person.correspondenceAddress">
             <button nz-button (click)="showEditModal('correspondence')"><i nz-icon type="plus"></i></button>

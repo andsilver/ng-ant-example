@@ -8,7 +8,7 @@
         <div nz-col class="operation-btns">
           <button nz-button (click)="showFilter = !showFilter" [ngClass]="{'selected': showFilter}"><i nz-icon type="filter"></i></button>
           <button nz-button (click)="isAdding = true"><i nz-icon type="plus"></i></button>
-          <button nz-button nz-popconfirm nzTitle="Are you sure?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
+          <button nz-button nz-popconfirm nzTitle="Remove the selected tax claims?" (nzOnConfirm)="removeSelected()" [disabled]="!checkStatus.indeterminate && !checkStatus.all"><i nz-icon type="delete"></i></button>
           <nz-dropdown [nzTrigger]="'click'">
             <button nz-button nz-dropdown><i nz-icon type="ellipsis"></i></button>
             <ul nz-menu>

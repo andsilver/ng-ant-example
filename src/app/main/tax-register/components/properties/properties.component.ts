@@ -42,11 +42,11 @@ export class PropertiesComponent implements OnInit {
   reset() {
 
     this.form = this.fb.group({
-      code          : this.fb.control(this.taxRegister.code          , [Validators.required]),
-      name          : this.fb.control(this.taxRegister.name          , [Validators.required]),
+      code          : this.fb.control(this.taxRegister.code, [Validators.required]),
+      name          : this.fb.control(this.taxRegister.name, [Validators.required]),
       taxModule     : this.fb.control(this.taxRegister.taxModule.code, [Validators.required]),
-      taxYear       : this.fb.control(this.taxRegister.taxYear       , [Validators.required]),
-      accountingYear: this.fb.control(this.taxRegister.accountingYear, [Validators.required])
+      taxYear       : this.fb.control(new Date(this.taxRegister.taxYear, 0), [Validators.required]),
+      accountingYear: this.fb.control(new Date(this.taxRegister.accountingYear, 0), [Validators.required])
     });
   }
 

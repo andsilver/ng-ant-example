@@ -63,7 +63,9 @@
             <div nz-col nzSpan="12">
               <nz-form-item>
                 <nz-form-label>Tax Module</nz-form-label>
-                <div class="form-display-data">{{taxRegister.taxModule.code}} - {{taxRegister.taxModule.name}}</div>
+                <div class="form-display-data">
+                  <a [routerLink]="['/taxes/modules', taxRegister.taxModule.code]">{{taxRegister.taxModule.code}} - {{taxRegister.taxModule.name}}</a>
+                </div>
               </nz-form-item>
             </div>
             <div nz-col nzSpan="12">

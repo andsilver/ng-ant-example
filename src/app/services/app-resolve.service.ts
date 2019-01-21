@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { AppService } from 'app/app.service';
 import { Observable, forkJoin } from 'rxjs';
-import { resolve, reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NaturalPersonResolverService implements Resolve<any> {
+export class AppResolve implements Resolve<any> {
 
   constructor(private api: AppService) { }
 
@@ -27,7 +26,7 @@ export class NaturalPersonResolverService implements Resolve<any> {
           resolve(res);
         }, error => {
           reject(error);
-        })
+        });
     });
   }
 }

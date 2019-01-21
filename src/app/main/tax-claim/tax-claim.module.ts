@@ -12,6 +12,7 @@ import { StatusPipe } from './pipes/status.pipe';
 import { ColorPipe } from './pipes/color.pipe';
 import { TypePipe } from './pipes/type.pipe';
 import { FilterComponent } from './components/filter/filter.component';
+import { AssessmentPipe } from './pipes/assessment.pipe';
 
 const routes: Route[] = [
   {
@@ -25,7 +26,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  declarations: [ListComponent, CreateComponent, DetailsComponent, PropertiesComponent, StatusPipe, ColorPipe, TypePipe, FilterComponent],
+  declarations: [ListComponent, CreateComponent, DetailsComponent, PropertiesComponent, StatusPipe, ColorPipe, TypePipe, FilterComponent, AssessmentPipe],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

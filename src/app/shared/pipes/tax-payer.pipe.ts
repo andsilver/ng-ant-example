@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AppService } from 'app/app.service';
 
 @Pipe({
   name: 'taxPayer'

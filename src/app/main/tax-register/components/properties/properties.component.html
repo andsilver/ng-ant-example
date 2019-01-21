@@ -38,7 +38,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>Tax Year</nz-form-label>
           <nz-form-control>
-            <input nz-input formControlName="taxYear" nzPlaceHolder="Tax Year" type="number">
+            <nz-year-picker formControlName="taxYear" nzPlaceHolder="Tax Year"></nz-year-picker>
             <nz-form-explain *ngIf="taxYear.dirty && taxYear.errors">Please input the tax year!</nz-form-explain>
           </nz-form-control>
         </nz-form-item>
@@ -47,7 +47,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>Accounting Year</nz-form-label>
           <nz-form-control>
-            <input nz-input formControlName="accountingYear" nzPlaceHolder="Accounting Year" type="number">
+            <nz-year-picker formControlName="accountingYear" nzPlaceHolder="Accounting Year"></nz-year-picker>
             <nz-form-explain *ngIf="accountingYear.dirty && accountingYear.errors">Please input the accounting year!</nz-form-explain>
           </nz-form-control>
         </nz-form-item>

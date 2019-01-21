@@ -30,18 +30,17 @@ export class MainComponent implements OnInit {
       opened: false,
       subs: [
         {
-          title: 'Claims',
-          link: '/taxes/claims',
+          title: 'Modules',
+          link: '/taxes/modules',
           selected: false
         },
-        {
-          title: 'Registers',
+        {          title: 'Registers',
           link: '/taxes/registers',
           selected: false
         },
         {
-          title: 'Modules',
-          link: '/taxes/modules',
+          title: 'Claims',
+          link: '/taxes/claims',
           selected: false
         }
       ]

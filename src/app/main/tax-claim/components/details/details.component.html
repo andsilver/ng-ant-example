@@ -58,13 +58,17 @@
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Tax Register</nz-form-label>
-                  <div class="form-display-data" *ngIf="taxClaim.taxRegister">{{taxClaim.taxRegister.code}} - {{taxClaim.taxRegister.name}}</div>
+                  <div class="form-display-data" *ngIf="taxClaim.taxRegister">
+                    <a [routerLink]="['/taxes/registers', taxClaim.taxRegister.code]">{{taxClaim.taxRegister.code}} - {{taxClaim.taxRegister.name}}</a>
+                  </div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Tax Module</nz-form-label>
-                  <div class="form-display-data" *ngIf="taxClaim.taxModule">{{taxClaim.taxModule.code}} - {{taxClaim.taxModule.name}}</div>
+                  <div class="form-display-data" *ngIf="taxClaim.taxModule">
+                    <a [routerLink]="['/taxes/modules', taxClaim.taxModule.code]">{{taxClaim.taxModule.code}} - {{taxClaim.taxModule.name}}</a>
+                  </div>
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="12">
@@ -186,16 +190,21 @@
                 </nz-form-item>
               </div>
               <div nz-col nzSpan="24">
+                  <nz-form-item>
+                    <nz-form-label>Type</nz-form-label>
+                    <div class="form-display-data">{{taxClaim.taxPayer.type | taxPayer}}</div>
+                  </nz-form-item>
+                </div>
+              <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Country</nz-form-label>
-                  <div class="form-display-data">{{taxClaim.taxPayer.country}}</div>
+                  <div class="form-display-data">{{taxClaim.taxPayer.address.country | country}}</div>
                 </nz-form-item>
               </div>
-
-              <div nz-col nzSpan="24">
+              <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label>Address</nz-form-label>
-                  <div class="form-display-data" *ngFor="let address of taxClaim.taxPayer.address">{{address}}</div>
+                  <div class="form-display-data" *ngFor="let address of taxClaim.taxPayer.address.lines">{{address}}</div>
                 </nz-form-item>
               </div>
             </div>
@@ -218,7 +227,7 @@
             <div nz-col nzSpan="12">
               <nz-form-item>
                 <nz-form-label>Type</nz-form-label>
-                <div class="form-display-data">{{statement.type}}</div>
+                <div class="form-display-data">{{statement.type | assessment}}</div>
               </nz-form-item>
               <nz-form-item>
                 <nz-form-label>Date</nz-form-label>

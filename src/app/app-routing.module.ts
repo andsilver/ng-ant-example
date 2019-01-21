@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
-import { NaturalPersonResolverService } from './services/natural-person-resolver.service';
+import { AppResolve } from './services/app-resolve.service';
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
+    resolve: {
+      data: AppResolve
+    },
     children: [
       {
         path: 'parties',
         children: [
           {
             path: 'persons',
-            loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule',
-            resolve: {
-              data: NaturalPersonResolverService
-            }
+            loadChildren: './main/natural-person/natural-person.module#NaturalPersonModule'
           }
         ]
       },

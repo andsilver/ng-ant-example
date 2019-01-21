@@ -16,5 +16,6 @@ export class JsonValidPipe extends ArrayValidPipe implements PipeTransform {
       }
       return value[k];
     });
+    return v;
   }
 }
